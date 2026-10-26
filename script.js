@@ -1,8 +1,8 @@
 const svg=document.querySelector("#diagram"),NS="http://www.w3.org/2000/svg",$=s=>document.querySelector(s);
-const types={block:{label:"Bloque de proceso",symbol:"▰",w:170,h:78},tank:{label:"Tanque",symbol:"◉",w:100,h:105},pump:{label:"Bomba",symbol:"◖",w:92,h:80},heat:{label:"Intercambiador",symbol:"▤",w:118,h:90},valve:{label:"Válvula",symbol:"◇",w:74,h:54},sensor:{label:"Instrumento",symbol:"Ⓣ",w:70,h:62},cooler:{label:"Enfriador",symbol:"❄",w:110,h:88},filler:{label:"Envasadora",symbol:"▥",w:108,h:92}};
+const types={block:{label:"Bloque de proceso",symbol:"▰",w:170,h:96},tank:{label:"Tanque",symbol:"◉",w:100,h:105},pump:{label:"Bomba",symbol:"◖",w:92,h:80},heat:{label:"Intercambiador",symbol:"▤",w:118,h:90},valve:{label:"Válvula",symbol:"◇",w:74,h:54},sensor:{label:"Instrumento",symbol:"Ⓣ",w:70,h:62},cooler:{label:"Enfriador",symbol:"❄",w:110,h:88},filler:{label:"Envasadora",symbol:"▥",w:108,h:92}};
 const paletteItems=[["block","Bloque"],["tank","Tanque"],["pump","Bomba"],["heat","Intercambiador"],["valve","Válvula"],["sensor","Instrumento"],["cooler","Enfriador"],["filler","Envasadora"]];
 let mode="blocks",selectedId=null,selectedEdgeId=null,connectMode=false,connectFrom=null,drag=null,idCounter=10,nodes=[],edges=[];
-let projectMetadata={university:"Universidad Libre",faculty:"Facultad de Ingeniería · Ingeniería Mecánica",title:"Proceso de Pasteurización",course:"",teacher:"",students:[""]};
+let projectMetadata={university:"Universidad Libre",faculty:"Facultad de Ingeniería · Ingeniería Mecánica",title:"Mi proyecto",course:"",teacher:"",students:[""]};
 const defaults=()=>[
 {id:"n1",type:"block",x:25,y:55,title:"Recepción y calidad",subtitle:"Descarga · muestreo",tag:"OP-01",note:"Recepción de leche cruda, identificación del lote y análisis inicial antes de aprobar la descarga. Variables: volumen, temperatura y calidad."},
 {id:"n2",type:"block",x:245,y:55,title:"Filtración",subtitle:"Retención de sólidos",tag:"OP-02",note:"Retiene impurezas sólidas. El tipo de filtro y su capacidad se definen según el caudal y las especificaciones de la planta."},
@@ -19,7 +19,7 @@ const defaults=()=>[
 const initialEdges=()=>[["n1","n2","Leche cruda","process"],["n2","n3","Leche filtrada","process"],["n3","n4","Leche desaireada","process"],["n4","n5","Alimentación","process"],["n5","n6","Leche estandarizada","process"],["n6","n7","Leche homogeneizada","process"],["n7","n8","Leche tratada","process"],["n8","n9","Leche caliente","process"],["n9","n10","Leche enfriada","process"],["n10","n11","Leche pasteurizada","process"]].map(([from,to,label,type],i)=>({id:"e"+(i+1),from,to,label,type}));
 function el(tag,attrs={},parent=svg){const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));parent.appendChild(e);return e;}
 function txt(parent,x,y,content,cls,anchor="middle"){const t=el("text",{x,y,"text-anchor":anchor,class:cls},parent);t.textContent=content;return t;}
-function wrapSvgText(parent,x,y,content,cls,maxChars,anchor="middle",lineHeight=13,maxLines=2){
+function wrapSvgText(parent,x,y,content,cls,maxChars,anchor="middle",lineHeight=13,maxLines=3){
  const words=String(content??"").trim().split(/\s+/).filter(Boolean), lines=[];let line="";
  for(const word of words){const test=line?line+" "+word:word;if(test.length>maxChars&&line){lines.push(line);line=word}else line=test}
  if(line)lines.push(line);
@@ -29,7 +29,7 @@ function wrapSvgText(parent,x,y,content,cls,maxChars,anchor="middle",lineHeight=
  lines.forEach((line,i)=>{const span=el("tspan",{x, y:start+i*lineHeight},t);span.textContent=line});
  return t;
 }
-function nodeById(id){return nodes.find(n=>n.id===id)}function edgeById(id){return edges.find(e=>e.id===id)}function dim(n){return types[n.type]||types.block}
+function nodeById(id){return nodes.find(n=>n.id===id)}function edgeById(id){return edges.find(e=>e.id===id)}function dim(n){const base=types[n.type]||types.block;return { ...base, w:Number.isFinite(Number(n.w))&&Number(n.w)>=70?Number(n.w):base.w, h:Number.isFinite(Number(n.h))&&Number(n.h)>=55?Number(n.h):base.h }}
 function center(n){const d=dim(n);return{x:n.x+d.w/2,y:n.y+d.h/2}}
 function notify(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove("show"),2300)}
 function renderPalette(){$("#palette").innerHTML="";paletteItems.forEach(([type,label])=>{const b=document.createElement("button");b.className="palette-item";b.type="button";b.innerHTML=`<span class="sym">${types[type].symbol}</span><span>${label}</span>`;b.onclick=()=>addNode(type);$("#palette").appendChild(b)})}
@@ -68,7 +68,7 @@ function renderTagLegend(){
 function render(){
  svg.innerHTML="";const defs=el("defs");const grad=el("linearGradient",{id:"nodeGradient",x1:"0",y1:"0",x2:"1",y2:"1"},defs);el("stop",{offset:"0%","stop-color":"#193448"},grad);el("stop",{offset:"100%","stop-color":"#102330"},grad);const marker=el("marker",{id:"arrow",markerWidth:10,markerHeight:10,refX:8,refY:3,orient:"auto",markerUnits:"strokeWidth"},defs);el("path",{d:"M0,0 L0,6 L9,3 z",fill:"#7ddbd0"},marker);
  const eg=el("g",{"aria-label":"Conexiones"});edges.forEach(e=>{const a=nodeById(e.from),b=nodeById(e.to);if(!a||!b)return;const p=edgePoints(a,b),g=el("g",{class:`edge-group${selectedEdgeId===e.id?" selected":""}`},eg);el("path",{d:p.d,class:`edge ${e.type||"process"}`},g);if(e.label)txt(g,p.lx,p.ly,e.label,"edge-label");const hit=el("path",{d:p.d,class:"edge-hit"},g);hit.addEventListener("click",ev=>{ev.stopPropagation();selectedEdgeId=e.id;selectedId=null;render();fillInspector()})});
- const ng=el("g",{"aria-label":"Equipos y operaciones"});nodes.forEach(n=>drawNode(ng,n));svg.classList.toggle("connect-mode",connectMode);$("#elementCount").textContent=`${nodes.length} elementos · ${edges.length} conexiones`;$("#canvasTitle").textContent=mode==="blocks"?"Diagrama de bloques del proceso":mode==="pfd"?"Diagrama de flujo de proceso (PFD)":"Tuberías e instrumentación (P&ID)";renderTagLegend();
+ const ng=el("g",{"aria-label":"Equipos y operaciones"});nodes.forEach(n=>drawNode(ng,n));svg.classList.toggle("connect-mode",connectMode);$("#elementCount").textContent=`${nodes.length} elementos · ${edges.length} conexiones`;$("#canvasTitle").textContent=`${(projectMetadata.title||"Mi proyecto").trim()} · ${mode==="blocks"?"Diagrama de bloques":mode==="pfd"?"Diagrama de flujo de proceso (PFD)":"Tuberías e instrumentación (P&ID)"}`;renderTagLegend();
 }
 function drawNode(parent,n){
  const d=dim(n),g=el("g",{class:`node${selectedId===n.id?" selected":""}`,transform:`translate(${n.x},${n.y})`,tabindex:0,role:"button","aria-label":n.title},parent);
@@ -85,10 +85,14 @@ function drawNode(parent,n){
    }else{
      const titleLines=String(n.title||"").trim().split(/\s+/).reduce((acc,w)=>{const last=acc[acc.length-1]||"";if((last?last.length+1:0)+w.length>Math.max(12,Math.floor((d.w-20)/7.2))&&last)acc.push(w);else acc[acc.length-1]=(last?last+" ":"")+w;return acc},[""]).filter(Boolean).length;
      const subLines=String(n.subtitle||"").trim().split(/\s+/).reduce((acc,w)=>{const last=acc[acc.length-1]||"";if((last?last.length+1:0)+w.length>Math.max(15,Math.floor((d.w-18)/5.7))&&last)acc.push(w);else acc[acc.length-1]=(last?last+" ":"")+w;return acc},[""]).filter(Boolean).length;
-     const titleY=d.h/2-(titleLines>1?16:8);
-     wrapSvgText(g,d.w/2,titleY,n.title,"node-name",Math.max(12,Math.floor((d.w-20)/7.2)),"middle",13,2);
-     wrapSvgText(g,d.w/2,d.h/2+(titleLines>1?10:10),n.subtitle,"node-sub",Math.max(15,Math.floor((d.w-18)/5.7)),"middle",11,2);
-     txt(g,d.w/2,d.h-9,n.tag,"node-tag");
+     // Reservamos una zona para hasta tres líneas de nombre, dos de descripción y el código.
+     const titleMaxLines=3;
+     const titleTop=titleLines>=3?17:(titleLines===2?23:29);
+     wrapSvgText(g,d.w/2,titleTop,n.title,"node-name",Math.max(12,Math.floor((d.w-20)/7.2)),"middle",12,titleMaxLines);
+     const titleVisibleLines=Math.min(titleLines,titleMaxLines);
+     const subtitleY=titleTop+(titleVisibleLines-1)*12+14;
+     wrapSvgText(g,d.w/2,Math.min(subtitleY,d.h-27),n.subtitle,"node-sub",Math.max(15,Math.floor((d.w-18)/5.7)),"middle",10,2);
+     txt(g,d.w/2,d.h-8,n.tag,"node-tag");
    }
  }else drawEquipment(g,n,d);
  g.addEventListener("click",ev=>{ev.stopPropagation();if(connectMode){if(!connectFrom){connectFrom=n.id;notify("Ahora selecciona el destino")}else if(connectFrom===n.id)notify("Selecciona un destino diferente");else{if(!edges.some(e=>e.from===connectFrom&&e.to===n.id))edges.push({id:"e"+(++idCounter),from:connectFrom,to:n.id,label:"",type:"process"});connectMode=false;connectFrom=null;$("#connectBtn").textContent="↗ Conectar";render();markUnsaved();notify("Conexión creada")};return}selectedId=n.id;selectedEdgeId=null;render();fillInspector()});
@@ -119,14 +123,15 @@ function fillInspector(){
  $("#propTitle").parentElement.classList.toggle("hidden",isEdge);$("#propSubtitle").parentElement.classList.toggle("hidden",isEdge);$("#propTag").parentElement.classList.toggle("hidden",isEdge);$("#propNote").parentElement.classList.toggle("hidden",isEdge);
  if(isEdge){$("#propEdgeLabel").value=e.label||"";$("#propEdgeType").value=e.type||"process";$("#propTitle").value="";$("#propSubtitle").value="";$("#propTag").value="";$("#propNote").value=""}
  else{
-   $("#propTitle").value=n.title;$("#propSubtitle").value=n.subtitle;$("#propTag").value=n.tag;$("#propNote").value=n.note;$("#propX").value=Math.round(n.x);$("#propY").value=Math.round(n.y);
+   const d=dim(n);
+   $("#propTitle").value=n.title;$("#propSubtitle").value=n.subtitle;$("#propTag").value=n.tag;$("#propNote").value=n.note;$("#propX").value=Math.round(n.x);$("#propY").value=Math.round(n.y);$("#propW").value=Math.round(d.w);$("#propH").value=Math.round(d.h);
    const preview=$("#logoPreview"),empty=$("#logoEmpty"),remove=$("#removeLogoBtn");
    if(n.logo){preview.src=n.logo;preview.classList.remove("hidden");empty.classList.add("hidden");remove.classList.remove("hidden")}
    else{preview.removeAttribute("src");preview.classList.add("hidden");empty.classList.remove("hidden");remove.classList.add("hidden")}
    $("#propLogo").value="";
  }
 }
-$("#propertyForm").addEventListener("submit",e=>{e.preventDefault();if(selectedEdgeId){const edge=edgeById(selectedEdgeId);if(!edge)return;edge.label=$("#propEdgeLabel").value.trim();edge.type=$("#propEdgeType").value;render();fillInspector();markUnsaved();notify("Conexión actualizada");return}const n=nodeById(selectedId);if(!n)return;n.title=$("#propTitle").value.trim()||"Elemento";n.subtitle=$("#propSubtitle").value.trim();n.tag=$("#propTag").value.trim();n.note=$("#propNote").value.trim();n.x=Math.max(0,Math.min(1020,Number($("#propX").value)||0));n.y=Math.max(0,Math.min(560,Number($("#propY").value)||0));render();fillInspector();markUnsaved();notify("Propiedades actualizadas")});
+$("#propertyForm").addEventListener("submit",e=>{e.preventDefault();if(selectedEdgeId){const edge=edgeById(selectedEdgeId);if(!edge)return;edge.label=$("#propEdgeLabel").value.trim();edge.type=$("#propEdgeType").value;render();fillInspector();markUnsaved();notify("Conexión actualizada");return}const n=nodeById(selectedId);if(!n)return;n.title=$("#propTitle").value.trim()||"Elemento";n.subtitle=$("#propSubtitle").value.trim();n.tag=$("#propTag").value.trim();n.note=$("#propNote").value.trim();n.x=Math.max(0,Math.min(1020,Number($("#propX").value)||0));n.y=Math.max(0,Math.min(560,Number($("#propY").value)||0));n.w=Math.max(70,Math.min(400,Number($("#propW").value)||dim(n).w));n.h=Math.max(55,Math.min(240,Number($("#propH").value)||dim(n).h));n.x=Math.min(n.x,1100-dim(n).w-5);n.y=Math.min(n.y,620-dim(n).h-5);render();fillInspector();markUnsaved();notify("Propiedades actualizadas")});
 
 $("#propLogo").addEventListener("change",async e=>{
  const file=e.target.files&&e.target.files[0];if(!file)return;
@@ -188,15 +193,17 @@ function applyProjectData(data){
   return true;
 }
 function renderProjectMetadata(){
-  const title=(projectMetadata.title||"Proceso de Pasteurización").trim();
+  const title=(projectMetadata.title||"Mi proyecto").trim();
   const university=(projectMetadata.university||"Universidad Libre").trim();
   const faculty=(projectMetadata.faculty||"Facultad de Ingeniería").trim();
   const course=(projectMetadata.course||"").trim();
   const teacher=(projectMetadata.teacher||"").trim();
-  $("#brandTitle").innerHTML="";
-  $("#brandTitle").append(document.createTextNode(title.toLocaleUpperCase("es-CO")));
-  const small=document.createElement("small");small.textContent="EDITOR ACADÉMICO · DIAGRAMA DE BLOQUES";$("#brandTitle").append(small);
-  document.title=`${title} | ${university}`;
+  const brandName=$("#brandProjectName");
+  if(brandName) brandName.textContent=title||"Mi proyecto";
+  const brandEdit=$("#brandEditProject");
+  if(brandEdit) brandEdit.setAttribute("aria-label",`Editar nombre del proyecto: ${title||"Mi proyecto"}`);
+  document.title=`${title} | Editor de diagramas`;
+  $("#canvasTitle").textContent=`${title} · ${mode==="blocks"?"Diagrama de bloques":mode==="pfd"?"Diagrama de flujo de proceso (PFD)":"Tuberías e instrumentación (P&ID)"}`;
   $("#sideUniversity").textContent=university||"Por definir";
   $("#sideFaculty").textContent=faculty||"Por definir";
   $("#sideCourse").textContent=course||"Por definir";
@@ -224,12 +231,13 @@ function openProjectInfo(){
   renderStudentInputs();$("#projectInfoDialog").showModal();
 }
 $("#projectInfoBtn").addEventListener("click",openProjectInfo);
+$("#brandEditProject").addEventListener("click",e=>{e.preventDefault();openProjectInfo();setTimeout(()=>$("#metaTitle").focus(),0)});
 $("#editAcademicBtn").addEventListener("click",openProjectInfo);
 $("#closeProjectInfo").addEventListener("click",()=>$("#projectInfoDialog").close());
 $("#cancelProjectInfo").addEventListener("click",()=>$("#projectInfoDialog").close());
 $("#addStudentBtn").addEventListener("click",()=>{if(projectMetadata.students.length>=20){notify("Puedes añadir hasta 20 estudiantes");return}projectMetadata.students.push("");renderStudentInputs()});
 $("#projectInfoForm").addEventListener("submit",e=>{
-  e.preventDefault();projectMetadata={university:$("#metaUniversity").value.trim()||"Universidad Libre",faculty:$("#metaFaculty").value.trim()||"Facultad de Ingeniería",title:$("#metaTitle").value.trim()||"Proceso de Pasteurización",course:$("#metaCourse").value.trim(),teacher:$("#metaTeacher").value.trim(),students:projectMetadata.students.map(s=>String(s).trim()).filter(Boolean)};
+  e.preventDefault();projectMetadata={university:$("#metaUniversity").value.trim()||"Universidad Libre",faculty:$("#metaFaculty").value.trim()||"Facultad de Ingeniería",title:$("#metaTitle").value.trim()||"Mi proyecto",course:$("#metaCourse").value.trim(),teacher:$("#metaTeacher").value.trim(),students:projectMetadata.students.map(s=>String(s).trim()).filter(Boolean)};
   if(!projectMetadata.students.length)projectMetadata.students=[""];
   renderProjectMetadata();markUnsaved();$("#projectInfoDialog").close();notify("Información actualizada. Pulsa Guardar para compartirla");
 });
@@ -333,16 +341,25 @@ $("#saveBtn").addEventListener("click",async()=>{
     remoteSaveInProgress=false;
   }
 });
-$("#exportBtn").addEventListener("click",()=>{const clone=svg.cloneNode(true);clone.setAttribute("xmlns",NS);clone.setAttribute("width","1100");clone.setAttribute("height","620");const style=el("style",{},clone);style.textContent=".edge{stroke:#7ddbd0;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.edge.utility{stroke:#f1c879;stroke-dasharray:8 5}.edge.signal{stroke:#b7a0f2;stroke-dasharray:3 5}.edge-label{fill:#a8c6c1;font:10px monospace}.node .shape{fill:#17272b;stroke:#5a7778;stroke-width:2}.node text{fill:#edf4f2;font-family:Arial,sans-serif}.node .node-sub{fill:#a1b2b1}.node .node-tag{fill:#b8f36b}.equip-symbol{fill:none;stroke:#7ddbd0;stroke-width:2.5}";const blob=new Blob([new XMLSerializer().serializeToString(clone)],{type:"image/svg+xml;charset=utf-8"});downloadBlob(blob,`MILKLAB-${mode}.svg`);notify("Diagrama SVG exportado")});
-
 $("#pdfBtn").addEventListener("click",()=>{
-  // Print only the diagram, using the browser's built-in Save as PDF feature.
+  // Completa la portada académica que se incluirá en la impresión / PDF.
   const oldTitle=document.title;
   const oldSelected=selectedId, oldEdge=selectedEdgeId;
+  const logo=document.querySelector(".university-logo");
+  const printLogo=$("#printUniversityLogo");
+  if(logo && logo.src) printLogo.src=logo.src; else printLogo.removeAttribute("src");
+  $("#printProjectTitle").textContent=projectMetadata.title||"Mi proyecto";
+  $("#printUniversity").textContent=projectMetadata.university||"Universidad Libre";
+  $("#printFaculty").textContent=projectMetadata.faculty||"Facultad de Ingeniería";
+  $("#printCourse").textContent=projectMetadata.course||"Por definir";
+  $("#printTeacher").textContent=projectMetadata.teacher||"Por definir";
+  const studentNames=(projectMetadata.students||[]).map(s=>String(s).trim()).filter(Boolean);
+  $("#printStudents").textContent=studentNames.length?studentNames.map((name,index)=>`${index+1}. ${name}`).join("\n"):"Por definir";
+  $("#printDate").textContent=new Intl.DateTimeFormat("es-CO",{dateStyle:"long",timeStyle:"short"}).format(new Date());
   selectedId=null;selectedEdgeId=null;render();
-  document.title=`MILKLAB-${mode}-diagrama`;
+  document.title=`${(projectMetadata.title||"Mi proyecto").replace(/[^a-z0-9áéíóúñ -]/gi,"").replace(/\s+/g,"-")}-${mode}`;
   notify("En la ventana de impresión, selecciona “Guardar como PDF”");
-  setTimeout(()=>window.print(),120);
+  setTimeout(()=>window.print(),180);
   window.addEventListener("afterprint",function restorePrint(){
     document.title=oldTitle;selectedId=oldSelected;selectedEdgeId=oldEdge;render();fillInspector();
     window.removeEventListener("afterprint",restorePrint);

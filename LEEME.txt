@@ -18,3 +18,19 @@ MILKLAB + Supabase (versión de integración inicial)
 Seguridad: el acceso público de edición permite que cualquiera con acceso al sitio modifique el diagrama. No pongas datos privados. Nunca uses service_role ni secret keys en el navegador.
 
 Si los nombres reales de las columnas de tu tabla son diferentes, hay que ajustar las constantes al inicio de la integración.
+
+
+Actualización: los nombres de los bloques admiten hasta tres líneas; el PDF incluye información académica, escudo y fecha/hora de descarga. Se retiró el botón Exportar SVG de la interfaz.
+
+
+Actualización de enfoque (v16): la interfaz se presenta como un editor genérico de diagramas de proceso. El título del proyecto se puede editar desde “Información del proyecto” y aparece en el área de trabajo y en el PDF. El encabezado de la aplicación no cambia cuando el usuario cambia el nombre de su proyecto.
+
+Importante para uso en clase: la configuración actual de Supabase usa un único diagrama compartido (registro id=1). Si un alumno pulsa Guardar, puede reemplazar el trabajo compartido de los demás. Para que cada alumno tenga un proyecto independiente y guardado en la nube, se necesita añadir proyectos separados por identificador o permitir trabajar en modo local sin guardar en la nube. Cada alumno puede editar el título y descargar su PDF; no pulse Guardar si no desea modificar el diagrama compartido.
+
+
+ACTUALIZACIÓN v17 — TÍTULO DEL PROYECTO EDITABLE
+- El nombre del proyecto aparece en el encabezado superior en lugar de “EDITOR DE DIAGRAMAS”.
+- Pulsa el título/logo superior para abrir Información del proyecto y editar el nombre.
+- También puedes editarlo desde el botón “Información del proyecto”.
+- Al guardar la información, el nombre se actualiza en el encabezado, el área de trabajo y el PDF.
+- Recuerda pulsar Guardar para compartir los cambios mediante Supabase.
