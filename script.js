@@ -166,7 +166,9 @@ function markUnsaved(){
 }
 function savedStatus(){
   hasUnsavedChanges=false;
-  setSaveStatus(supabaseClient?"Guardado en la nube":"Guardado localmente","#b8f36b");
+  const now=new Date();
+  const time=now.toLocaleTimeString("es-CO",{hour:"2-digit",minute:"2-digit"});
+  setSaveStatus(supabaseClient?`Guardado en la nube · ${time}`:`Guardado localmente · ${time}`,"#b8f36b");
 }
 function applyProjectData(data){
   if(!data || data.app!=="MILKLAB" || !Array.isArray(data.nodes) || !Array.isArray(data.edges)) return false;
@@ -246,8 +248,7 @@ function initSupabase(){
   const url=window.MILKLAB_SUPABASE_URL;
   const key=window.MILKLAB_SUPABASE_KEY;
   if(!window.supabase || !url || !key || url.includes("PEGA_AQUI") || key.includes("PEGA_AQUI")){
-    $("#saveStatus").textContent="Modo local · falta configurar nube";
-    $("#saveStatus").style.color="#e3c981";
+    setSaveStatus("Modo local · falta configurar nube","#e3c981");
     return;
   }
   try{
@@ -305,7 +306,7 @@ $("#saveBtn").addEventListener("click",async()=>{
     return;
   }
   remoteSaveInProgress=true;
-  $("#saveStatus").textContent="Guardando en la nube…";
+  setSaveStatus("Guardando en la nube…","#e3c981");
   try{
     const row={
       [remoteIdColumn]:1,
@@ -314,12 +315,19 @@ $("#saveBtn").addEventListener("click",async()=>{
     };
     const {error}=await supabaseClient.from(remoteTable).upsert(row,{onConflict:remoteIdColumn});
     if(error) throw error;
+    // Verify persistence by reading the row back before claiming cloud success.
+    const {data:verified,error:verifyError}=await supabaseClient.from(remoteTable)
+      .select(`${remoteIdColumn},${remoteDiagramColumn},${remoteUpdatedColumn}`)
+      .eq(remoteIdColumn,1).maybeSingle();
+    if(verifyError) throw verifyError;
+    if(!verified || !verified[remoteDiagramColumn] || verified[remoteDiagramColumn].nodes?.length!==snapshot.nodes.length) {
+      throw new Error("El guardado no se pudo verificar al volver a leer el diagrama");
+    }
     savedStatus();
-    notify("Proyecto guardado y compartido en la nube");
+    notify("Proyecto guardado y verificado en la nube");
   }catch(err){
     console.error("Error guardando MILKLAB:",err);
-    $("#saveStatus").textContent="Error al guardar en nube";
-    $("#saveStatus").style.color="#f08b8b";
+    setSaveStatus("Error al guardar en nube","#f08b8b");
     notify("No se pudo guardar en Supabase; copia local conservada");
   }finally{
     remoteSaveInProgress=false;
