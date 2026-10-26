@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MILKLAB | Editor de procesos</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="logo">M</span><span>MILK<span>LAB</span><small>PROCESS ENGINEERING STUDIO</small></span></a>
+  <div class="project-name"><span class="live-dot"></span> PROYECTO LOCAL <b id="saveStatus">Cambios sin guardar</b></div>
+  <div class="top-actions"><button id="saveBtn" class="btn secondary">Guardar</button><button id="exportBtn" class="btn secondary">Exportar SVG</button><button id="pdfBtn" class="btn primary">Descargar PDF</button></div>
+</header>
+<div class="app">
+<aside class="sidebar">
+  <div class="side-heading">ESPACIO DE TRABAJO <span>01</span></div>
+  <label class="field-label" for="diagramMode">Tipo de diagrama</label>
+  <select id="diagramMode"><option value="blocks">Diagrama de bloques</option><option value="pfd">Diagrama de flujo (PFD)</option><option value="pid">Tuberías e instrumentación (P&amp;ID)</option></select>
+  <div class="side-heading library-title">AÑADIR ELEMENTOS <span>+</span></div><p class="muted small">Selecciona un símbolo para añadirlo al lienzo.</p>
+  <div id="palette" class="palette"></div>
+  <div class="sidebar-bottom"><div class="tip"><b>Consejo técnico</b><p>Selecciona un elemento para editar sus datos. Arrastra para moverlo. En modo conectar, pulsa el origen y luego el destino. Haz clic en una tubería para editarla.</p></div><button id="resetBtn" class="btn danger-outline full">Restablecer ejemplo</button></div>
+</aside>
+<main class="workspace">
+  <div class="canvas-toolbar"><div><span class="eyebrow">EDITOR VISUAL</span><h1 id="canvasTitle">Diagrama de bloques del proceso</h1></div><div class="toolbar-actions"><button id="connectBtn" class="btn secondary">↗ Conectar</button><button id="deleteBtn" class="btn danger-outline">Eliminar</button></div></div>
+  <div class="canvas-wrap"><div class="canvas-topline"><span><i class="live-dot"></i> LIENZO DE PROCESO</span><span>Arrastrar · Seleccionar · Editar conexiones</span></div><svg id="diagram" viewBox="0 0 1100 620" role="img" aria-label="Editor de diagramas de pasteurización"></svg><div class="canvas-footer"><span id="elementCount">6 elementos · 5 conexiones</span><span>ESCALA ESQUEMÁTICA / NO A ESCALA</span></div></div>
+  <div class="bottom-note"><span class="note-icon">i</span><span><b>Nota académica:</b> esquema conceptual editable. La instrumentación, los diámetros, los equipos y los parámetros deben validarse con las normas y los datos reales del proceso.</span></div>
+</main>
+<aside class="inspector">
+  <div class="inspector-head"><div><span class="eyebrow">PROPIEDADES</span><h2>Inspector</h2></div><span class="inspector-icon">⚙</span></div>
+  <div id="emptyInspector" class="empty-inspector"><div class="empty-icon">↖</div><b>Ningún elemento seleccionado</b><p>Selecciona un bloque, equipo o tubería para editarlo.</p></div>
+  <form id="propertyForm" class="property-form hidden">
+    <div class="selected-type" id="selectedType">BLOQUE DE PROCESO</div>
+    <label class="field-label" for="propTitle">Nombre</label><input id="propTitle" maxlength="80">
+    <label class="field-label" for="propSubtitle">Descripción breve</label><input id="propSubtitle" maxlength="100">
+    <label class="field-label" for="propTag">Etiqueta / código</label><input id="propTag" maxlength="24">
+    <label class="field-label" for="propNote">Nota técnica</label><textarea id="propNote" rows="4" maxlength="500"></textarea>
+    <div id="edgeFields" class="hidden"><label class="field-label" for="propEdgeLabel">Etiqueta de flujo / tubería</label><input id="propEdgeLabel" maxlength="60"><label class="field-label" for="propEdgeType">Tipo de línea</label><select id="propEdgeType"><option value="process">Flujo de producto</option><option value="utility">Servicio / energía</option><option value="signal">Señal de instrumento</option></select></div>
+    <div id="nodeFields"><div class="inspector-grid"><div><label class="field-label" for="propX">Posición X</label><input id="propX" type="number" min="0" max="1020"></div><div><label class="field-label" for="propY">Posición Y</label><input id="propY" type="number" min="0" max="560"></div></div></div>
+    <button class="btn primary full" type="submit">Aplicar cambios</button>
+    <button id="duplicateBtn" class="btn secondary full" type="button">Duplicar elemento</button>
+  </form>
+  <div class="inspector-help"><b>Conexiones inteligentes</b><p>Las líneas se recalculan al mover los equipos y se conectan a sus bordes.</p><p><kbd>Supr</kbd> eliminar seleccionado</p><p><kbd>Esc</kbd> cancelar conexión</p><p>Haz clic sobre una línea para cambiar etiqueta y tipo, o eliminarla con el botón Eliminar.</p></div>
+</aside></div>
+<div id="toast" class="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
+</body></html>

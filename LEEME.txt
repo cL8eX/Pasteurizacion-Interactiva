@@ -1,0 +1,20 @@
+MILKLAB + Supabase (versión de integración inicial)
+
+1. Haz una copia de seguridad de tu carpeta Pasteurizacion-Interactiva.
+2. Copia estos cuatro archivos en la carpeta existente, reemplazando index.html, styles.css y script.js; añade supabase-config.js.
+3. Abre supabase-config.js y reemplaza:
+   - PEGA_AQUI_TU_PROJECT_URL por la Project URL de Supabase.
+   - PEGA_AQUI_TU_PUBLISHABLE_KEY por la Publishable key (sb_publishable_...).
+4. La integración espera la tabla public.diagrama_laboratorio_leche con columnas:
+   - identificador (clave primaria entera)
+   - diagrama (jsonb)
+   - actualizado_en (timestamp)
+   y el registro identificador = 1.
+5. La tabla debe tener RLS activado y políticas anon/authenticated de SELECT, INSERT y UPDATE para el registro identificador=1.
+6. Para las actualizaciones en tiempo real, la tabla debe estar habilitada en la publicación supabase_realtime.
+7. Abre index.html con Live Server. Prueba primero en un solo navegador: cambia un elemento, pulsa Guardar, recarga y verifica que se restaura.
+8. Después abre el mismo enlace de Live Server en otro navegador/dispositivo. Ten en cuenta que localhost/127.0.0.1 no sirve como enlace compartido entre computadores; para eso hay que publicar la web.
+
+Seguridad: el acceso público de edición permite que cualquiera con acceso al sitio modifique el diagrama. No pongas datos privados. Nunca uses service_role ni secret keys en el navegador.
+
+Si los nombres reales de las columnas de tu tabla son diferentes, hay que ajustar las constantes al inicio de la integración.
