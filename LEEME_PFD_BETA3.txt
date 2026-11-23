@@ -1,0 +1,9 @@
+MILKLAB PFD STUDIO BETA 3
+
+Rediseño visual y controles de lienzo.
+- Interfaz de estudio con biblioteca, lienzo y propiedades.
+- Lienzo desplazable con zoom + / - / 100% / vista inicial.
+- Inspector ocultable para ampliar el área de trabajo.
+- Responsive y ajustes para tema claro.
+
+Instalación: reemplaza archivos del repositorio local excepto la carpeta .git.

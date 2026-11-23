@@ -155,20 +155,20 @@ $("#deleteBtn").addEventListener("click",deleteSelected);
 function deleteSelected(){if(selectedEdgeId){edges=edges.filter(e=>e.id!==selectedEdgeId);selectedEdgeId=null;render();fillInspector();markUnsaved();notify("Conexión eliminada");return}if(!selectedId){notify("Selecciona un elemento o una conexión");return}nodes=nodes.filter(n=>n.id!==selectedId);edges=edges.filter(e=>e.from!==selectedId&&e.to!==selectedId);selectedId=null;render();fillInspector();markUnsaved();notify("Elemento eliminado")}
 $("#connectBtn").addEventListener("click",()=>{connectMode=!connectMode;connectFrom=null;selectedId=null;selectedEdgeId=null;$("#connectBtn").textContent=connectMode?"Cancelar conexión":"↗ Conectar";svg.classList.toggle("connect-mode",connectMode);render();fillInspector();notify(connectMode?"Selecciona el origen y luego el destino":"Conexión cancelada")});
 function pasteurizationPfd(){return {nodes:[
-{id:"p1",type:"tank",x:22,y:72,title:"Recepción de leche",subtitle:"Leche cruda · 4 °C",tag:"TK-101",note:"Recepción y almacenamiento inicial de leche cruda. Caso académico: caudal nominal 1.000 L/h."},
-{id:"p2",type:"pump",x:150,y:86,title:"Bomba de alimentación",subtitle:"Impulsión",tag:"P-101",note:"Bombeo de leche cruda hacia filtración."},
-{id:"p3",type:"filter",x:270,y:82,title:"Filtro",subtitle:"Retención de sólidos",tag:"F-101",note:"Retención de partículas e impurezas antes del tratamiento."},
-{id:"p4",type:"balance",x:390,y:72,title:"Tanque de balance",subtitle:"Alimentación estable",tag:"TK-102",note:"Mantiene alimentación estable a la línea HTST."},
-{id:"p5",type:"heat",x:520,y:78,title:"Precalentamiento",subtitle:"Regeneración térmica",tag:"HX-101",note:"Precalentamiento mediante recuperación de calor. Temperatura preliminar objetivo: 55–60 °C."},
-{id:"p6",type:"homogenizer",x:660,y:78,title:"Homogeneizador",subtitle:"Reducción de glóbulos grasos",tag:"HM-101",note:"Homogeneización de leche, presión de operación por definir según producto y equipo."},
-{id:"p7",type:"heat",x:800,y:78,title:"Calentamiento HTST",subtitle:"72 °C (referencia)",tag:"HX-102",note:"Calentamiento a la temperatura de pasteurización de referencia. Validar condiciones según normativa y diseño."},
-{id:"p8",type:"hold",x:930,y:88,title:"Tubo de retención",subtitle:"15 s (referencia)",tag:"HT-101",note:"Tiempo de retención de referencia 15 s a 72 °C. El diseño debe validar tiempo efectivo y caudal."},
-{id:"p9",type:"divert",x:955,y:255,title:"Válvula de desvío",subtitle:"Control de temperatura",tag:"DV-101",note:"Desvía producto si no se cumplen condiciones de pasteurización. Instrumentación y lógica de seguridad a desarrollar en P&ID."},
-{id:"p10",type:"heat",x:790,y:405,title:"Recuperación de calor",subtitle:"Leche pasteurizada → cruda",tag:"HX-103",note:"Recuperación de energía térmica entre producto caliente y producto entrante. Configuración conceptual."},
-{id:"p11",type:"cooler",x:610,y:410,title:"Enfriamiento final",subtitle:"Hasta ≤ 4 °C",tag:"HX-104",note:"Enfriamiento final a temperatura refrigerada de referencia."},
-{id:"p12",type:"tank",x:420,y:405,title:"Tanque de pasteurizada",subtitle:"Almacenamiento refrigerado",tag:"TK-103",note:"Tanque cerrado, higiénico y refrigerado previo al envasado."},
-{id:"p13",type:"pump",x:260,y:420,title:"Bomba de producto",subtitle:"Transferencia",tag:"P-103",note:"Transferencia hacia el sistema de envasado."},
-{id:"p14",type:"filler",x:100,y:410,title:"Envasado",subtitle:"Producto terminado",tag:"PK-101",note:"Envasado higiénico de leche pasteurizada."}],edges:[
+{id:"p1",type:"tank",x:25,y:70,title:"Recepción de leche",subtitle:"Leche cruda · 4 °C",tag:"TK-101",note:"Recepción y almacenamiento inicial de leche cruda. Caso académico: caudal nominal 1.000 L/h."},
+{id:"p2",type:"pump",x:155,y:82,title:"Bomba de alimentación",subtitle:"Impulsión",tag:"P-101",note:"Bombeo de leche cruda hacia filtración."},
+{id:"p3",type:"filter",x:270,y:80,title:"Filtro",subtitle:"Retención de sólidos",tag:"F-101",note:"Retención de partículas e impurezas antes del tratamiento."},
+{id:"p4",type:"balance",x:390,y:70,title:"Tanque de balance",subtitle:"Alimentación estable",tag:"TK-102",note:"Mantiene alimentación estable a la línea HTST."},
+{id:"p5",type:"heat",x:520,y:75,title:"Precalentamiento",subtitle:"Regeneración térmica",tag:"HX-101",note:"Precalentamiento mediante recuperación de calor. Temperatura preliminar objetivo: 55–60 °C."},
+{id:"p6",type:"homogenizer",x:660,y:70,title:"Homogeneizador",subtitle:"Reducción de glóbulos grasos",tag:"HM-101",note:"Homogeneización de leche, presión de operación por definir según producto y equipo."},
+{id:"p7",type:"heat",x:800,y:75,title:"Calentamiento HTST",subtitle:"72 °C (referencia)",tag:"HX-102",note:"Calentamiento a la temperatura de pasteurización de referencia. Validar condiciones según normativa y diseño."},
+{id:"p8",type:"hold",x:935,y:90,title:"Tubo de retención",subtitle:"15 s (referencia)",tag:"HT-101",note:"Tiempo de retención de referencia 15 s a 72 °C. El diseño debe validar tiempo efectivo y caudal."},
+{id:"p9",type:"divert",x:940,y:250,title:"Válvula de desvío",subtitle:"Control de temperatura",tag:"DV-101",note:"Desvía producto si no se cumplen condiciones de pasteurización. Instrumentación y lógica de seguridad a desarrollar en P&ID."},
+{id:"p10",type:"heat",x:760,y:260,title:"Recuperación de calor",subtitle:"Leche pasteurizada → cruda",tag:"HX-103",note:"Recuperación de energía térmica entre producto caliente y producto entrante. Configuración conceptual."},
+{id:"p11",type:"cooler",x:590,y:260,title:"Enfriamiento final",subtitle:"Hasta ≤ 4 °C",tag:"HX-104",note:"Enfriamiento final a temperatura refrigerada de referencia."},
+{id:"p12",type:"tank",x:420,y:260,title:"Tanque de pasteurizada",subtitle:"Almacenamiento refrigerado",tag:"TK-103",note:"Tanque cerrado, higiénico y refrigerado previo al envasado."},
+{id:"p13",type:"pump",x:270,y:275,title:"Bomba de producto",subtitle:"Transferencia",tag:"P-103",note:"Transferencia hacia el sistema de envasado."},
+{id:"p14",type:"filler",x:120,y:270,title:"Envasado",subtitle:"Producto terminado",tag:"PK-101",note:"Envasado higiénico de leche pasteurizada."}],edges:[
 {id:"pe1",from:"p1",to:"p2",label:"S-01 · Leche cruda",type:"process"},{id:"pe2",from:"p2",to:"p3",label:"S-02",type:"process"},{id:"pe3",from:"p3",to:"p4",label:"S-03 · Filtrada",type:"process"},{id:"pe4",from:"p4",to:"p5",label:"S-04",type:"process"},{id:"pe5",from:"p5",to:"p6",label:"S-05 · 55–60 °C",type:"process"},{id:"pe6",from:"p6",to:"p7",label:"S-06",type:"process"},{id:"pe7",from:"p7",to:"p8",label:"S-07 · 72 °C",type:"process"},{id:"pe8",from:"p8",to:"p9",label:"S-08 · Retención",type:"process"},{id:"pe9",from:"p9",to:"p10",label:"S-09 · Flujo aprobado",type:"process"},{id:"pe10",from:"p10",to:"p11",label:"S-10",type:"process"},{id:"pe11",from:"p11",to:"p12",label:"S-11 · ≤ 4 °C",type:"process"},{id:"pe12",from:"p12",to:"p13",label:"S-12",type:"process"},{id:"pe13",from:"p13",to:"p14",label:"S-13",type:"process"},{id:"pe14",from:"p9",to:"p4",label:"S-14 · Desvío / retorno",type:"utility"}]}};
 $("#diagramMode").addEventListener("change",e=>{const next=e.target.value;if(next==="pfd"&&mode!=="pfd"&&nodes.some(n=>n.type==="block")){if(confirm("¿Cargar el PFD de ejemplo de pasteurización? Esto reemplazará el diagrama actual en el espacio compartido. Recomendamos guardar o descargar una copia antes.")){const t=pasteurizationPfd();nodes=t.nodes;edges=t.edges;selectedId=null;selectedEdgeId=null;idCounter=20;}else{e.target.value=mode;return}}mode=next;render();fillInspector();markUnsaved();notify(mode==="pfd"?"Modo PFD beta activado":"Modo de diagrama actualizado")});
 $("#resetBtn").addEventListener("click",()=>{if(!confirm("¿Restablecer el diagrama de ejemplo? Se perderán los cambios no guardados."))return;nodes=defaults();edges=initialEdges();selectedId=null;selectedEdgeId=null;connectMode=false;render();fillInspector();markUnsaved();notify("Diagrama restaurado")});
@@ -393,6 +393,25 @@ $("#pdfBtn").addEventListener("click",()=>{
 });
 
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+
+// MILKLAB Studio canvas controls: viewport zoom (does not alter diagram geometry).
+let canvasZoom=1;
+function setCanvasZoom(value){
+  canvasZoom=Math.max(.55,Math.min(1.5,Math.round(value*100)/100));
+  const width=1100/canvasZoom,height=620/canvasZoom;
+  svg.setAttribute("viewBox",`${(1100-width)/2} ${(620-height)/2} ${width} ${height}`);
+  const label=$("#zoomLabel");if(label)label.textContent=`${Math.round(canvasZoom*100)}%`;
+}
+$("#zoomInBtn")?.addEventListener("click",()=>setCanvasZoom(canvasZoom+.1));
+$("#zoomOutBtn")?.addEventListener("click",()=>setCanvasZoom(canvasZoom-.1));
+$("#zoomLabel")?.addEventListener("click",()=>setCanvasZoom(1));
+$("#fitCanvasBtn")?.addEventListener("click",()=>setCanvasZoom(1));
+$("#toggleInspectorBtn")?.addEventListener("click",()=>{
+  document.body.classList.toggle("inspector-collapsed");
+  const hidden=document.body.classList.contains("inspector-collapsed");
+  $("#toggleInspectorBtn").textContent=hidden?"Mostrar inspector":"Inspector";
+});
+
 renderPalette();
 renderProjectMetadata();
 try{

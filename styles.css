@@ -246,46 +246,58 @@ body{background:radial-gradient(ellipse at 52% -20%,#163044 0,transparent 45%),v
 #brandEditProject:hover #brandProjectName{text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;}
 @media(max-width:760px){#brandProjectName{max-width:42vw;}#brandTitle small{font-size:7px;letter-spacing:.5px;}}
 
-
-/* MILKLAB PFD Beta 2 — interfaz enfocada en dibujo de proceso */
-body.pfd-mode .app{grid-template-columns:238px minmax(0,1fr) 270px;min-height:calc(100vh - 72px)}
-body.pfd-mode .sidebar,body.pfd-mode .inspector{padding:17px 14px;overflow:auto;max-height:calc(100vh - 72px);position:sticky;top:72px;align-self:start}
-body.pfd-mode .workspace{padding:18px 18px 24px;min-width:0}
-body.pfd-mode .canvas-toolbar{align-items:flex-end;margin-bottom:14px}
-body.pfd-mode .canvas-toolbar h1{font-size:20px;line-height:1.3;max-width:780px}
-body.pfd-mode .workspace-subtitle{margin:7px 0 0;font-size:11px;color:var(--muted)}
-body.pfd-mode .canvas-wrap{border-radius:12px;overflow:auto;max-height:calc(100vh - 230px);box-shadow:0 16px 45px #0002}
-body.pfd-mode #diagram{width:1100px;min-width:1100px;height:620px;min-height:620px;background-color:#0d171d;background-image:radial-gradient(#263d4b 1px,transparent 1px);background-size:22px 22px}
-body.pfd-mode .canvas-topline,body.pfd-mode .canvas-footer{position:sticky;left:0;width:100%;background:#111e27;z-index:1}
-body.pfd-mode .canvas-topline{top:0}
-body.pfd-mode .canvas-footer{bottom:0}
-body.pfd-mode .side-heading{margin-bottom:12px}
-body.pfd-mode .library-title{margin-top:20px}
-body.pfd-mode .sidebar .muted.small{font-size:10px;line-height:1.5;margin:5px 0 10px}
-body.pfd-mode .palette{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:9px}
-body.pfd-mode .palette-item{min-height:66px;padding:8px 4px;border-radius:9px}
-body.pfd-mode .palette-item .sym{font-size:19px;margin-bottom:4px}
-body.pfd-mode .palette-item span:last-child{font-size:9px;line-height:1.25}
-body.pfd-mode .university-card,body.pfd-mode .inspector-tag-legend{display:none}
-body.pfd-mode .sidebar-bottom{margin-top:16px}
-body.pfd-mode .inspector-head{margin-bottom:15px}
-body.pfd-mode .inspector-head h2{font-size:16px}
-body.pfd-mode .empty-inspector{padding:25px 6px}
-body.pfd-mode .property-form .field-label{margin:11px 0 5px}
-body.pfd-mode .property-form input,body.pfd-mode .property-form textarea,body.pfd-mode .property-form select{padding:8px;font-size:11px}
-body.pfd-mode .property-form textarea{rows:3}
-body.pfd-mode .inspector-grid{gap:8px}
-body.pfd-mode .field-hint{font-size:9px;line-height:1.5}
-body.pfd-mode .topbar{height:64px;padding:0 18px}
-body.pfd-mode .app{min-height:calc(100vh - 64px)}
-body.pfd-mode .sidebar,body.pfd-mode .inspector{top:64px;max-height:calc(100vh - 64px)}
-body.pfd-mode .save-status{font-size:10px;padding:6px 8px}
-body.pfd-mode .btn{padding:9px 11px;font-size:10px}
-body.pfd-mode .theme-btn{padding:7px 8px;font-size:9px}
-body.pfd-mode .canvas-wrap::-webkit-scrollbar{height:10px;width:10px}
-body.pfd-mode .canvas-wrap::-webkit-scrollbar-thumb{background:#355262;border-radius:8px}
-body.pfd-mode .canvas-wrap::-webkit-scrollbar-track{background:#101a21}
-@media(max-width:1150px){body.pfd-mode .app{grid-template-columns:210px minmax(0,1fr) 250px}body.pfd-mode .workspace{padding:14px}}
-@media(max-width:850px){body.pfd-mode .app{grid-template-columns:1fr}body.pfd-mode .sidebar,body.pfd-mode .inspector{position:static;max-height:none;border-right:0;border-left:0}body.pfd-mode .workspace{order:2}body.pfd-mode .inspector{order:3}body.pfd-mode .sidebar{order:1}body.pfd-mode .canvas-wrap{max-height:65vh}body.pfd-mode .topbar{height:auto;min-height:64px;flex-wrap:wrap;padding:12px}body.pfd-mode .top-actions{justify-content:flex-start}}
-:root[data-theme="light"] body.pfd-mode #diagram{background-color:#f8fbfd;background-image:radial-gradient(#d3e0e8 1px,transparent 1px)}
-:root[data-theme="light"] body.pfd-mode .canvas-topline,:root[data-theme="light"] body.pfd-mode .canvas-footer{background:#eaf2f7}
+/* ================= MILKLAB PFD STUDIO BETA 3 ================= */
+:root{--studio-accent:#59e0bd;--studio-bg:#08121c;--studio-panel:#0d1a26;--studio-border:#233b4d;--studio-text:#e8f1f7;--studio-muted:#91a9bc}
+body.pfd-mode{background:var(--studio-bg);color:var(--studio-text)}
+body.pfd-mode .topbar{height:66px;padding:0 20px;background:#07111b;border-bottom:1px solid #20394b;box-shadow:0 8px 25px #0002}
+body.pfd-mode .brand{letter-spacing:0;gap:12px}.pfd-mode .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#67ecd0,#42bba8);box-shadow:0 0 22px #54ddbd22}
+body.pfd-mode .top-actions{gap:7px}.pfd-mode .btn{padding:9px 12px;border-radius:10px;font-size:10px}.pfd-mode .btn.primary{box-shadow:0 7px 20px #55dabb20}
+body.pfd-mode .app{grid-template-columns:238px minmax(0,1fr) 286px;min-height:calc(100vh - 66px);gap:0}
+body.pfd-mode .sidebar,body.pfd-mode .inspector{padding:18px 14px;background:#0b1722;border-color:#20384a;min-width:0}
+body.pfd-mode .sidebar{position:sticky;top:66px;height:calc(100vh - 66px);overflow:auto;border-right:1px solid #20384a}
+body.pfd-mode .inspector{position:sticky;top:66px;height:calc(100vh - 66px);overflow:auto;border-left:1px solid #20384a}
+body.pfd-mode .workspace{padding:22px 22px 26px;min-width:0;background:radial-gradient(ellipse at 50% 0%,#14253655,transparent 60%)}
+body.pfd-mode .canvas-toolbar{align-items:center;margin-bottom:15px;gap:18px}.pfd-mode h1{font-size:clamp(20px,2vw,27px);line-height:1.22;max-width:740px}.pfd-mode .workspace-subtitle{margin-top:6px;font-size:11px;color:#91a9bc}
+body.pfd-mode .toolbar-actions{flex-shrink:0}.pfd-mode .toolbar-actions .btn{min-width:82px;height:42px}
+body.pfd-mode .side-heading{font-size:9px;letter-spacing:1.4px;color:#7e9aae;margin-bottom:12px}.pfd-mode .field-label{margin:12px 0 6px;color:#a9c0d0}
+body.pfd-mode #diagramMode{height:42px;border-radius:10px;background:#132435;border-color:#2a455a;font-size:11px}
+body.pfd-mode .library-title{margin-top:22px;margin-bottom:7px;color:#74dcca}.pfd-mode .sidebar .muted.small{font-size:9px;line-height:1.55;margin:5px 0 10px}
+body.pfd-mode .palette{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:10px}
+body.pfd-mode .palette-item{min-height:76px;padding:9px 6px;border-radius:11px;background:#122333;border-color:#294459;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+body.pfd-mode .palette-item .sym{font-size:24px;line-height:1;color:#6be2c6;margin-bottom:3px}.pfd-mode .palette-item span:last-child{font-size:10px;color:#d8e7f0}.pfd-mode .palette-item:hover{transform:translateY(-2px);border-color:#5fe0bf;background:#183343;box-shadow:0 7px 18px #0002}
+body.pfd-mode .sidebar-bottom{margin-top:18px}.pfd-mode .university-card{padding:13px;background:#101f2c;border-color:#294355;border-radius:12px}.pfd-mode .university-logo{width:66px;height:66px}.pfd-mode .university-card h3{font-size:12px}.pfd-mode .side-meta{padding:8px 0}.pfd-mode .side-students span{font-size:9px;padding:6px}
+body.pfd-mode .canvas-wrap{border:1px solid #294358;border-radius:14px;overflow:hidden;background:#0a1420;box-shadow:0 18px 45px #0003}
+body.pfd-mode .canvas-topline{height:48px;background:#122233;border-bottom:1px solid #253e52;padding:0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+body.pfd-mode .canvas-topline>span:first-child{font-weight:700;color:#cfe0eb}.canvas-mode-pill{display:inline-flex!important;align-items:center;justify-content:center;background:#1d3a46;color:#67e4c5!important;border:1px solid #2b5961;border-radius:5px;padding:3px 6px;font:9px var(--mono);margin-left:6px}
+.canvas-controls{display:flex;align-items:center;gap:5px}.canvas-control{height:28px;min-width:29px;padding:0 8px;border:1px solid #2c465a;border-radius:7px;background:#172a3a;color:#d8e8f2;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}.canvas-control:hover{border-color:#65e2c2;background:#1b3747;color:#75e7ca}.zoom-label{min-width:48px;font:10px var(--mono);color:#90b2c6}.fit-control,.inspector-toggle{font-size:9px;font-weight:600;padding:0 9px}
+body.pfd-mode .canvas-viewport{overflow:auto;max-height:calc(100vh - 210px);min-height:480px;background-color:#0b1622;background-image:linear-gradient(#1d304044 1px,transparent 1px),linear-gradient(90deg,#1d304044 1px,transparent 1px),radial-gradient(#2a4051 1px,transparent 1px);background-size:36px 36px,36px 36px,18px 18px;overscroll-behavior:contain}
+body.pfd-mode #diagram{width:1100px;height:620px;min-height:620px;display:block;background:transparent;background-image:none;touch-action:none}
+body.pfd-mode .canvas-footer{height:38px;background:#0e1b27;border-top:1px solid #253d50;color:#829db2;font-size:9px}.pfd-mode .footer-scale{color:#526e82;font-weight:400}
+body.pfd-mode .inspector-head{margin-bottom:17px}.pfd-mode .inspector-head h2{font-size:17px;margin-top:6px}.pfd-mode .inspector-icon{background:#162b3a;border:1px solid #2b4558;color:#62e1c0}
+body.pfd-mode .empty-inspector{padding:34px 5px;color:#91a9bc}.pfd-mode .empty-icon{width:54px;height:54px;border:1px solid #315064;border-radius:16px;margin:0 auto 13px;display:grid;place-items:center;background:#132636;color:#64e3c2}.pfd-mode .empty-inspector b{color:#e5f0f6;font-size:12px}.pfd-mode .empty-inspector p{font-size:10px}
+body.pfd-mode .tag-legend{margin-top:15px;background:#112333;border-color:#2b465a;border-radius:12px;padding:12px}.pfd-mode .tag-legend table{font-size:9px}
+body.pfd-mode .property-form{padding:12px;border:1px solid #2a4356;border-radius:12px;background:#101f2d}.pfd-mode .property-form .field-label{font-size:9px}.pfd-mode .property-form input,.pfd-mode .property-form textarea,.pfd-mode .property-form select{background:#0c1925;border-color:#2a4356;border-radius:8px}
+body.pfd-mode .inspector-help{border-color:#253d50;color:#91a9bc}
+body.pfd-mode.inspector-collapsed .app{grid-template-columns:238px minmax(0,1fr) 0}.pfd-mode.inspector-collapsed .inspector{display:none}
+body.pfd-mode .canvas-wrap::-webkit-scrollbar,body.pfd-mode .sidebar::-webkit-scrollbar,body.pfd-mode .inspector::-webkit-scrollbar{width:9px;height:9px}body.pfd-mode .canvas-wrap::-webkit-scrollbar-thumb,body.pfd-mode .sidebar::-webkit-scrollbar-thumb,body.pfd-mode .inspector::-webkit-scrollbar-thumb{background:#29475a;border-radius:8px}body.pfd-mode .canvas-wrap::-webkit-scrollbar-track{background:#0c1722}
+:root[data-theme="light"] body.pfd-mode{--studio-bg:#eef4f8;--studio-text:#183247}
+:root[data-theme="light"] body.pfd-mode .topbar{background:#f9fcff;border-color:#d4e1e9}
+:root[data-theme="light"] body.pfd-mode .sidebar,:root[data-theme="light"] body.pfd-mode .inspector{background:#f5f9fc;border-color:#d2e0e9}
+:root[data-theme="light"] body.pfd-mode .workspace{background:radial-gradient(ellipse at 50% 0%,#dcecf455,transparent 60%)}
+:root[data-theme="light"] body.pfd-mode #diagramMode{background:#fff;color:#183247;border-color:#cbdbe5}
+:root[data-theme="light"] body.pfd-mode .palette-item{background:linear-gradient(145deg,#fff,#edf5f9);border-color:#cbdbe5}
+:root[data-theme="light"] body.pfd-mode .palette-item span:last-child{color:#27475d}
+:root[data-theme="light"] body.pfd-mode .canvas-wrap{background:#fff;border-color:#c9dce7}
+:root[data-theme="light"] body.pfd-mode .canvas-topline{background:#e9f2f8;border-color:#d0e0e9}
+:root[data-theme="light"] body.pfd-mode .canvas-topline>span:first-child{color:#29465c}
+:root[data-theme="light"] body.pfd-mode .canvas-control{background:#fff;color:#27465c;border-color:#c9dce7}
+:root[data-theme="light"] body.pfd-mode .canvas-viewport{background-color:#f7fbfe;background-image:linear-gradient(#dce7ee 1px,transparent 1px),linear-gradient(90deg,#dce7ee 1px,transparent 1px),radial-gradient(#c4d6e2 1px,transparent 1px)}
+:root[data-theme="light"] body.pfd-mode .canvas-footer{background:#f1f7fa;border-color:#d0e0e9;color:#526d80}
+:root[data-theme="light"] body.pfd-mode .inspector-head h2,:root[data-theme="light"] body.pfd-mode .empty-inspector b{color:#183247}
+:root[data-theme="light"] body.pfd-mode .empty-icon{background:#e7f4f7;border-color:#bfd8e5;color:#158e82}
+:root[data-theme="light"] body.pfd-mode .tag-legend{background:#fff;border-color:#cbdbe5}
+:root[data-theme="light"] body.pfd-mode .property-form{background:#fff;border-color:#cbdbe5}
+@media(max-width:1250px){body.pfd-mode .app{grid-template-columns:220px minmax(0,1fr) 260px}.pfd-mode .workspace{padding:17px}.pfd-mode .topbar{padding:0 14px}}
+@media(max-width:1000px){body.pfd-mode .app{grid-template-columns:220px minmax(0,1fr)}body.pfd-mode .inspector{grid-column:1/-1;position:static;height:auto;max-height:none;border-left:0;border-top:1px solid #20384a}body.pfd-mode.inspector-collapsed .app{grid-template-columns:220px minmax(0,1fr)}body.pfd-mode.inspector-collapsed .inspector{display:none}}
+@media(max-width:760px){body.pfd-mode .app{display:flex;flex-direction:column}.pfd-mode .sidebar,.pfd-mode .workspace,.pfd-mode .inspector{position:static;height:auto;max-height:none;overflow:visible}.pfd-mode .sidebar{order:1}.pfd-mode .workspace{order:2;padding:12px}.pfd-mode .inspector{order:3}.pfd-mode .palette{grid-template-columns:repeat(3,minmax(0,1fr))}.pfd-mode .canvas-toolbar{flex-direction:column;align-items:flex-start}.pfd-mode .canvas-viewport{max-height:60vh;min-height:360px}.pfd-mode .topbar{height:auto;min-height:66px;flex-wrap:wrap;padding:12px}.pfd-mode .top-actions{justify-content:flex-start;flex-wrap:wrap}.pfd-mode .canvas-topline{height:auto;min-height:46px;padding:8px 10px}.pfd-mode .canvas-controls{flex-wrap:wrap}}
+@media print{body.pfd-mode .canvas-viewport{overflow:visible!important;max-height:none!important}body.pfd-mode #diagram{width:100%!important;height:auto!important;min-height:0!important}}

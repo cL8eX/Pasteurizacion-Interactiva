@@ -13,7 +13,7 @@
 <aside class="sidebar">
   <div class="side-heading">WORKSPACE <span>01</span></div>
   <label class="field-label" for="diagramMode">Tipo de diagrama</label>
-  <select id="diagramMode"><option value="blocks">Diagrama de bloques · Disponible</option><option value="pfd">Diagrama PFD · Beta</option><option value="pid" disabled>Planta 3D · En desarrollo</option></select>
+  <select id="diagramMode"><option value="blocks">Diagrama de bloques · Disponible</option><option value="pfd" disabled>Diagrama PFD · Próximamente</option><option value="pid" disabled>Planta 3D · En desarrollo</option></select>
   <div class="side-heading library-title">BIBLIOTECA DE BLOQUES <span>+</span></div><p class="muted small">Añade operaciones y equipos. Después personaliza nombre, etiqueta y logotipo.</p>
   <div id="palette" class="palette"></div>
 
@@ -36,7 +36,19 @@
     </div>
   </section>
   <div class="canvas-toolbar"><div><span class="eyebrow">TU ESPACIO DE TRABAJO</span><h1 id="canvasTitle">Mi proyecto · Diagrama de bloques</h1><p class="workspace-subtitle">Crea tu diagrama, personaliza los equipos y exporta tu proyecto a PDF.</p></div><div class="toolbar-actions"><button id="connectBtn" class="btn secondary">↗ Conectar</button><button id="deleteBtn" class="btn danger-outline">Eliminar</button></div></div>
-  <div class="canvas-wrap"><div class="canvas-topline"><span><i class="live-dot"></i> LIENZO DE PROCESO</span><span>ARRASTRAR · SELECCIONAR · CONECTAR</span></div><svg id="diagram" viewBox="0 0 1100 620" role="img" aria-label="Editor de diagramas de pasteurización"></svg><div class="canvas-footer"><span id="elementCount">6 elementos · 5 conexiones</span><span>ESCALA ESQUEMÁTICA / NO A ESCALA</span></div></div>
+  <div class="canvas-wrap">
+    <div class="canvas-topline"><span><i class="live-dot"></i> LIENZO DE PROCESO <span class="canvas-mode-pill">PFD</span></span>
+      <div class="canvas-controls" aria-label="Controles de lienzo">
+        <button type="button" id="zoomOutBtn" class="canvas-control" title="Alejar">−</button>
+        <button type="button" id="zoomLabel" class="canvas-control zoom-label" title="Restablecer zoom">100%</button>
+        <button type="button" id="zoomInBtn" class="canvas-control" title="Acercar">+</button>
+        <button type="button" id="fitCanvasBtn" class="canvas-control fit-control" title="Vista inicial">Vista inicial</button>
+        <button type="button" id="toggleInspectorBtn" class="canvas-control inspector-toggle" title="Mostrar / ocultar inspector">Inspector</button>
+      </div>
+    </div>
+    <div class="canvas-viewport"><svg id="diagram" viewBox="0 0 1100 620" role="img" aria-label="Editor de diagramas de pasteurización"></svg></div>
+    <div class="canvas-footer"><span id="elementCount">6 elementos · 5 conexiones</span><span>ARRASTRAR · SELECCIONAR · CONECTAR <b class="footer-scale">/ ESCALA ESQUEMÁTICA</b></span></div>
+  </div>
 
 </main>
 <aside class="inspector">
