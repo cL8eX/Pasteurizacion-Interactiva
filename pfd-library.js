@@ -253,141 +253,148 @@ let pfdEditableDiagram=null,pfdSelectedNode=null,pfdScale=1,pfdDrag=null;
 function pfdDefaultDiagram(){
  const a=[];
  const add=(id,type,label,x,y,w=54,h=44,tag='')=>a.push({id,type,label,x,y,w,h,tag});
- // Top line: milk receiving, screening, thermal treatment, separator and storage
- add('raw','source','LECHE CRUDA',48,30,42,52);
- add('v101','valve','V-101',65,118,30,32);
- add('num1','diamond','1',66,163,30,28);
- add('p101','pump','P-101',102,215,56,45);
- add('tk101','tank','TK-101',182,205,95,65);
- add('lc101','instrument','LC 101',223,153,46,46,'LC');
- add('vc101','valve','VC-101',310,220,36,32);
- add('f101','filter','F-101',354,208,65,52);
- add('v102','valve','V-102',436,220,34,32);
- add('num2','diamond','2',477,222,30,28);
- add('p102','pump','P-102',518,213,54,45);
- add('v103','valve','V-103',578,220,34,32);
- add('he101','heat','H-E101',622,199,58,70);
- add('tc101','instrument','TC 101',630,143,46,46,'TC');
- add('vc102','valve','VC-102',698,220,34,32);
- add('num3','diamond','3',742,222,30,28);
- add('d101','separator','D-101',788,194,58,82);
- add('lir102','instrument','LIR 102',796,145,46,46,'LIR');
- add('v111','valve','V-111',857,220,34,32);
- add('num11','diamond','11',900,222,30,28);
- add('tk103','tank','TK-103',946,198,85,68);
- add('lc104','instrument','LC 104',968,145,46,46,'LC');
- // Branch down from separator to storage and middle treatment
- add('vc103','valve','VC-103',807,300,34,32);
- add('num4','diamond','4',807,346,30,28);
- add('p103','pump','P-103',797,392,54,45);
- add('vc104','valve','VC-104',808,450,34,32);
- add('tk102','tank','TK-102',690,444,85,68);
- add('lc102','instrument','LC 102',718,525,46,46,'LC');
- add('p104','pump','P-104',617,450,54,45);
- add('v104','valve','V-104',568,450,34,32);
- add('num5','diamond','5',520,452,30,28);
- add('p105','pump','P-105',461,450,54,45);
- add('vc105','valve','VC-105',410,450,34,32);
- add('num6','diamond','6',361,452,30,28);
- add('he103','heat','H-E103',291,431,65,52);
- add('tc101b','instrument','TCR 101',307,380,46,46,'TCR');
- add('he102','heat','H-E102',207,431,65,52);
- add('vc106','valve','VC-106',164,450,34,32);
- add('he104','pasteurizer','H-E104',104,424,58,70);
- add('tcr102','instrument','TCR 102',111,378,46,46,'TCR');
- add('v106','valve','V-106',64,396,34,32);
- add('p105b','pump','P-105',56,447,54,45);
- add('num7','diamond','7',65,500,30,28);
- // Lower-middle: homogenization, deodorization, cooling, packaging cream
- add('vc107','valve','VC-107',94,552,34,32);
- add('hr101','homogenizer','H-R101',139,540,58,65);
- add('tcr103','instrument','TCR 103',151,493,46,46,'TCR');
- add('v107','valve','V-107',218,562,34,32);
- add('num8','diamond','8',262,564,30,28);
- add('p107','pump','P-107',306,554,54,45);
- add('fa101','tank','FA-101',380,536,66,74);
- add('fcr101','instrument','FCR 101',390,485,46,46,'FCR');
- add('vc108','valve','VC-108',463,562,34,32);
- add('num9','diamond','9',507,564,30,28);
- add('v108','valve','V-108',554,562,34,32);
- add('p108','pump','P-108',598,554,54,45);
- add('he105','heat','H-E105',667,536,66,74);
- add('tcr104','instrument','TCR 104',677,485,46,46,'TCR');
- add('vc109','valve','VC-109',744,562,34,32);
- add('p109','pump','P-109',788,554,54,45);
- add('v110','valve','V-110',851,562,34,32);
- add('num10','diamond','10',893,564,30,28);
- add('pack1','packager','T-B102',937,536,150,74);
- add('cream','product','CREMA DE LECHE',1105,550,54,50);
- // Right side vertical preheating
- add('vc110','valve','VC-110',1080,306,34,32);
- add('num12a','diamond','12',1081,350,30,28);
- add('p110','pump','P-110',1070,396,54,45);
- add('vc111','valve','VC-111',1080,453,34,32);
- add('he106','heat','H-E106',1065,493,58,92);
- add('tcr105','instrument','TCR 105',1125,519,46,46,'TCR');
- add('v112','valve','V-112',1080,607,34,32);
- add('p111','pump','P-111',1070,649,54,45);
- add('num12b','diamond','12',1081,704,30,28);
- add('vc112','valve','VC-112',1080,750,34,32);
- // bottom return / final pasteurization and product
- add('v113','valve','V-113',1051,803,34,32);
- add('num13','diamond','13',1008,804,30,28);
- add('vc113','valve','VC-113',950,803,34,32);
- add('he107','pasteurizer','H-E107',883,779,58,70);
- add('tcr106','instrument','TCR 106',890,731,46,46,'TCR');
- add('v114','valve','V-114',830,803,34,32);
- add('p112','pump','P-112',776,795,54,45);
- add('hr102','homogenizer','H-R102',702,782,58,65);
- add('tcr107','instrument','TCR 107',710,731,46,46,'TCR');
- add('v115','valve','V-115',651,803,34,32);
- add('p113','pump','P-113',594,795,54,45);
- add('he108','heat','H-E108',526,779,66,74);
- add('tcr108','instrument','TCR 108',537,731,46,46,'TCR');
- add('vc116','valve','VC-116',476,803,34,32);
- add('p114','pump','P-114',420,795,54,45);
- add('v116','valve','V-116',369,803,34,32);
- add('pack2','packager','T-B101',267,779,150,74);
- add('pasteurized','product','LECHE PASTEURIZADA',62,900,48,48);
- // stage headings
- ['RECEPCIÓN','TAMIZADO','TRATAMIENTO TÉRMICO','DESCREMADO','ALMACENAMIENTO','PRECALENTAMIENTO','PASTEURIZACIÓN HTST','HOMOGENIZACIÓN','DESODORIZACIÓN','ENFRIAMIENTO','ENVASADO'].forEach((t,i)=>add('stage'+i,'text',t,[110,360,590,780,955,1000,90,120,360,665,930][i],[292,292,292,130,292,625,510,640,640,640,640][i],140,26));
+ // Layout on a wide, clean engineering sheet: four process bands
+ add('raw','source','LECHE CRUDA',40,35,42,52);
+ add('v101','valve','V-101',65,120,34,34);
+ add('num1','diamond','1',66,166,30,28);
+ add('p101','pump','P-101',118,214,58,48);
+ add('tk101','tank','TK-101',208,204,100,68);
+ add('lc101','instrument','LC 101',235,145,46,46,'LC');
+ add('vc101','valve','VC-101',340,220,34,34);
+ add('f101','filter','F-101',388,210,70,54);
+ add('v102','valve','V-102',480,220,34,34);
+ add('num2','diamond','2',524,222,30,28);
+ add('p102','pump','P-102',570,214,58,48);
+ add('v103','valve','V-103',650,220,34,34);
+ add('he101','heat','H-E101',700,202,64,72);
+ add('tc101','instrument','TC 101',709,145,46,46,'TC');
+ add('vc102','valve','VC-102',790,220,34,34);
+ add('num3','diamond','3',835,222,30,28);
+ add('d101','separator','D-101',882,194,64,82);
+ add('lir102','instrument','LIR 102',891,145,46,46,'LIR');
+ add('v111','valve','V-111',970,220,34,34);
+ add('num11','diamond','11',1015,222,30,28);
+ add('tk103','tank','TK-103',1065,202,100,70);
+ add('lc104','instrument','LC 104',1092,145,46,46,'LC');
+ // Cream separation branch and buffer storage
+ add('vc103','valve','VC-103',896,310,34,34);
+ add('num4','diamond','4',898,356,30,28);
+ add('p103','pump','P-103',886,405,58,48);
+ add('vc104','valve','VC-104',897,468,34,34);
+ add('tk102','tank','TK-102',760,462,100,70);
+ add('lc102','instrument','LC 102',788,535,46,46,'LC');
+ add('p104','pump','P-104',680,468,58,48);
+ add('v104','valve','V-104',625,475,34,34);
+ add('num5','diamond','5',575,477,30,28);
+ add('p105','pump','P-105',520,468,58,48);
+ add('vc105','valve','VC-105',465,475,34,34);
+ add('num6','diamond','6',415,477,30,28);
+ add('he103','heat','H-E103',340,455,70,58);
+ add('tcr101','instrument','TCR 101',350,395,46,46,'TCR');
+ add('he102','heat','H-E102',245,455,70,58);
+ add('vc106','valve','VC-106',190,475,34,34);
+ add('he104','pasteurizer','H-E104',118,445,64,78);
+ add('tcr102','instrument','TCR 102',127,395,46,46,'TCR');
+ add('v106','valve','V-106',66,430,34,34);
+ add('p105b','pump','P-105',60,478,58,48);
+ add('num7','diamond','7',68,535,30,28);
+ // Third band: homogenization, deodorization, cooling, cream filling
+ add('vc107','valve','VC-107',110,588,34,34);
+ add('hr101','homogenizer','H-R101',160,575,68,72);
+ add('tcr103','instrument','TCR 103',170,520,46,46,'TCR');
+ add('v107','valve','V-107',255,600,34,34);
+ add('num8','diamond','8',300,602,30,28);
+ add('p107','pump','P-107',345,590,58,48);
+ add('fa101','tank','FA-101',430,575,76,82);
+ add('fcr101','instrument','FCR 101',445,520,46,46,'FCR');
+ add('vc108','valve','VC-108',530,600,34,34);
+ add('num9','diamond','9',575,602,30,28);
+ add('v108','valve','V-108',620,600,34,34);
+ add('p108','pump','P-108',670,590,58,48);
+ add('he105','heat','H-E105',750,575,76,82);
+ add('tcr104','instrument','TCR 104',765,520,46,46,'TCR');
+ add('vc109','valve','VC-109',850,600,34,34);
+ add('p109','pump','P-109',895,590,58,48);
+ add('v110','valve','V-110',970,600,34,34);
+ add('num10','diamond','10',1015,602,30,28);
+ add('pack1','packager','T-B102',1065,575,150,82);
+ add('cream','product','CREMA DE LECHE',1235,590,52,52);
+ // Right-side vertical precooling line, arranged as a single column
+ add('vc110','valve','VC-110',1370,305,34,34);
+ add('num12a','diamond','12',1372,355,30,28);
+ add('p110','pump','P-110',1360,405,58,48);
+ add('vc111','valve','VC-111',1370,470,34,34);
+ add('he106','heat','H-E106',1350,515,68,94);
+ add('tcr105','instrument','TCR 105',1420,540,46,46,'TCR');
+ add('v112','valve','V-112',1370,625,34,34);
+ add('p111','pump','P-111',1360,675,58,48);
+ add('num12b','diamond','12',1372,730,30,28);
+ add('vc112','valve','VC-112',1370,780,34,34);
+ // Fourth band: final HTST, homogenization, cooling and milk packaging
+ add('v113','valve','V-113',1300,850,34,34);
+ add('num13','diamond','13',1255,852,30,28);
+ add('vc113','valve','VC-113',1205,850,34,34);
+ add('he107','pasteurizer','H-E107',1130,825,64,78);
+ add('tcr106','instrument','TCR 106',1140,770,46,46,'TCR');
+ add('v114','valve','V-114',1060,850,34,34);
+ add('p112','pump','P-112',1005,840,58,48);
+ add('hr102','homogenizer','H-R102',925,825,68,72);
+ add('tcr107','instrument','TCR 107',935,770,46,46,'TCR');
+ add('v115','valve','V-115',845,850,34,34);
+ add('p113','pump','P-113',790,840,58,48);
+ add('he108','heat','H-E108',710,825,76,82);
+ add('tcr108','instrument','TCR 108',725,770,46,46,'TCR');
+ add('vc116','valve','VC-116',635,850,34,34);
+ add('p114','pump','P-114',580,840,58,48);
+ add('v116','valve','V-116',525,850,34,34);
+ add('pack2','packager','T-B101',410,825,150,82);
+ add('pasteurized','product','LECHE PASTEURIZADA',205,940,52,52);
+ // Stage titles, with ample whitespace
+ ['RECEPCIÓN','TAMIZADO','TRATAMIENTO TÉRMICO','DESCREMADO','ALMACENAMIENTO','PASTEURIZACIÓN HTST','PRECALENTAMIENTO','HOMOGENIZACIÓN','DESODORIZACIÓN','ENFRIAMIENTO','ENVASADO'].forEach((t,i)=>add('stage'+i,'text',t,[110,380,680,870,1070,100,1310,160,430,750,1065][i],[305,305,305,125,305,690,690,700,700,700,700][i],150,24));
  return a;
 }
 function pfdEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function pfdGet(){if(!pfdEditableDiagram){try{pfdEditableDiagram=JSON.parse(localStorage.getItem('pfd-editable-'+(activeProject?.id||'default')))||pfdDefaultDiagram()}catch(e){pfdEditableDiagram=pfdDefaultDiagram()}}return pfdEditableDiagram}
-function pfdSave(){try{localStorage.setItem('pfd-editable-'+(activeProject?.id||'default'),JSON.stringify(pfdGet()))}catch(e){}}
+function pfdGet(){if(!pfdEditableDiagram){try{pfdEditableDiagram=JSON.parse(localStorage.getItem('pfd-editable-v3-'+(activeProject?.id||'default')))||pfdDefaultDiagram()}catch(e){pfdEditableDiagram=pfdDefaultDiagram()}}return pfdEditableDiagram}
+function pfdSave(){try{localStorage.setItem('pfd-editable-v3-'+(activeProject?.id||'default'),JSON.stringify(pfdGet()))}catch(e){}}
 function pfdShape(n){
- const x=n.x,y=n.y,w=n.w,h=n.h,cx=x+w/2,cy=y+h/2,stroke='#202326',sw=2,blue='#eaf1ff';
- let s='';
- if(n.type==='pump')s=`<circle cx="${cx}" cy="${cy}" r="${Math.min(w,h)*.36}" fill="white" stroke="${stroke}" stroke-width="${sw}"/><path d="M${cx-w*.1} ${cy+h*.17} Q${cx+w*.2} ${cy+h*.08} ${cx+w*.04} ${cy-h*.18} Q${cx-w*.1} ${cy-h*.08} ${cx-w*.1} ${cy+h*.17}Z" fill="white" stroke="${stroke}" stroke-width="1.5"/>`;
- else if(n.type==='tank')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${stroke}" stroke-width="${sw}"/><path d="M${x} ${y+h*.25}H${x+w} M${cx} ${y-8}V${y} M${cx} ${y+h}V${y+h+8}" stroke="${stroke}" stroke-width="1.5"/>`;
- else if(n.type==='filter')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${stroke}" stroke-width="${sw}"/><circle cx="${cx}" cy="${cy}" r="${h*.25}" fill="none" stroke="#777"/>`;
- else if(n.type==='heat')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${stroke}" stroke-width="${sw}"/><path d="M${x+6} ${y+6}L${x+w-6} ${y+h-6} M${x+6} ${y+h-6}L${x+w-6} ${y+6}" stroke="${stroke}" stroke-width="${sw}"/>`;
- else if(n.type==='pasteurizer')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${stroke}" stroke-width="${sw}"/><path d="M${x+w*.25} ${y+5}V${y+h-5} M${x+w*.5} ${y+5}V${y+h-5} M${x+w*.75} ${y+5}V${y+h-5}" stroke="${stroke}" stroke-width="2"/>`;
- else if(n.type==='homogenizer')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${stroke}" stroke-width="${sw}"/><circle cx="${x+w*.28}" cy="${cy}" r="${h*.22}" fill="none" stroke="${stroke}"/><circle cx="${x+w*.72}" cy="${cy}" r="${h*.22}" fill="none" stroke="${stroke}"/><path d="M${x+w*.38} ${cy}H${x+w*.62} M${x+w*.55} ${cy-5}L${x+w*.62} ${cy}L${x+w*.55} ${cy+5}" stroke="${stroke}"/>`;
- else if(n.type==='separator')s=`<path d="M${x+w*.2} ${y}H${x+w*.8}V${y+h*.78}Q${cx} ${y+h} ${x+w*.2} ${y+h*.78}Z" fill="white" stroke="${stroke}" stroke-width="${sw}"/><path d="M${cx} ${y-8}V${y} M${x+w*.3} ${y+h*.25}Q${cx} ${y+h*.18} ${x+w*.7} ${y+h*.25}" fill="none" stroke="${stroke}"/>`;
- else if(n.type==='valve')s=`<path d="M${x} ${y}L${cx} ${cy}L${x} ${y+h}Z M${x+w} ${y}L${cx} ${cy}L${x+w} ${y+h}Z" fill="white" stroke="${stroke}" stroke-width="${sw}"/>`;
- else if(n.type==='instrument')s=`<circle cx="${cx}" cy="${cy}" r="${Math.min(w,h)*.45}" fill="white" stroke="${stroke}" stroke-width="${sw}"/><text x="${cx}" y="${cy+4}" font-size="11" text-anchor="middle" font-weight="600">${pfdEsc(n.tag||'TC')}</text>`;
- else if(n.type==='diamond')s=`<path d="M${cx} ${y}L${x+w} ${cy}L${cx} ${y+h}L${x} ${cy}Z" fill="white" stroke="${stroke}" stroke-width="${sw}"/><text x="${cx}" y="${cy+4}" font-size="12" text-anchor="middle">${pfdEsc(n.label)}</text>`;
- else if(n.type==='packager')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${stroke}" stroke-width="${sw}"/><circle cx="${x+w*.18}" cy="${cy}" r="${h*.27}" fill="none" stroke="${stroke}"/><circle cx="${x+w*.82}" cy="${cy}" r="${h*.27}" fill="none" stroke="${stroke}"/><path d="M${x+w*.33} ${cy}H${x+w*.67}M${x+w*.62} ${cy-5}L${x+w*.67} ${cy}L${x+w*.62} ${cy+5}" stroke="${stroke}"/>`;
- else if(n.type==='source'||n.type==='product')s=`<circle cx="${cx}" cy="${cy}" r="10" fill="${n.type==='source'?'#111':'white'}" stroke="#111" stroke-width="1.5"/><circle cx="${cx}" cy="${cy+23}" r="10" fill="white" stroke="#111" stroke-width="1.5"/>`;
- else if(n.type==='text')return `<g class="pfd-node" data-node="${n.id}" transform="translate(${x},${y})"><text x="0" y="18" font-size="18" font-weight="700">${pfdEsc(n.label)}</text></g>`;
- else s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white" stroke="${stroke}" stroke-width="${sw}"/>`;
- const labelY=y+h+18;
- const label=n.type==='diamond'?'':n.label;
- return `<g class="pfd-node ${pfdSelectedNode===n.id?'pfd-selected':''}" data-node="${n.id}" tabindex="0"><g>${s}</g><text class="pfd-node-label" x="${cx}" y="${labelY}" text-anchor="middle">${pfdEsc(label)}</text></g>`;
+ const x=n.x,y=n.y,w=n.w,h=n.h,cx=x+w/2,cy=y+h/2,sw=2;
+ const palettes={pump:{stroke:'#2563eb',fill:'#eff6ff',accent:'#3b82f6'},tank:{stroke:'#0f766e',fill:'#ecfdf5',accent:'#14b8a6'},filter:{stroke:'#0891b2',fill:'#ecfeff',accent:'#06b6d4'},heat:{stroke:'#c2410c',fill:'#fff7ed',accent:'#f97316'},pasteurizer:{stroke:'#b91c1c',fill:'#fff1f2',accent:'#ef4444'},homogenizer:{stroke:'#7c3aed',fill:'#f5f3ff',accent:'#8b5cf6'},separator:{stroke:'#a16207',fill:'#fefce8',accent:'#eab308'},valve:{stroke:'#d97706',fill:'#fff7ed',accent:'#f59e0b'},instrument:{stroke:'#6d28d9',fill:'#f5f3ff',accent:'#8b5cf6'},diamond:{stroke:'#475569',fill:'#f1f5f9',accent:'#64748b'},packager:{stroke:'#0f766e',fill:'#ecfdf5',accent:'#10b981'},source:{stroke:'#111827',fill:'#f8fafc',accent:'#111827'},product:{stroke:'#16a34a',fill:'#f0fdf4',accent:'#16a34a'},rect:{stroke:'#64748b',fill:'#f8fafc',accent:'#64748b'}};
+ const p=palettes[n.type]||palettes.rect,stroke=p.stroke,fill=p.fill,accent=p.accent;let s='';
+ if(n.type==='pump')s=`<circle cx="${cx}" cy="${cy}" r="${Math.min(w,h)*.36}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><path d="M${cx-w*.1} ${cy+h*.17} Q${cx+w*.2} ${cy+h*.08} ${cx+w*.04} ${cy-h*.18} Q${cx-w*.1} ${cy-h*.08} ${cx-w*.1} ${cy+h*.17}Z" fill="${accent}" stroke="${stroke}" stroke-width="1.5"/>`;
+ else if(n.type==='tank')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><path d="M${x} ${y+h*.25}H${x+w} M${cx} ${y-8}V${y} M${cx} ${y+h}V${y+h+8}" stroke="${stroke}" stroke-width="1.5"/>`;
+ else if(n.type==='filter')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><circle cx="${cx}" cy="${cy}" r="${h*.25}" fill="none" stroke="${accent}" stroke-width="1.5"/>`;
+ else if(n.type==='heat')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><path d="M${x+6} ${y+6}L${x+w-6} ${y+h-6} M${x+6} ${y+h-6}L${x+w-6} ${y+6}" stroke="${accent}" stroke-width="${sw}"/>`;
+ else if(n.type==='pasteurizer')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><path d="M${x+w*.25} ${y+5}V${y+h-5} M${x+w*.5} ${y+5}V${y+h-5} M${x+w*.75} ${y+5}V${y+h-5}" stroke="${accent}" stroke-width="2.5"/>`;
+ else if(n.type==='homogenizer')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><circle cx="${x+w*.28}" cy="${cy}" r="${h*.22}" fill="none" stroke="${accent}" stroke-width="2"/><circle cx="${x+w*.72}" cy="${cy}" r="${h*.22}" fill="none" stroke="${accent}" stroke-width="2"/><path d="M${x+w*.38} ${cy}H${x+w*.62} M${x+w*.55} ${cy-5}L${x+w*.62} ${cy}L${x+w*.55} ${cy+5}" stroke="${stroke}"/>`;
+ else if(n.type==='separator')s=`<path d="M${x+w*.2} ${y}H${x+w*.8}V${y+h*.78}Q${cx} ${y+h} ${x+w*.2} ${y+h*.78}Z" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><path d="M${cx} ${y-8}V${y} M${x+w*.3} ${y+h*.25}Q${cx} ${y+h*.18} ${x+w*.7} ${y+h*.25}" fill="none" stroke="${accent}" stroke-width="2"/>`;
+ else if(n.type==='valve')s=`<path d="M${x} ${y}L${cx} ${cy}L${x} ${y+h}Z M${x+w} ${y}L${cx} ${cy}L${x+w} ${y+h}Z" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><path d="M${cx} ${y-6}V${y} M${cx-7} ${y-6}H${cx+7}" stroke="${accent}" stroke-width="1.5"/>`;
+ else if(n.type==='instrument')s=`<circle cx="${cx}" cy="${cy}" r="${Math.min(w,h)*.45}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><text x="${cx}" y="${cy+4}" font-size="11" text-anchor="middle" font-weight="700" fill="${stroke}">${pfdEsc(n.tag||'TC')}</text>`;
+ else if(n.type==='diamond')s=`<path d="M${cx} ${y}L${x+w} ${cy}L${cx} ${y+h}L${x} ${cy}Z" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><text x="${cx}" y="${cy+4}" font-size="12" text-anchor="middle" font-weight="700" fill="${stroke}">${pfdEsc(n.label)}</text>`;
+ else if(n.type==='packager')s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/><circle cx="${x+w*.18}" cy="${cy}" r="${h*.27}" fill="none" stroke="${accent}" stroke-width="2"/><circle cx="${x+w*.82}" cy="${cy}" r="${h*.27}" fill="none" stroke="${accent}" stroke-width="2"/><path d="M${x+w*.33} ${cy}H${x+w*.67}M${x+w*.62} ${cy-5}L${x+w*.67} ${cy}L${x+w*.62} ${cy+5}" stroke="${stroke}"/>`;
+ else if(n.type==='source'||n.type==='product')s=`<circle cx="${cx}" cy="${cy}" r="10" fill="${n.type==='source'?'#111827':'#fff'}" stroke="${stroke}" stroke-width="1.5"/><circle cx="${cx}" cy="${cy+23}" r="10" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
+ else if(n.type==='text')return `<g class="pfd-node" data-node="${n.id}" transform="translate(${x},${y})"><text x="0" y="18" font-size="18" font-weight="700" fill="#334155">${pfdEsc(n.label)}</text></g>`;
+ else s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+ const labelY=y+h+17,label=n.type==='diamond'?'':n.label;
+ return `<g class="pfd-node ${pfdSelectedNode===n.id?'pfd-selected':''}" data-node="${n.id}" tabindex="0"><g>${s}</g><text class="pfd-node-label" x="${cx}" y="${labelY}" text-anchor="middle" fill="${stroke}">${pfdEsc(label)}</text></g>`;
 }
 function pfdRender(){
- const svg=document.getElementById('pfdDrawing');if(!svg)return;const nodes=pfdGet();
- // visual pipe routes, intentionally independent from movable equipment at this first editable pass
- const pipes=`<g class="pfd-pipes" fill="none" stroke="#333" stroke-width="2" marker-end="url(#pfdArrow)">
- <path d="M70 82V200H102 M158 237H182 M277 237H310 M346 237H354 M419 237H436 M470 237H477 M507 237H518 M572 237H578 M612 237H622 M680 237H698 M732 237H742 M772 237H788 M846 237H857 M891 237H900 M930 237H946 M1031 237H1080V306"/>
- <path d="M817 276V300 M824 332V346 M822 374V392 M824 437V450 M690 478H617 M571 466H520 M490 466H461 M427 466H410 M376 466H356 M291 457H282 M207 457H164 M138 459H98V396 M72 428V447 M73 492V500 M80 528V552 M128 568H139 M197 568H218 M252 568H262 M292 568H306 M360 568H380 M446 568H463 M497 568H507 M537 568H554 M588 568H598 M652 568H667 M733 568H744 M778 568H788 M842 568H851 M885 578H893 M923 578H937 M1087 578H1105"/>
- <path d="M1097 237V306 M1097 338V350 M1097 378V396 M1097 441V453 M1097 485V493 M1097 585V607 M1097 639V649 M1097 694V704 M1097 732V750 M1097 782V803 M1085 819H1051 M1018 819H1008 M978 819H950 M941 814H883 M883 849H830 M796 818H776 M756 818H702 M684 818H651 M617 818H594 M580 818H526 M526 853H476 M454 818H420 M403 818H369 M335 818H267"/>
- <path d="M267 818H110V925"/>
+ const svg=document.getElementById('pfdDrawing');if(!svg)return;const nodes=pfdGet(),byId=id=>nodes.find(n=>n.id===id);
+ const edge=(a,b,dir='h')=>{const A=byId(a),B=byId(b);if(!A||!B)return '';const acx=A.x+A.w/2,acy=A.y+A.h/2,bcx=B.x+B.w/2,bcy=B.y+B.h/2;let d;
+ if(dir==='h'){const sx=acx+(bcx>=acx?A.w/2:-A.w/2),ex=bcx+(bcx>=acx?-B.w/2:B.w/2);d=`M${sx} ${acy}H${ex}`}
+ else if(dir==='v'){const sy=acy+(bcy>=acy?A.h/2:-A.h/2),ey=bcy+(bcy>=acy?-B.h/2:B.h/2);d=`M${acx} ${sy}V${ey}`}
+ else {const sx=acx+(bcx>=acx?A.w/2:-A.w/2),ex=bcx+(bcx>=acx?-B.w/2:B.w/2),mid=(sx+ex)/2;d=`M${sx} ${acy}H${mid}V${bcy}H${ex}`}
+ return `<path d="${d}" class="pfd-pipe" marker-end="url(#pfdArrow)"/>`};
+ const seq=(ids,dir='h')=>ids.slice(0,-1).map((id,i)=>edge(id,ids[i+1],dir)).join('');
+ const pipes=`<g>${seq(['raw','v101','num1','p101','tk101','vc101','f101','v102','num2','p102','v103','he101','vc102','num3','d101','v111','num11','tk103'])}
+ ${seq(['d101','vc103','num4','p103','vc104','tk102'],'v')}
+ ${seq(['tk102','p104','v104','num5','p105','vc105','num6','he103','he102','vc106','he104','v106','p105b','num7'],'h')}
+ ${seq(['num7','vc107','hr101','v107','num8','p107','fa101','vc108','num9','v108','p108','he105','vc109','p109','v110','num10','pack1','cream'],'h')}
+ ${seq(['tk103','vc110','num12a','p110','vc111','he106','v112','p111','num12b','vc112'],'v')}
+ ${seq(['vc112','v113','num13','vc113','he107','v114','p112','hr102','v115','p113','he108','vc116','p114','v116','pack2','pasteurized'],'h')}
  </g>`;
- const controlLines=`<g fill="none" stroke="#999" stroke-width="1.3" stroke-dasharray="4 4"><path d="M246 199V175H270V237"/><path d="M653 189V160H657V237"/><path d="M818 191V168H837V237"/><path d="M821 276V289H850V318"/><path d="M988 191V170H1014V237"/><path d="M734 570V510H725V568"/><path d="M413 536V512H435V568"/><path d="M703 536V507H720V568"/><path d="M1148 538V512H1160V578"/></g>`;
- svg.innerHTML=`<defs><marker id="pfdArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#333"/></marker></defs><rect width="1600" height="1050" fill="#fff"/>${pipes}${controlLines}${nodes.map(pfdShape).join('')}`;
+ const controls=`<g class="pfd-control-lines"><path d="M258 204V180H292V220 M731 202V180H740V202 M913 194V177H938V194 M914 276V294H946V310 M1116 195V176H1142V202 M372 454V430H400V455 M470 454V430H500V455 M800 575V555H820V575 M1442 525V500H1460V520" /></g>`;
+ const stageNodes=nodes.filter(n=>n.type==='text').map(pfdShape).join('');
+ svg.innerHTML=`<defs><marker id="pfdArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#64748b"/></marker></defs><rect width="1600" height="1050" fill="#fff"/>${pipes}${controls}${nodes.filter(n=>n.type!=='text').map(pfdShape).join('')}${stageNodes}`;
  svg.querySelectorAll('.pfd-node').forEach(g=>{g.addEventListener('pointerdown',pfdStartDrag);g.addEventListener('click',e=>{e.stopPropagation();pfdSelectedNode=g.dataset.node;pfdRender();pfdShowDetail()});g.addEventListener('dblclick',e=>{e.stopPropagation();pfdEditLabel(g.dataset.node)})});
  svg.addEventListener('click',()=>{pfdSelectedNode=null;pfdRender();pfdShowDetail()});
 }

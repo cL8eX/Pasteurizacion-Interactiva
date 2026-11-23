@@ -19,3 +19,11 @@ ETAPA 2 - DIAGRAMA PFD EDITABLE
 - Inserta símbolos desde la biblioteca lateral.
 - El estado se guarda localmente por proyecto en este navegador.
 - Usa Restaurar para volver a la disposición inicial.
+
+
+ETAPA 3 - COLOR Y ORDEN DEL PFD
+- Símbolos con colores por categoría: bombas azul, tanques verde/teal, intercambiadores naranja, pasteurizadores rojo, homogeneizadores morado, válvulas ámbar, instrumentos morado.
+- Diagrama reordenado en bandas de proceso para reducir cruces y superposición.
+- Tuberías con rutas ortogonales y flechas.
+- Se cambió la clave de guardado local a v3 para que el navegador cargue la nueva distribución inicial y no reutilice el layout anterior.
+- Se versionó pfd-library.js para evitar caché.
