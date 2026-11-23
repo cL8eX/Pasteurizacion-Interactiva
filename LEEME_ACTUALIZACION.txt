@@ -10,3 +10,12 @@ Cambios en esta actualización:
 - Se mantiene el lienzo vacío; no se implementó inserción ni conexión de símbolos.
 
 Archivos modificados: pfd-library.js y pfd-library.css. Se conserva el resto de la aplicación y configuración.
+
+
+ETAPA 2 - DIAGRAMA PFD EDITABLE
+- Se recreó el PFD de pasteurización con elementos SVG individuales.
+- Selecciona un elemento para editar su etiqueta desde el panel derecho.
+- Arrastra elementos para reubicarlos.
+- Inserta símbolos desde la biblioteca lateral.
+- El estado se guarda localmente por proyecto en este navegador.
+- Usa Restaurar para volver a la disposición inicial.

@@ -12,16 +12,3 @@ body.dark .pfd-library,body.dark .pfd-lib-sidebar,body.dark .pfd-symbol-card,bod
 .pfd-symbol-card span{font-size:10px;line-height:1.25}
 .pfd-symbol-preview svg{width:165px;height:110px}
 body.dark .pfd-symbol-card{background:linear-gradient(180deg,#192b3b 0%,#142230 100%)}
-
-/* PFD initial vector diagram viewport */
-.pfd-canvas-toolbar{justify-content:space-between!important;gap:10px!important}
-.pfd-diagram-controls{display:flex;align-items:center;gap:5px;margin-left:auto}
-.pfd-diagram-controls button{border:1px solid #d7e0e8;background:#fff;color:#283b4a;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer}
-.pfd-diagram-controls button:hover{background:#f3f6f9}
-.pfd-diagram-controls span{min-width:42px;text-align:center;font-variant-numeric:tabular-nums}
-.pfd-diagram-viewport{position:absolute;inset:42px 0 0;overflow:auto;background:#fff;display:block}
-.pfd-diagram-frame{width:100%;min-width:850px;margin:0 auto;transform-origin:top left}
-.pfd-process-svg{display:block;width:100%;height:auto;min-width:850px;background:#fff}
-body.dark .pfd-diagram-controls button{background:#142230;color:#e5edf4;border-color:#2a3e50}
-body.dark .pfd-diagram-viewport{background:#fff}
-@media(max-width:700px){.pfd-diagram-viewport{inset:42px 0 0}.pfd-diagram-frame,.pfd-process-svg{min-width:920px}}
