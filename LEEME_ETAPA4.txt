@@ -1,0 +1,15 @@
+MILKLAB / Pasteurización Interactiva — ETAPA 4
+
+Esta etapa añade una simulación visual conceptual al entorno 3D:
+- Panel de proceso en vivo con temperatura, caudal ilustrativo, retención y estado.
+- Botones Iniciar, Detener y Reiniciar.
+- Partículas animadas recorriendo tramos de tubería.
+- Colores diferenciados para segmentos de frío, calentamiento y transferencia.
+- Temperatura ilustrativa que cambia durante el ciclo de simulación.
+
+IMPORTANTE: los valores son demostrativos. No representan mediciones reales, un modelo validado,
+ni garantizan pasteurización o seguridad alimentaria. El modelo aún no está conectado al PFD ni
+usa propiedades termodinámicas, sensores, control PID o parámetros reales de diseño.
+
+Instalación: reemplaza los archivos del proyecto por los de este ZIP manteniendo la estructura.
+La página de exploración es pfd3d-stage1.html.

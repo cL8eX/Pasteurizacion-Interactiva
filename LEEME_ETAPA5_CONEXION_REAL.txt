@@ -1,0 +1,5 @@
+ETAPA 5 — CONEXIÓN PFD → PLANTA 3D
+
+Desde el menú PFD 3D del proyecto, se prepara una copia del diagrama editable activo (nodos y conexiones) y se abre la planta con el ID del proyecto. La escena reconstruye los equipos reconocidos por tipos/tags y distribuye posiciones según coordenadas del PFD; conexiones definidas se traducen a enlaces de tubería simplificados.
+
+Limitación: modelos low-poly conceptuales; no se reconstruyen aún codos, alturas, diámetros ni trayectorias geométricas exactas. Debe abrirse desde PFD Design, mismo navegador/origen.
