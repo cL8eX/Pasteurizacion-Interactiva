@@ -34,3 +34,9 @@ ETAPA 6 - PANEL DE FORMATO PFD
 - La nomenclatura vinculada muestra códigos, nombre de equipo y familia, con selección directa desde la lista.
 - Nueva versión de almacenamiento local pfd-editable-v7 para separar los datos de la etapa anterior.
 - Cache busting de pfd-library.css y pfd-library.js a v6.
+
+
+ETAPA 7 - CORRECCION PANEL DERECHO
+- Version cache: pfd-library.css?v=7 y pfd-library.js?v=7.
+- El panel derecho mantiene el Panel de formato al seleccionar elementos; no se sobrescribe por el detalle de la biblioteca.
+- Reemplazar index.html, pfd-library.js y pfd-library.css desde este ZIP.
