@@ -1,0 +1,17 @@
+ETAPA 5 REAL · PFD ↔ PLANTA 3D
+
+Instalación: reemplaza los archivos de la raíz del repositorio por los de este ZIP, conservando la configuración Supabase existente.
+
+Qué hace:
+- El editor PFD comparte una copia local del diagrama editable con la planta 3D al guardar/renderizar.
+- El botón 'Abrir planta 3D' abre la planta con la última estructura sincronizada.
+- La planta genera los equipos visibles desde los nodos del PFD: tipos, nomenclatura y ubicación aproximada derivada de las coordenadas del diagrama.
+- Las tuberías se generan a partir de la topología de flujo definida en el PFD actual y conectan los equipos consecutivos, omitiendo símbolos de corriente.
+- Las fichas de interacción muestran las conexiones que salen del grafo.
+
+Limitaciones honestas:
+- El PFD actual no tiene un editor de conexiones libres: su red de líneas es una topología fija en el código. Sí se refleja esa topología actual, pero nuevos símbolos insertados quedan sin conexión hasta que se amplíe el editor.
+- La distribución 3D es una transformación de coordenadas PFD a planta; es una disposición de prototipo, no un plano industrial a escala.
+- La simulación de temperatura/caudal sigue siendo conceptual, no validada ni ligada a cálculos de proceso.
+
+Si abres directamente la URL 3D sin pasar por PFD Design, usará el snapshot guardado en localStorage o el diagrama por defecto.
