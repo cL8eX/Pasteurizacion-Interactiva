@@ -1,0 +1,21 @@
+MILKLAB / Pasteurizacion Interactiva - Etapa 3
+
+Esta etapa incorpora la interacción con equipos en la exploración 3D.
+
+Cambios:
+- Detección de equipo cercano ampliada a 7.5 m.
+- La tecla E calcula nuevamente el equipo cercano en el momento de pulsarla, en vez de depender de una variable previamente calculada.
+- El botón de interacción también recalcula el equipo cercano antes de abrir la ficha.
+- El indicador muestra código, tipo de equipo y distancia aproximada.
+- Fichas de equipos con descripción, campos y conexiones conceptuales.
+
+Para probar:
+1. Extrae todo el ZIP sobre una copia de tu proyecto.
+2. Abre pfd3d-stage1.html desde el botón de Exploración 3D.
+3. Pulsa ENTRAR A LA PLANTA.
+4. Acércate a un equipo. Debe aparecer el indicador.
+5. Pulsa E o el botón visible.
+6. Cierra la ficha con X o ESC.
+
+Validación realizada en esta entrega: comprobación sintáctica de JavaScript y revisión de estructura/IDs.
+No se pudo realizar una prueba de navegador interactiva en este entorno debido a bloqueo de acceso local del navegador; por tanto, no se afirma que se haya probado visualmente en navegador.
