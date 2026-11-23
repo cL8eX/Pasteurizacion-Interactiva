@@ -189,3 +189,32 @@ body.pfd-focus-active{overflow:hidden!important}
 .pfd-library.pfd-fullscreen-focus .pfd-nomen-section { display:flex!important; flex-direction:column!important; flex:1 1 0!important; min-height:0!important; height:100%!important; overflow:hidden!important; }
 .pfd-library.pfd-fullscreen-focus .pfd-nomen-table { flex:1 1 0!important; height:0!important; max-height:none!important; min-height:0!important; overflow:auto!important; }
 @media(max-width:700px){.pfd-library.pfd-fullscreen-focus .pfd-lib-layout{grid-template-columns:minmax(0,1fr) 260px!important}}
+
+/* Etapa 15: controles de zoom visibles en pantalla completa, como el editor de bloques */
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-toolbar{
+ display:flex!important;flex:0 0 42px!important;height:42px!important;justify-content:flex-end!important;
+ align-items:center!important;padding:5px 12px!important;background:transparent!important;border:0!important;
+ position:relative!important;z-index:5!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-toolbar>span:first-child,
+.pfd-library.pfd-fullscreen-focus .pfd-toolbar-actions button[onclick=\"pfdReset()\"]{display:none!important}
+.pfd-library.pfd-fullscreen-focus .pfd-toolbar-actions{display:flex!important;align-items:center!important;gap:5px!important}
+.pfd-library.pfd-fullscreen-focus .pfd-toolbar-actions button{
+ width:34px!important;height:32px!important;padding:0!important;border:1px solid #d8e1ea!important;
+ border-radius:7px!important;background:#fff!important;color:#334155!important;font-size:15px!important;
+ display:grid!important;place-items:center!important;cursor:pointer!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-toolbar-actions button[onclick=\"pfdFit()\"]{
+ width:auto!important;padding:0 11px!important;font-size:12px!important;font-weight:650!important;
+}
+.pfd-library.pfd-fullscreen-focus #pfdZoomLabel{
+ min-width:44px!important;text-align:center!important;font-size:11px!important;color:#64748b!important;
+ border:1px solid #dfe6ed!important;background:#fff!important;border-radius:6px!important;padding:7px 6px!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-area{display:flex!important;flex-direction:column!important}
+.pfd-library.pfd-fullscreen-focus .pfd-drawing-viewport{
+ flex:1 1 auto!important;width:100%!important;height:auto!important;min-height:0!important;
+ overflow:auto!important;border:0!important;
+}
+body.dark .pfd-library.pfd-fullscreen-focus .pfd-toolbar-actions button,
+body.dark .pfd-library.pfd-fullscreen-focus #pfdZoomLabel{background:#172a39!important;color:#cbd9e4!important;border-color:#34495a!important}

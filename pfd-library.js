@@ -415,7 +415,8 @@ function pfdToggleFullscreen(){
  const nomen=detail?.querySelector('.pfd-nomen-section');
  if(active){
    // Hide the symbol library and all editor chrome directly, not just via CSS.
-   [sidebar,head,toolbar,help,note].forEach(n=>n?.style.setProperty('display','none','important'));
+   [sidebar,head,help,note].forEach(n=>n?.style.setProperty('display','none','important'));
+   if(toolbar){toolbar.style.setProperty('display','flex','important');toolbar.style.setProperty('flex','0 0 42px','important');toolbar.style.setProperty('height','42px','important');toolbar.style.setProperty('justify-content','flex-end','important');toolbar.style.setProperty('z-index','5','important');}
    if(detail){detail.querySelectorAll(':scope > *').forEach(n=>{if(n!==nomen)n.style.setProperty('display','none','important')});detail.style.setProperty('display','flex','important')}
    if(layout){layout.style.setProperty('position','fixed','important');layout.style.setProperty('inset','0','important');layout.style.setProperty('display','grid','important');layout.style.setProperty('grid-template-columns','minmax(0,1fr) 340px','important');layout.style.setProperty('grid-template-rows','minmax(0,1fr)','important');layout.style.setProperty('width','100vw','important');layout.style.setProperty('height','100vh','important');layout.style.setProperty('height','100dvh','important');layout.style.setProperty('overflow','hidden','important')}
    if(canvas){canvas.style.setProperty('grid-column','1','important');canvas.style.setProperty('grid-row','1','important');canvas.style.setProperty('min-width','0','important');canvas.style.setProperty('min-height','0','important');canvas.style.setProperty('height','100%','important');canvas.style.setProperty('overflow','hidden','important')}
@@ -424,6 +425,7 @@ function pfdToggleFullscreen(){
    document.body.style.setProperty('overflow','hidden','important');
  }else{
    [sidebar,head,toolbar,help,note].forEach(n=>n?.style.removeProperty('display'));
+   if(toolbar){['flex','height','justify-content','z-index'].forEach(k=>toolbar.style.removeProperty(k))}
    [layout,canvas,detail].forEach(n=>{if(n){['position','inset','display','grid-template-columns','grid-template-rows','width','height','overflow','grid-column','grid-row','min-width','min-height'].forEach(k=>n.style.removeProperty(k))}});
    if(detail){detail.querySelectorAll(':scope > *').forEach(n=>n.style.removeProperty('display'))}
    if(nomen){['display','flex-direction','height','flex','min-height'].forEach(k=>nomen.style.removeProperty(k));const table=nomen.querySelector('.pfd-nomen-table');if(table)['flex','height','max-height','overflow'].forEach(k=>table.style.removeProperty(k))}
