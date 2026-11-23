@@ -1,0 +1,11 @@
+MILKLAB - Editor PFD Beta
+
+Cambios incluidos:
+- Selector de modo PFD habilitado (beta).
+- Biblioteca contextual de equipos para PFD.
+- Símbolos SVG para filtro, homogeneizador, tubo de retención, tanque de balance y válvula de desvío.
+- Plantilla inicial de PFD de pasteurización HTST de leche (caso académico preliminar de 1.000 L/h).
+- Al cambiar de bloques a PFD desde un diagrama de bloques, se pregunta si se desea cargar la plantilla; la carga reemplaza el diagrama en el espacio compartido, por lo que guardar/exportar una copia antes es recomendable.
+- Mantiene conexiones, inspector, guardado remoto y exportación PDF de la aplicación existente.
+
+Valores de referencia de la plantilla (no constituyen diseño industrial validado): 55-60 °C precalentamiento, 72 °C y 15 s pasteurización de referencia, enfriamiento a 4 °C o menos. Validar normativa, proceso, caudal, tiempo de retención y equipo antes de usar como diseño real.

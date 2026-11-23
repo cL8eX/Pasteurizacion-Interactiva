@@ -245,3 +245,47 @@ body{background:radial-gradient(ellipse at 52% -20%,#163044 0,transparent 45%),v
 #brandEditProject{cursor:pointer;text-decoration:none;}
 #brandEditProject:hover #brandProjectName{text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;}
 @media(max-width:760px){#brandProjectName{max-width:42vw;}#brandTitle small{font-size:7px;letter-spacing:.5px;}}
+
+
+/* MILKLAB PFD Beta 2 — interfaz enfocada en dibujo de proceso */
+body.pfd-mode .app{grid-template-columns:238px minmax(0,1fr) 270px;min-height:calc(100vh - 72px)}
+body.pfd-mode .sidebar,body.pfd-mode .inspector{padding:17px 14px;overflow:auto;max-height:calc(100vh - 72px);position:sticky;top:72px;align-self:start}
+body.pfd-mode .workspace{padding:18px 18px 24px;min-width:0}
+body.pfd-mode .canvas-toolbar{align-items:flex-end;margin-bottom:14px}
+body.pfd-mode .canvas-toolbar h1{font-size:20px;line-height:1.3;max-width:780px}
+body.pfd-mode .workspace-subtitle{margin:7px 0 0;font-size:11px;color:var(--muted)}
+body.pfd-mode .canvas-wrap{border-radius:12px;overflow:auto;max-height:calc(100vh - 230px);box-shadow:0 16px 45px #0002}
+body.pfd-mode #diagram{width:1100px;min-width:1100px;height:620px;min-height:620px;background-color:#0d171d;background-image:radial-gradient(#263d4b 1px,transparent 1px);background-size:22px 22px}
+body.pfd-mode .canvas-topline,body.pfd-mode .canvas-footer{position:sticky;left:0;width:100%;background:#111e27;z-index:1}
+body.pfd-mode .canvas-topline{top:0}
+body.pfd-mode .canvas-footer{bottom:0}
+body.pfd-mode .side-heading{margin-bottom:12px}
+body.pfd-mode .library-title{margin-top:20px}
+body.pfd-mode .sidebar .muted.small{font-size:10px;line-height:1.5;margin:5px 0 10px}
+body.pfd-mode .palette{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:9px}
+body.pfd-mode .palette-item{min-height:66px;padding:8px 4px;border-radius:9px}
+body.pfd-mode .palette-item .sym{font-size:19px;margin-bottom:4px}
+body.pfd-mode .palette-item span:last-child{font-size:9px;line-height:1.25}
+body.pfd-mode .university-card,body.pfd-mode .inspector-tag-legend{display:none}
+body.pfd-mode .sidebar-bottom{margin-top:16px}
+body.pfd-mode .inspector-head{margin-bottom:15px}
+body.pfd-mode .inspector-head h2{font-size:16px}
+body.pfd-mode .empty-inspector{padding:25px 6px}
+body.pfd-mode .property-form .field-label{margin:11px 0 5px}
+body.pfd-mode .property-form input,body.pfd-mode .property-form textarea,body.pfd-mode .property-form select{padding:8px;font-size:11px}
+body.pfd-mode .property-form textarea{rows:3}
+body.pfd-mode .inspector-grid{gap:8px}
+body.pfd-mode .field-hint{font-size:9px;line-height:1.5}
+body.pfd-mode .topbar{height:64px;padding:0 18px}
+body.pfd-mode .app{min-height:calc(100vh - 64px)}
+body.pfd-mode .sidebar,body.pfd-mode .inspector{top:64px;max-height:calc(100vh - 64px)}
+body.pfd-mode .save-status{font-size:10px;padding:6px 8px}
+body.pfd-mode .btn{padding:9px 11px;font-size:10px}
+body.pfd-mode .theme-btn{padding:7px 8px;font-size:9px}
+body.pfd-mode .canvas-wrap::-webkit-scrollbar{height:10px;width:10px}
+body.pfd-mode .canvas-wrap::-webkit-scrollbar-thumb{background:#355262;border-radius:8px}
+body.pfd-mode .canvas-wrap::-webkit-scrollbar-track{background:#101a21}
+@media(max-width:1150px){body.pfd-mode .app{grid-template-columns:210px minmax(0,1fr) 250px}body.pfd-mode .workspace{padding:14px}}
+@media(max-width:850px){body.pfd-mode .app{grid-template-columns:1fr}body.pfd-mode .sidebar,body.pfd-mode .inspector{position:static;max-height:none;border-right:0;border-left:0}body.pfd-mode .workspace{order:2}body.pfd-mode .inspector{order:3}body.pfd-mode .sidebar{order:1}body.pfd-mode .canvas-wrap{max-height:65vh}body.pfd-mode .topbar{height:auto;min-height:64px;flex-wrap:wrap;padding:12px}body.pfd-mode .top-actions{justify-content:flex-start}}
+:root[data-theme="light"] body.pfd-mode #diagram{background-color:#f8fbfd;background-image:radial-gradient(#d3e0e8 1px,transparent 1px)}
+:root[data-theme="light"] body.pfd-mode .canvas-topline,:root[data-theme="light"] body.pfd-mode .canvas-footer{background:#eaf2f7}
