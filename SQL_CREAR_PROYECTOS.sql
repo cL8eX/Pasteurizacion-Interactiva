@@ -41,6 +41,3 @@ create policy "Users can update own PFD projects"
 
 -- Diagrama editable por proyecto
 alter table public.pfd_projects add column if not exists diagram jsonb not null default '{}'::jsonb;
-
--- Etapa 23: Diagrama PFD editable sincronizado
-alter table public.pfd_projects add column if not exists pfd_diagram jsonb not null default '[]'::jsonb;
