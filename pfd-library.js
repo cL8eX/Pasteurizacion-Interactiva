@@ -401,16 +401,23 @@ function initPfdDiagram(){pfdGet();pfdRender();pfdShowDetail();pfdFit()}
 function pfdSaveProject(){pfdSave();toast('Diagrama PFD guardado en este navegador');const btn=document.querySelector('.pfd-head-actions button[onclick="pfdSaveProject()"]');if(btn){const old=btn.innerHTML;btn.innerHTML='✓ Guardado';setTimeout(()=>{if(btn.isConnected)btn.innerHTML=old},1200)}}
 function pfdToggleFullscreen(){
  const el=document.querySelector('.pfd-library');if(!el)return;
- const active=el.classList.toggle('pfd-fullscreen-focus');
+ const active=!el.classList.contains('pfd-fullscreen-focus');
+ el.classList.toggle('pfd-fullscreen-focus',active);
+ document.body.classList.toggle('pfd-focus-active',active);
+ // Hard-hide all editor chrome while focused; CSS class alone can be defeated by cached/older styles.
+ const hideSelectors=['.pfd-lib-head','.pfd-lib-sidebar','.pfd-canvas-toolbar','.pfd-editor-help','.pfd-lib-note','.pfd-panel-title','.pfd-format-fields'];
+ hideSelectors.forEach(sel=>el.querySelectorAll(sel).forEach(node=>node.style.setProperty('display',active?'none':'','important')));
+ const detail=el.querySelector('#pfdSymbolDetail');
+ if(detail){
+   if(active){detail.querySelectorAll(':scope > *').forEach(node=>{if(!node.classList.contains('pfd-nomen-section'))node.style.setProperty('display','none','important')});}
+   else detail.querySelectorAll(':scope > *').forEach(node=>node.style.removeProperty('display'));
+ }
+ const layout=el.querySelector('.pfd-lib-layout');if(layout&&active){layout.style.setProperty('display','grid','important');layout.style.setProperty('grid-template-columns','minmax(0,1fr) 340px','important');layout.style.setProperty('height','100vh','important');layout.style.setProperty('width','100vw','important');}
+ const canvas=el.querySelector('.pfd-canvas-area');if(canvas&&active){canvas.style.setProperty('grid-column','1','important');canvas.style.setProperty('grid-row','1','important');canvas.style.setProperty('height','100%','important');}
+ if(!active){if(layout){layout.style.removeProperty('display');layout.style.removeProperty('grid-template-columns');layout.style.removeProperty('height');layout.style.removeProperty('width')}if(canvas){canvas.style.removeProperty('grid-column');canvas.style.removeProperty('grid-row');canvas.style.removeProperty('height')} }
  const btn=el.querySelector('.pfd-head-actions button[onclick="pfdToggleFullscreen()"]');
  if(btn)btn.innerHTML=active?'⤢ Salir pantalla completa':'⛶ Pantalla completa';
- if(active){
-   document.body.classList.add('pfd-focus-active');
-   setTimeout(()=>{pfdFit();const vp=document.getElementById('pfdViewport');if(vp)vp.scrollTop=0;},80);
- }else{
-   document.body.classList.remove('pfd-focus-active');
-   setTimeout(()=>pfdFit(),80);
- }
+ if(active)setTimeout(()=>{pfdFit();const vp=document.getElementById('pfdViewport');if(vp)vp.scrollTop=0;},80);else setTimeout(()=>pfdFit(),80);
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){const el=document.querySelector('.pfd-library.pfd-fullscreen-focus');if(el)pfdToggleFullscreen()}});
 

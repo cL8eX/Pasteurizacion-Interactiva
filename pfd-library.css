@@ -101,3 +101,14 @@ body.pfd-focus-active{overflow:hidden!important}
  .pfd-library.pfd-fullscreen-focus .pfd-nomen-head,
  .pfd-library.pfd-fullscreen-focus .pfd-nomen-row{grid-template-columns:70px minmax(0,1fr) 75px!important;font-size:10px!important}
 }
+
+/* Etapa 10: robusto - pantalla completa solo lienzo + nomenclatura */
+.pfd-library.pfd-fullscreen-focus .pfd-lib-head,
+.pfd-library.pfd-fullscreen-focus .pfd-lib-sidebar,
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-toolbar,
+.pfd-library.pfd-fullscreen-focus .pfd-editor-help,
+.pfd-library.pfd-fullscreen-focus .pfd-lib-note,
+.pfd-library.pfd-fullscreen-focus #pfdSymbolDetail > :not(.pfd-nomen-section){display:none!important}
+.pfd-library.pfd-fullscreen-focus .pfd-lib-layout{grid-template-columns:minmax(0,1fr) 340px!important}
+.pfd-library.pfd-fullscreen-focus .pfd-symbol-detail{display:flex!important}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-section{display:flex!important}
