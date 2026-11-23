@@ -1,5 +1,7 @@
 ETAPA 5 — CONEXIÓN PFD → PLANTA 3D
 
-Desde el menú PFD 3D del proyecto, se prepara una copia del diagrama editable activo (nodos y conexiones) y se abre la planta con el ID del proyecto. La escena reconstruye los equipos reconocidos por tipos/tags y distribuye posiciones según coordenadas del PFD; conexiones definidas se traducen a enlaces de tubería simplificados.
+Base: Etapa 4 subida por el usuario.
 
-Limitación: modelos low-poly conceptuales; no se reconstruyen aún codos, alturas, diámetros ni trayectorias geométricas exactas. Debe abrirse desde PFD Design, mismo navegador/origen.
+El módulo de puente está aislado con manejo de errores para que un fallo de sincronización no impida que se registren los controles de entrada. El botón de entrada también tiene una acción HTML de respaldo: si el módulo 3D no cargó, mostrará un aviso en lugar de quedar inactivo.
+
+La sincronización usa la copia local del diagrama activo, tags/tipos reconocidos y enlaces simplificados. No reconstruye todavía geometría exacta de tuberías.
