@@ -23,3 +23,9 @@ ETAPA 5 - ORGANIZACION VISUAL
 - Flujo principal, circuito de precalentamiento y pasteurización final separados visualmente.
 - Nueva clave local pfd-editable-v6 para evitar recuperar posiciones anteriores.
 - Archivos CSS/JS con versión de caché v5.
+
+ETAPA 6 - PANEL DERECHO PFD
+El panel derecho ahora permite editar los atributos del elemento seleccionado:
+texto principal, descripción/parámetros, familia, código de equipo, forma y color.
+La tabla de nomenclatura vinculada permite seleccionar directamente un elemento del diagrama.
+Al aplicar, se guarda la edición en el proyecto y se actualiza el símbolo. La clave local cambia a v7.

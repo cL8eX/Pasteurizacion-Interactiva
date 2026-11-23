@@ -27,3 +27,10 @@ PFD Design - Etapa 4
 - PFD guardado en almacenamiento local version v5.
 
 Etapa 5: organización visual en cuatro bandas. Reemplazar el proyecto completo y recargar con Ctrl+Shift+R.
+
+ETAPA 6 - PANEL DE FORMATO PFD
+- Panel derecho de formato para editar texto principal, descripción/parámetros, familia, código, tipo de forma y color.
+- Aplicar cambios actualiza el nodo seleccionado; cambio de color se refleja en el SVG.
+- La nomenclatura vinculada muestra códigos, nombre de equipo y familia, con selección directa desde la lista.
+- Nueva versión de almacenamiento local pfd-editable-v7 para separar los datos de la etapa anterior.
+- Cache busting de pfd-library.css y pfd-library.js a v6.
