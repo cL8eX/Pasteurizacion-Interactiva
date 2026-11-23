@@ -1,7 +1,0 @@
-ETAPA 5 — CONEXIÓN PFD → PLANTA 3D
-
-Base: Etapa 4 subida por el usuario.
-
-El módulo de puente está aislado con manejo de errores para que un fallo de sincronización no impida que se registren los controles de entrada. El botón de entrada también tiene una acción HTML de respaldo: si el módulo 3D no cargó, mostrará un aviso en lugar de quedar inactivo.
-
-La sincronización usa la copia local del diagrama activo, tags/tipos reconocidos y enlaces simplificados. No reconstruye todavía geometría exacta de tuberías.
