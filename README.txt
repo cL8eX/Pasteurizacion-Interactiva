@@ -25,3 +25,5 @@ PFD Design - Etapa 4
 - Equipos con simbologia a color por categoria.
 - Rutas de proceso y señales de instrumentacion.
 - PFD guardado en almacenamiento local version v5.
+
+Etapa 5: organización visual en cuatro bandas. Reemplazar el proyecto completo y recargar con Ctrl+Shift+R.

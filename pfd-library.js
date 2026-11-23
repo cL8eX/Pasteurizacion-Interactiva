@@ -268,12 +268,46 @@ function pfdDefaultDiagram(){
  // ROW 4: final HTST, homogenization, cooling, packaging — flow right-to-left
  add('v113','valve','V-113',1580,1010,34,34); add('num13','diamond','13',1525,1013,30,28); add('vc113','valve','VC-113',1465,1010,34,34); add('he107','pasteurizer','H-E107',1380,990,64,78); add('tcr106','instrument','TCR-106',1389,935,46,46,'TCR'); add('v114','valve','V-114',1300,1010,34,34); add('p112','pump','P-112',1240,1005,58,48); add('hr102','homogenizer','H-R102',1150,990,68,72); add('tcr107','instrument','TCR-107',1161,935,46,46,'TCR'); add('v115','valve','V-115',1070,1010,34,34); add('p113','pump','P-113',1010,1005,58,48); add('he108','heat','H-E108',925,990,76,82); add('tcr108','instrument','TCR-108',940,935,46,46,'TCR'); add('vc116','valve','VC-116',840,1010,34,34); add('p114','pump','P-114',780,1005,58,48); add('v116','valve','V-116',715,1010,34,34); add('pack2','packager','T-B101',605,990,150,82); add('pasteurized','product','LECHE PASTEURIZADA',400,1015,52,52);
  // Section headings are short and aligned to each band, never laid across the process line.
- [['s1a','RECEPCIÓN',85,285,150],['s1b','TAMIZADO',525,285,160],['s1c','TRATAMIENTO TÉRMICO',820,285,240],['s1d','DESCREMADO',1110,285,170],['s1e','ALMACENAMIENTO',1330,285,220],['s2','TANQUE DE BALANCE · RETORNO HTST',600,390,500],['s3a','HOMOGENIZACIÓN',340,930,200],['s3b','DESODORIZACIÓN',650,930,200],['s3c','ENFRIAMIENTO',1010,930,200],['s3d','ENVASADO DE CREMA',1390,930,230],['s4a','PRECALENTAMIENTO',1600,360,210],['s4b','PASTEURIZACIÓN FINAL',1320,1150,260],['s4c','HOMOGENIZACIÓN',1080,1150,210],['s4d','ENFRIAMIENTO',850,1150,170],['s4e','ENVASADO',600,1150,160]].forEach(([id,t,x,y,w])=>add(id,'text',t,x,y,w,24));
+ [['s1a','RECEPCIÓN',85,285,150],['s1b','TAMIZADO',525,285,160],['s1c','TRATAMIENTO TÉRMICO',820,285,240],['s1d','DESCREMADO',1110,285,170],['s1e','ALMACENAMIENTO',1330,285,220],['s2','PASTEURIZACIÓN HTST',170,620,240],['s3a','HOMOGENIZACIÓN',340,930,200],['s3b','DESODORIZACIÓN',650,930,200],['s3c','ENFRIAMIENTO',1010,930,200],['s3d','ENVASADO DE CREMA',1390,930,230],['s4a','PRECALENTAMIENTO',1600,360,210],['s4b','PASTEURIZACIÓN FINAL',1320,1150,260],['s4c','HOMOGENIZACIÓN',1080,1150,210],['s4d','ENFRIAMIENTO',850,1150,170],['s4e','ENVASADO',600,1150,160]].forEach(([id,t,x,y,w])=>add(id,'text',t,x,y,w,24));
+
+ // ORGANIZACIÓN VISUAL REFINADA: 4 bandas de proceso con separación clara.
+ add('s2b','text','PRECALENTAMIENTO',470,620,250,24);
+ const layout={
+  // Banda 1 — Recepción, tamizado, tratamiento térmico, descremado y almacenamiento
+  raw:[42,150],v101:[112,158],num1:[165,166],p101:[215,160],tk101:[300,142],lc101:[327,78],
+  vc101:[430,160],f101:[478,148],v102:[570,160],num2:[620,166],p102:[670,160],v103:[745,160],
+  he101:[800,142],tc101:[809,78],vc102:[900,160],num3:[950,166],d101:[1000,142],lir102:[1009,78],
+  v111:[1090,160],num11:[1140,166],tk103:[1190,142],lc104:[1217,78],
+  // Banda 2 — Retorno y tanque de balance; flujo hacia la izquierda
+  vc103:[1000,355],num4:[1002,410],p103:[985,462],vc104:[1000,525],tk102:[920,555],lc102:[947,475],
+  p104:[830,485],v104:[770,490],num5:[720,495],p105:[650,485],vc105:[590,490],num6:[540,495],
+  he103:[455,491],tcr101:[467,405],he102:[350,491],vc106:[285,490],he104:[205,481],tcr102:[214,405],
+  v106:[155,490],p105b:[100,485],num7:[80,495],
+  // Banda 3 — Homogeneización, desodorización, enfriamiento y crema
+  vc107:[78,775],hr101:[130,755],tcr103:[141,690],v107:[220,775],num8:[270,780],p107:[325,770],
+  fa101:[400,755],fcr101:[415,690],vc108:[500,775],num9:[550,780],v108:[600,775],p108:[650,770],
+  he105:[725,750],tcr104:[740,685],vc109:[830,775],p109:[880,770],v110:[945,775],num10:[995,780],
+  pack1:[1050,755],cream:[1235,775],
+  // Precalentamiento: circuito vertical independiente en extremo derecho
+  vc110:[1570,345],num12a:[1572,400],p110:[1555,450],vc111:[1570,515],he106:[1550,560],
+  tcr105:[1635,585],v112:[1570,665],p111:[1555,715],num12b:[1572,770],
+  // Banda 4 — Pasteurización final, homogeneización, enfriamiento y envasado (flujo a la izquierda)
+  vc112:[1570,1035],v113:[1495,1035],num13:[1445,1040],vc113:[1395,1035],he107:[1315,1015],
+  tcr106:[1324,950],v114:[1240,1035],p112:[1180,1030],hr102:[1080,1015],tcr107:[1091,950],
+  v115:[1000,1035],p113:[940,1030],he108:[850,1010],tcr108:[859,945],vc116:[770,1035],
+  p114:[710,1030],v116:[640,1035],pack2:[490,1015],pasteurized:[330,1030],
+  // Encabezados de bandas
+  s1a:[60,285,170],s1b:[410,285,160],s1c:[690,285,280],s1d:[990,285,170],s1e:[1190,285,230],
+  s2:[150,620,240],s2b:[450,620,250],s3a:[115,875,220],s3b:[390,875,220],s3c:[720,875,220],s3d:[1050,875,240],
+  s4a:[1320,385,240],s4b:[1290,1175,260],s4c:[1070,1175,210],s4d:[830,1175,180],s4e:[480,1175,160]
+ };
+ for(const n of a){const v=layout[n.id];if(v){n.x=v[0];n.y=v[1];if(v.length>2)n.w=v[2]}}
+
  return a;
 }
 function pfdEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function pfdGet(){if(!pfdEditableDiagram){try{pfdEditableDiagram=JSON.parse(localStorage.getItem('pfd-editable-v5-'+(activeProject?.id||'default')))||pfdDefaultDiagram()}catch(e){pfdEditableDiagram=pfdDefaultDiagram()}}return pfdEditableDiagram}
-function pfdSave(){try{localStorage.setItem('pfd-editable-v5-'+(activeProject?.id||'default'),JSON.stringify(pfdGet()))}catch(e){}}
+function pfdGet(){if(!pfdEditableDiagram){try{pfdEditableDiagram=JSON.parse(localStorage.getItem('pfd-editable-v6-'+(activeProject?.id||'default')))||pfdDefaultDiagram()}catch(e){pfdEditableDiagram=pfdDefaultDiagram()}}return pfdEditableDiagram}
+function pfdSave(){try{localStorage.setItem('pfd-editable-v6-'+(activeProject?.id||'default'),JSON.stringify(pfdGet()))}catch(e){}}
 function pfdShape(n){
  const x=n.x,y=n.y,w=n.w,h=n.h,cx=x+w/2,cy=y+h/2,sw=2;
  const palettes={pump:{stroke:'#2563eb',fill:'#eff6ff',accent:'#3b82f6'},tank:{stroke:'#0f766e',fill:'#ecfdf5',accent:'#14b8a6'},filter:{stroke:'#0891b2',fill:'#ecfeff',accent:'#06b6d4'},heat:{stroke:'#c2410c',fill:'#fff7ed',accent:'#f97316'},pasteurizer:{stroke:'#b91c1c',fill:'#fff1f2',accent:'#ef4444'},homogenizer:{stroke:'#7c3aed',fill:'#f5f3ff',accent:'#8b5cf6'},separator:{stroke:'#a16207',fill:'#fefce8',accent:'#eab308'},valve:{stroke:'#d97706',fill:'#fff7ed',accent:'#f59e0b'},instrument:{stroke:'#6d28d9',fill:'#f5f3ff',accent:'#8b5cf6'},diamond:{stroke:'#475569',fill:'#f1f5f9',accent:'#64748b'},packager:{stroke:'#0f766e',fill:'#ecfdf5',accent:'#10b981'},source:{stroke:'#111827',fill:'#f8fafc',accent:'#111827'},product:{stroke:'#16a34a',fill:'#f0fdf4',accent:'#16a34a'},rect:{stroke:'#64748b',fill:'#f8fafc',accent:'#64748b'}};
@@ -304,17 +338,17 @@ function pfdRender(){
  let arrow='';const z=7;if(orient==='right')arrow=`M${x2} ${y2}L${x2-z} ${y2-z/2}L${x2-z} ${y2+z/2}Z`;else if(orient==='left')arrow=`M${x2} ${y2}L${x2+z} ${y2-z/2}L${x2+z} ${y2+z/2}Z`;else if(orient==='down')arrow=`M${x2} ${y2}L${x2-z/2} ${y2-z}L${x2+z/2} ${y2-z}Z`;else arrow=`M${x2} ${y2}L${x2-z/2} ${y2+z}L${x2+z/2} ${y2+z}Z`;
  return `<path d="${d}" class="pfd-pipe"/><path d="${arrow}" class="pfd-arrowhead"/>`};
  const seq=(ids,dir='h')=>ids.slice(0,-1).map((id,i)=>edge(id,ids[i+1],dir)).join('');
- const bands=`<g class=\"pfd-bands\"><rect x=\"20\" y=\"45\" width=\"1580\" height=\"300\" rx=\"12\" fill=\"#f8fbff\" stroke=\"#e3edf7\"/><rect x=\"20\" y=\"365\" width=\"1580\" height=\"380\" rx=\"12\" fill=\"#fbfcfe\" stroke=\"#e8edf4\"/><rect x=\"20\" y=\"765\" width=\"1620\" height=\"250\" rx=\"12\" fill=\"#f9fbfd\" stroke=\"#e4edf2\"/><rect x=\"20\" y=\"965\" width=\"1780\" height=\"260\" rx=\"12\" fill=\"#fbfcff\" stroke=\"#e4e8f2\"/></g>`;
+ const bands=`<g class=\"pfd-bands\"><rect x=\"20\" y=\"35\" width=\"1780\" height=\"300\" rx=\"12\" fill=\"#f8fbff\" stroke=\"#d9e7f4\"/><rect x=\"20\" y=\"350\" width=\"1780\" height=\"300\" rx=\"12\" fill=\"#fbfcfe\" stroke=\"#dce5ee\"/><rect x=\"20\" y=\"670\" width=\"1780\" height=\"300\" rx=\"12\" fill=\"#f6fbfa\" stroke=\"#d8eae6\"/><rect x=\"20\" y=\"985\" width=\"1780\" height=\"270\" rx=\"12\" fill=\"#fbfaff\" stroke=\"#e0dff0\"/></g>`;
  const pipes=`<g>${edge('raw','v101','elbow')}${seq(['v101','num1','p101','tk101','vc101','f101','v102','num2','p102','v103','he101','vc102','num3','d101','v111','num11','tk103'])}
  ${edge('d101','vc103','elbow')}${seq(['vc103','num4','p103','vc104'],'v')}${edge('vc104','tk102','elbow')}
  ${seq(['tk102','p104','v104','num5','p105','vc105','num6','he103','he102','vc106','he104','v106','p105b','num7'],'h')}
- ${seq(['num7','vc107','hr101','v107','num8','p107','fa101','vc108','num9','v108','p108','he105','vc109','p109','v110','num10','pack1','cream'],'h')}
+ ${edge('num7','vc107','v')}${seq(['vc107','hr101','v107','num8','p107','fa101','vc108','num9','v108','p108','he105','vc109','p109','v110','num10','pack1','cream'],'h')}
  ${edge('tk103','vc110','elbow')}${seq(['vc110','num12a','p110','vc111','he106','v112','p111','num12b','vc112'],'v')}
  ${seq(['vc112','v113','num13','vc113','he107','v114','p112','hr102','v115','p113','he108','vc116','p114','v116','pack2','pasteurized'],'h')}
  </g>`;
  const controlPairs=[['lc101','tk101'],['tc101','he101'],['lir102','d101'],['lc104','tk103'],['lc102','tk102'],['tcr101','he103'],['tcr102','he104'],['tcr103','hr101'],['fcr101','fa101'],['tcr104','he105'],['tcr105','he106'],['tcr106','he107'],['tcr107','hr102'],['tcr108','he108']];const controls='<g class="pfd-control-lines">'+controlPairs.map(([i,e])=>{const I=byId(i),E=byId(e);if(!I||!E)return '';const ix=I.x+I.w/2,iy=I.y+I.h,ex=E.x+E.w/2,ey=E.y,mid=iy+12;return `<path d="M${ix} ${iy}V${mid}H${ex}V${ey}"/>`}).join('')+'</g>';
  const stageNodes=nodes.filter(n=>n.type==='text').map(pfdShape).join('');
- svg.setAttribute('viewBox','0 0 1840 1250');svg.style.width=(1840*pfdScale)+'px';
+ svg.setAttribute('viewBox','0 0 1840 1300');svg.style.width=(1840*pfdScale)+'px';
  svg.innerHTML=`<style>.pfd-pipe{fill:none;stroke:#64748b;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.pfd-arrowhead{fill:#64748b;stroke:none}.pfd-control-lines path{fill:none;stroke:#94a3b8;stroke-width:1.4;stroke-dasharray:5 5}.pfd-node-label{font:12px Arial,sans-serif;font-weight:650;fill:#334155}.pfd-node text{paint-order:stroke;stroke:#fff;stroke-width:2px;stroke-linejoin:round}</style><defs></defs><rect width="1840" height="1250" fill="#fff"/>${bands}${pipes}${controls}${nodes.filter(n=>n.type!=='text').map(pfdShape).join('')}${stageNodes}`;
  svg.querySelectorAll('.pfd-node').forEach(g=>{g.addEventListener('pointerdown',pfdStartDrag);g.addEventListener('click',e=>{e.stopPropagation();pfdSelectedNode=g.dataset.node;pfdRender();pfdShowDetail()});g.addEventListener('dblclick',e=>{e.stopPropagation();pfdEditLabel(g.dataset.node)})});
  svg.addEventListener('click',()=>{pfdSelectedNode=null;pfdRender();pfdShowDetail()});

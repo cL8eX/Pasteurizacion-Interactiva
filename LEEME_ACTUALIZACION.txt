@@ -17,3 +17,9 @@ ETAPA 4 - PFD COLOR Y ORDEN
 - El PFD se organiza en cuatro bandas de proceso y una columna de precalentamiento.
 - Simbología a color por categoría; tuberías y señales diferenciadas.
 - El editor usa almacenamiento local pfd-editable-v5 para no recuperar diagramas anteriores.
+
+ETAPA 5 - ORGANIZACION VISUAL
+- Diagrama distribuido en cuatro bandas con separación entre procesos.
+- Flujo principal, circuito de precalentamiento y pasteurización final separados visualmente.
+- Nueva clave local pfd-editable-v6 para evitar recuperar posiciones anteriores.
+- Archivos CSS/JS con versión de caché v5.
