@@ -12,3 +12,7 @@ Para actualizar GitHub:
 
 La cabecera del editor PFD incluye: Inicio, Pantalla completa, Descargar PDF y Guardar.
 Los botones están implementados en pfd-library.js; index.html carga pfd-library.js y pfd-library.css con versión v8.
+
+
+ETAPA 9 - PANTALLA COMPLETA ENFOCADA
+En pantalla completa solo se muestran el diagrama PFD y la Nomenclatura vinculada al diagrama. Se ocultan la cabecera, biblioteca de símbolos, barra de zoom y campos de formato. Para salir, usa el botón (cuando visible) o la tecla Escape.

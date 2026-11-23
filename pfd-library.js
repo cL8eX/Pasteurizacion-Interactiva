@@ -399,7 +399,21 @@ function pfdFit(){const vp=document.getElementById('pfdViewport');pfdScale=Math.
 function pfdReset(){pfdEditableDiagram=pfdDefaultDiagram();pfdSelectedNode=null;pfdSave();pfdRender();pfdShowDetail();pfdFit()}
 function initPfdDiagram(){pfdGet();pfdRender();pfdShowDetail();pfdFit()}
 function pfdSaveProject(){pfdSave();toast('Diagrama PFD guardado en este navegador');const btn=document.querySelector('.pfd-head-actions button[onclick="pfdSaveProject()"]');if(btn){const old=btn.innerHTML;btn.innerHTML='✓ Guardado';setTimeout(()=>{if(btn.isConnected)btn.innerHTML=old},1200)}}
-function pfdToggleFullscreen(){const el=document.querySelector('.pfd-library');if(!el)return;if(document.fullscreenElement){document.exitFullscreen?.()}else if(el.requestFullscreen){el.requestFullscreen().catch(()=>el.classList.toggle('pfd-fullscreen-fallback'))}else el.classList.toggle('pfd-fullscreen-fallback')}
+function pfdToggleFullscreen(){
+ const el=document.querySelector('.pfd-library');if(!el)return;
+ const active=el.classList.toggle('pfd-fullscreen-focus');
+ const btn=el.querySelector('.pfd-head-actions button[onclick="pfdToggleFullscreen()"]');
+ if(btn)btn.innerHTML=active?'⤢ Salir pantalla completa':'⛶ Pantalla completa';
+ if(active){
+   document.body.classList.add('pfd-focus-active');
+   setTimeout(()=>{pfdFit();const vp=document.getElementById('pfdViewport');if(vp)vp.scrollTop=0;},80);
+ }else{
+   document.body.classList.remove('pfd-focus-active');
+   setTimeout(()=>pfdFit(),80);
+ }
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){const el=document.querySelector('.pfd-library.pfd-fullscreen-focus');if(el)pfdToggleFullscreen()}});
+
 function pfdExportPDF(){const svg=document.getElementById('pfdDrawing');if(!svg){toast('No se encontró el diagrama para exportar');return}const clone=svg.cloneNode(true);clone.setAttribute('width','1840');clone.setAttribute('height','1250');clone.style.width='100%';clone.style.height='auto';const title=(activeProject?.name||'Diagrama PFD de pasteurización');const info=activeProject?.info||{};const nodes=pfdGet();const rows=nodes.filter(n=>n.code||n.label).map(n=>`<tr><td>${pfdEsc(n.code||'')}</td><td>${pfdEsc(n.label||'')}</td><td>${pfdEsc(n.family||'')}</td></tr>`).join('');const win=window.open('','_blank');if(!win){toast('Permite ventanas emergentes para generar el PDF');return}win.document.open();win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${pfdEsc(title)} - PFD</title><style>@page{size:A3 landscape;margin:8mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#1e293b;margin:0}.page{height:277mm;display:flex;flex-direction:column}.head{border-bottom:2px solid #334155;padding:0 0 4mm;margin-bottom:4mm;display:flex;justify-content:space-between;align-items:end}.head h1{font-size:18pt;margin:0}.head p{margin:2mm 0 0;font-size:9pt;color:#64748b}.meta{text-align:right;font-size:8pt;color:#475569}.drawing{flex:1;min-height:0;border:1px solid #cbd5e1;border-radius:4mm;padding:3mm;display:flex;align-items:center;justify-content:center;overflow:hidden}.drawing svg{max-height:100%;max-width:100%;width:auto;height:auto}.nom{margin-top:3mm;max-height:30mm;overflow:hidden;border:1px solid #cbd5e1}.nom table{border-collapse:collapse;width:100%;font-size:7pt}.nom th,.nom td{text-align:left;border-bottom:1px solid #e2e8f0;padding:1.5mm 2mm}.nom th{background:#f1f5f9}.foot{font-size:6.5pt;color:#64748b;margin-top:2mm}@media print{.page{height:277mm}}</style></head><body><main class="page"><header class="head"><div><h1>${pfdEsc(title)}</h1><p>Diagrama de flujo de proceso · Pasteurización de leche</p></div><div class="meta">${pfdEsc(info.organization||'PFD Design')}<br>${info.date?pfdEsc(info.date):new Date().toLocaleDateString('es-CO')}</div></header><section class="drawing">${clone.outerHTML}</section>${rows?`<section class="nom"><table><thead><tr><th>Código</th><th>Equipo / símbolo</th><th>Familia</th></tr></thead><tbody>${rows}</tbody></table></section>`:''}<footer class="foot">Exportado desde PFD Design · ${pfdEsc(activeProject?.name||'Proyecto')}</footer></main><script>window.onload=()=>setTimeout(()=>window.print(),350)<\/script></body></html>`);win.document.close()}
 function renderPfdLibrary(){
  const c=document.getElementById('wsContent');

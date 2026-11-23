@@ -52,3 +52,52 @@ body.dark .pfd-nomen-section h4,body.dark .pfd-nomen-head{background:#1c2b3a;col
 body.dark .pfd-head-actions .tool-head-btn,body.dark .pfd-lib-head-v8 .back-tool{background:#172a39;color:#e3edf5;border-color:#34495a}
 @media(max-width:1150px){.pfd-lib-head-v8{align-items:flex-start}.pfd-head-actions{order:3}.pfd-lib-head-v8 .pfd-lib-tools{order:4;margin-left:0;width:100%}.pfd-lib-search{width:100%}}
 @media(max-width:700px){.pfd-lib-head-v8 .pfd-head-actions{width:100%}.pfd-head-actions .tool-head-btn{flex:1}}
+
+/* Etapa 9: modo pantalla completa enfocado: únicamente PFD + nomenclatura */
+.pfd-library.pfd-fullscreen-focus{
+ position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;
+ max-height:100vh!important;min-height:0!important;margin:0!important;padding:0!important;
+ z-index:99999!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+ background:var(--panel,#fff)!important;
+}
+body.pfd-focus-active{overflow:hidden!important}
+.pfd-library.pfd-fullscreen-focus .pfd-lib-head,
+.pfd-library.pfd-fullscreen-focus .pfd-lib-sidebar,
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-toolbar,
+.pfd-library.pfd-fullscreen-focus .pfd-lib-note,
+.pfd-library.pfd-fullscreen-focus .pfd-panel-title,
+.pfd-library.pfd-fullscreen-focus .pfd-format-fields{display:none!important}
+.pfd-library.pfd-fullscreen-focus .pfd-lib-layout{
+ display:grid!important;grid-template-columns:minmax(0,1fr) 340px!important;
+ grid-template-rows:minmax(0,1fr)!important;width:100%!important;height:100%!important;
+ min-height:0!important;overflow:hidden!important;flex:1!important
+}
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-area{
+ grid-column:1!important;grid-row:1!important;min-width:0!important;min-height:0!important;
+ height:100%!important;overflow:auto!important;background:#fff!important;background-image:none!important
+}
+.pfd-library.pfd-fullscreen-focus .pfd-symbol-detail{
+ grid-column:2!important;grid-row:1!important;display:flex!important;flex-direction:column!important;
+ border-left:1px solid var(--border,#dfe7ee)!important;border-top:0!important;
+ padding:16px!important;min-width:0!important;min-height:0!important;height:100%!important;overflow:auto!important
+}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-section{
+ display:flex!important;flex-direction:column!important;flex:1!important;min-height:0!important;
+ margin:0!important;border-radius:0!important
+}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-section h4{
+ font-size:14px!important;padding:12px!important
+}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-table{
+ max-height:none!important;height:100%!important;flex:1!important;overflow:auto!important
+}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-head,
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-row{
+ grid-template-columns:90px minmax(0,1fr) 100px!important;gap:8px!important;
+ padding:10px 9px!important;font-size:12px!important
+}
+@media(max-width:700px){
+ .pfd-library.pfd-fullscreen-focus .pfd-lib-layout{grid-template-columns:minmax(0,1fr) 260px!important}
+ .pfd-library.pfd-fullscreen-focus .pfd-nomen-head,
+ .pfd-library.pfd-fullscreen-focus .pfd-nomen-row{grid-template-columns:70px minmax(0,1fr) 75px!important;font-size:10px!important}
+}
