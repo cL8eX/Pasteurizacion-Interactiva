@@ -1,5 +1,0 @@
-MILKLAB Process Studio Premium UI preview
-
-Base: Beta3 source. UI redesign with a light CAD canvas, compact palette search, improved spacing and preserved editable academic panel/dialog. Block mode remains available; PFD mode is enabled in selector.
-
-Replace project files except .git. Keep supabase-config.js from your repo if keys/config differ.
