@@ -175,3 +175,17 @@ body.pfd-focus-active{overflow:hidden!important}
   flex:1 1 0!important;height:0!important;max-height:none!important;min-height:0!important;overflow:auto!important;
 }
 @media(max-width:700px){.pfd-library.pfd-fullscreen-focus .pfd-lib-layout{grid-template-columns:minmax(0,1fr) 260px!important}}
+
+/* Etapa 13: fullscreen hard override — NO symbol sidebar, only drawing + nomenclature */
+.pfd-library.pfd-fullscreen-focus .pfd-lib-sidebar,
+.pfd-library.pfd-fullscreen-focus .pfd-lib-head,
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-toolbar,
+.pfd-library.pfd-fullscreen-focus .pfd-editor-help,
+.pfd-library.pfd-fullscreen-focus .pfd-lib-note { display:none!important; }
+.pfd-library.pfd-fullscreen-focus .pfd-lib-layout { position:fixed!important; inset:0!important; display:grid!important; grid-template-columns:minmax(0,1fr) 340px!important; grid-template-rows:minmax(0,1fr)!important; width:100vw!important; height:100vh!important; height:100dvh!important; overflow:hidden!important; }
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-area { grid-column:1!important; grid-row:1!important; height:100%!important; min-height:0!important; overflow:hidden!important; }
+.pfd-library.pfd-fullscreen-focus .pfd-symbol-detail { grid-column:2!important; grid-row:1!important; height:100%!important; min-height:0!important; overflow:hidden!important; display:flex!important; }
+.pfd-library.pfd-fullscreen-focus #pfdSymbolDetail > :not(.pfd-nomen-section) { display:none!important; }
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-section { display:flex!important; flex-direction:column!important; flex:1 1 0!important; min-height:0!important; height:100%!important; overflow:hidden!important; }
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-table { flex:1 1 0!important; height:0!important; max-height:none!important; min-height:0!important; overflow:auto!important; }
+@media(max-width:700px){.pfd-library.pfd-fullscreen-focus .pfd-lib-layout{grid-template-columns:minmax(0,1fr) 260px!important}}

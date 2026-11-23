@@ -404,20 +404,34 @@ function pfdToggleFullscreen(){
  const active=!el.classList.contains('pfd-fullscreen-focus');
  el.classList.toggle('pfd-fullscreen-focus',active);
  document.body.classList.toggle('pfd-focus-active',active);
- // Hard-hide all editor chrome while focused; CSS class alone can be defeated by cached/older styles.
- const hideSelectors=['.pfd-lib-head','.pfd-lib-sidebar','.pfd-canvas-toolbar','.pfd-editor-help','.pfd-lib-note','.pfd-panel-title','.pfd-format-fields'];
- hideSelectors.forEach(sel=>el.querySelectorAll(sel).forEach(node=>node.style.setProperty('display',active?'none':'','important')));
+ const sidebar=el.querySelector('.pfd-lib-sidebar');
+ const head=el.querySelector('.pfd-lib-head');
+ const layout=el.querySelector('.pfd-lib-layout');
+ const canvas=el.querySelector('.pfd-canvas-area');
+ const toolbar=el.querySelector('.pfd-canvas-toolbar');
+ const help=el.querySelector('.pfd-editor-help');
+ const note=el.querySelector('.pfd-lib-note');
  const detail=el.querySelector('#pfdSymbolDetail');
- if(detail){
-   if(active){detail.querySelectorAll(':scope > *').forEach(node=>{if(!node.classList.contains('pfd-nomen-section'))node.style.setProperty('display','none','important')});}
-   else detail.querySelectorAll(':scope > *').forEach(node=>node.style.removeProperty('display'));
+ const nomen=detail?.querySelector('.pfd-nomen-section');
+ if(active){
+   // Hide the symbol library and all editor chrome directly, not just via CSS.
+   [sidebar,head,toolbar,help,note].forEach(n=>n?.style.setProperty('display','none','important'));
+   if(detail){detail.querySelectorAll(':scope > *').forEach(n=>{if(n!==nomen)n.style.setProperty('display','none','important')});detail.style.setProperty('display','flex','important')}
+   if(layout){layout.style.setProperty('position','fixed','important');layout.style.setProperty('inset','0','important');layout.style.setProperty('display','grid','important');layout.style.setProperty('grid-template-columns','minmax(0,1fr) 340px','important');layout.style.setProperty('grid-template-rows','minmax(0,1fr)','important');layout.style.setProperty('width','100vw','important');layout.style.setProperty('height','100vh','important');layout.style.setProperty('height','100dvh','important');layout.style.setProperty('overflow','hidden','important')}
+   if(canvas){canvas.style.setProperty('grid-column','1','important');canvas.style.setProperty('grid-row','1','important');canvas.style.setProperty('min-width','0','important');canvas.style.setProperty('min-height','0','important');canvas.style.setProperty('height','100%','important');canvas.style.setProperty('overflow','hidden','important')}
+   if(detail){detail.style.setProperty('grid-column','2','important');detail.style.setProperty('grid-row','1','important');detail.style.setProperty('width','auto','important');detail.style.setProperty('height','100%','important');detail.style.setProperty('overflow','hidden','important')}
+   if(nomen){nomen.style.setProperty('display','flex','important');nomen.style.setProperty('flex-direction','column','important');nomen.style.setProperty('height','100%','important');nomen.style.setProperty('flex','1 1 0','important');nomen.style.setProperty('min-height','0','important');const table=nomen.querySelector('.pfd-nomen-table');if(table){table.style.setProperty('flex','1 1 0','important');table.style.setProperty('height','0','important');table.style.setProperty('max-height','none','important');table.style.setProperty('overflow','auto','important')}}
+   document.body.style.setProperty('overflow','hidden','important');
+ }else{
+   [sidebar,head,toolbar,help,note].forEach(n=>n?.style.removeProperty('display'));
+   [layout,canvas,detail].forEach(n=>{if(n){['position','inset','display','grid-template-columns','grid-template-rows','width','height','overflow','grid-column','grid-row','min-width','min-height'].forEach(k=>n.style.removeProperty(k))}});
+   if(detail){detail.querySelectorAll(':scope > *').forEach(n=>n.style.removeProperty('display'))}
+   if(nomen){['display','flex-direction','height','flex','min-height'].forEach(k=>nomen.style.removeProperty(k));const table=nomen.querySelector('.pfd-nomen-table');if(table)['flex','height','max-height','overflow'].forEach(k=>table.style.removeProperty(k))}
+   document.body.style.removeProperty('overflow');
  }
- const layout=el.querySelector('.pfd-lib-layout');if(layout&&active){layout.style.setProperty('display','grid','important');layout.style.setProperty('grid-template-columns','minmax(0,1fr) 340px','important');layout.style.setProperty('height','100vh','important');layout.style.setProperty('width','100vw','important');}
- const canvas=el.querySelector('.pfd-canvas-area');if(canvas&&active){canvas.style.setProperty('grid-column','1','important');canvas.style.setProperty('grid-row','1','important');canvas.style.setProperty('height','100%','important');}
- if(!active){if(layout){layout.style.removeProperty('display');layout.style.removeProperty('grid-template-columns');layout.style.removeProperty('height');layout.style.removeProperty('width')}if(canvas){canvas.style.removeProperty('grid-column');canvas.style.removeProperty('grid-row');canvas.style.removeProperty('height')} }
  const btn=el.querySelector('.pfd-head-actions button[onclick="pfdToggleFullscreen()"]');
  if(btn)btn.innerHTML=active?'⤢ Salir pantalla completa':'⛶ Pantalla completa';
- if(active)setTimeout(()=>{pfdFit();const vp=document.getElementById('pfdViewport');if(vp)vp.scrollTop=0;},80);else setTimeout(()=>pfdFit(),80);
+ if(active)setTimeout(()=>{pfdFit();const vp=document.getElementById('pfdViewport');if(vp)vp.scrollTop=0;},100);else setTimeout(()=>pfdFit(),100);
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){const el=document.querySelector('.pfd-library.pfd-fullscreen-focus');if(el)pfdToggleFullscreen()}});
 
