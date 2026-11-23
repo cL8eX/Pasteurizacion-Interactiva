@@ -218,3 +218,23 @@ body.pfd-focus-active{overflow:hidden!important}
 }
 body.dark .pfd-library.pfd-fullscreen-focus .pfd-toolbar-actions button,
 body.dark .pfd-library.pfd-fullscreen-focus #pfdZoomLabel{background:#172a39!important;color:#cbd9e4!important;border-color:#34495a!important}
+
+/* Etapa 16: toolbar zoom tidy and responsive */
+.pfd-canvas-toolbar{box-sizing:border-box;display:flex!important;align-items:center!important;gap:12px!important;min-height:44px!important;height:44px!important;padding:0 12px!important;overflow:visible!important}
+.pfd-canvas-toolbar>span:first-child{flex:1 1 auto!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.pfd-toolbar-actions{display:flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:flex-end!important;gap:7px!important;white-space:nowrap!important;margin-left:auto!important}
+.pfd-toolbar-actions button{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;min-width:36px!important;height:34px!important;padding:0 10px!important;border:1px solid #d8e1ea!important;border-radius:8px!important;background:#fff!important;color:#34465a!important;font:600 12px/1 Inter,Segoe UI,Arial,sans-serif!important;box-shadow:0 1px 2px rgba(15,23,42,.04)!important;cursor:pointer!important;transition:background .15s,border-color .15s,box-shadow .15s!important}
+.pfd-toolbar-actions button:hover{background:#f5f8fc!important;border-color:#b8c8d8!important;box-shadow:0 2px 5px rgba(15,23,42,.07)!important}
+.pfd-toolbar-actions button:focus{outline:none!important}
+.pfd-toolbar-actions button:focus-visible{outline:2px solid #8b5cf6!important;outline-offset:2px!important}
+.pfd-toolbar-actions button[onclick=\"pfdZoom(-.1)\"],.pfd-toolbar-actions button[onclick=\"pfdZoom(.1)\"]{width:36px!important;padding:0!important;font-size:17px!important}
+.pfd-toolbar-actions #pfdZoomLabel{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 48px!important;width:48px!important;min-width:48px!important;height:34px!important;padding:0 5px!important;border:1px solid #d8e1ea!important;border-radius:8px!important;background:#f8fafc!important;color:#526579!important;font:600 11px/1 Inter,Segoe UI,Arial,sans-serif!important}
+.pfd-toolbar-actions button[onclick=\"pfdFit()\"]{min-width:66px!important}
+.pfd-toolbar-actions button[onclick=\"pfdReset()\"]{min-width:78px!important}
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-toolbar{gap:0!important;padding:0 14px!important}
+.pfd-library.pfd-fullscreen-focus .pfd-toolbar-actions{gap:7px!important}
+.pfd-library.pfd-fullscreen-focus .pfd-toolbar-actions button[onclick=\"pfdFit()\"]{min-width:66px!important;width:auto!important;padding:0 10px!important}
+body.dark .pfd-toolbar-actions button{background:#172a39!important;color:#cbd9e4!important;border-color:#34495a!important}
+body.dark .pfd-toolbar-actions button:hover{background:#203647!important}
+body.dark .pfd-toolbar-actions #pfdZoomLabel{background:#101d29!important;color:#b7c7d5!important;border-color:#34495a!important}
+@media(max-width:560px){.pfd-canvas-toolbar>span:first-child{font-size:10px!important}.pfd-toolbar-actions{gap:4px!important}.pfd-toolbar-actions button[onclick=\"pfdFit()\"]{min-width:58px!important}.pfd-toolbar-actions button[onclick=\"pfdReset()\"]{min-width:66px!important}}
