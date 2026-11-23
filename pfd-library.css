@@ -39,3 +39,16 @@ body.dark .pfd-nomen-section h4,body.dark .pfd-nomen-head{background:#1c2b3a;col
 @media(max-width:1200px){.pfd-lib-layout{grid-template-columns:220px minmax(0,1fr) 290px}}
 @media(max-width:1050px){.pfd-lib-layout{grid-template-columns:210px minmax(0,1fr)}.pfd-symbol-detail{display:flex;position:absolute;right:8px;top:58px;bottom:8px;width:min(300px,45vw);z-index:3;box-shadow:0 8px 30px #1d29391a;border:1px solid var(--border,#dfe7ee);border-radius:10px}.pfd-symbol-detail:empty{display:none}}
 @media(max-width:700px){.pfd-symbol-detail{position:static;width:auto;display:flex;max-height:360px;border:0;border-top:1px solid var(--border,#dfe7ee);border-radius:0;box-shadow:none}.pfd-lib-layout{grid-template-columns:1fr;grid-template-rows:auto minmax(420px,1fr) auto}}
+/* Etapa 8: cabecera de acciones igual al editor de bloques */
+.pfd-lib-head-v8{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 14px;min-height:62px}
+.pfd-head-title{flex:1;min-width:220px}.pfd-head-title h2{font-size:17px;margin:0}.pfd-head-title p{font-size:10px;margin:3px 0 0;line-height:1.4}
+.pfd-head-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pfd-head-actions .tool-head-btn,.pfd-lib-head-v8 .back-tool{border:1px solid #d6e0e8;background:#fff;color:#31485a;border-radius:8px;padding:8px 10px;font-size:11px;font-weight:650;cursor:pointer;white-space:nowrap}
+.pfd-head-actions .tool-head-btn:hover,.pfd-lib-head-v8 .back-tool:hover{border-color:#9a85f4;color:#6848db;background:#faf8ff}
+.pfd-lib-head-v8 .pfd-lib-tools{margin-left:auto}
+.pfd-library:fullscreen{height:100vh;min-height:100vh;border-radius:0;padding:0;background:var(--panel,#fff)}
+.pfd-library.pfd-fullscreen-fallback{position:fixed;inset:0;z-index:99999;height:100vh;min-height:100vh;border-radius:0}
+.pfd-library:fullscreen .pfd-lib-layout,.pfd-library.pfd-fullscreen-fallback .pfd-lib-layout{height:calc(100vh - 105px)}
+body.dark .pfd-head-actions .tool-head-btn,body.dark .pfd-lib-head-v8 .back-tool{background:#172a39;color:#e3edf5;border-color:#34495a}
+@media(max-width:1150px){.pfd-lib-head-v8{align-items:flex-start}.pfd-head-actions{order:3}.pfd-lib-head-v8 .pfd-lib-tools{order:4;margin-left:0;width:100%}.pfd-lib-search{width:100%}}
+@media(max-width:700px){.pfd-lib-head-v8 .pfd-head-actions{width:100%}.pfd-head-actions .tool-head-btn{flex:1}}

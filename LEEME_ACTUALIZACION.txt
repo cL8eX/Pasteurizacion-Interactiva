@@ -29,3 +29,10 @@ El panel derecho ahora permite editar los atributos del elemento seleccionado:
 texto principal, descripción/parámetros, familia, código de equipo, forma y color.
 La tabla de nomenclatura vinculada permite seleccionar directamente un elemento del diagrama.
 Al aplicar, se guarda la edición en el proyecto y se actualiza el símbolo. La clave local cambia a v7.
+
+ETAPA 8 - ACCIONES SUPERIORES DEL EDITOR PFD
+- Se agregó botón Volver al Inicio.
+- Se agregó Pantalla completa para el editor PFD.
+- Se agregó Descargar PDF: abre una vista de impresión A3 horizontal con el SVG y nomenclatura, desde donde se puede guardar como PDF.
+- Se agregó Guardar: guarda el estado del diagrama PFD en el almacenamiento local del navegador.
+- Se actualizó cache busting a v8.
