@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PFD Design</title>
-<link rel="stylesheet" href="pfd-library.css?v=10">
+<link rel="stylesheet" href="pfd-library.css?v=12">
 <style>
 :root{--aqua:#8b45e8;--aqua2:#eee5ff;--blue:#315de8;--ink:#15212d;--muted:#657583;--line:#e5ebf0;--bg:#fff;--accent-gradient:linear-gradient(110deg,#9148e8 0%,#654eea 48%,#315de8 100%)}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:#fff}
@@ -477,5 +477,5 @@ async function deleteProject(id){if(!confirm('¿Eliminar este proyecto?'))return
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 window.addEventListener('load',async()=>{applyTheme(localStorage.getItem('diagram_designer_theme_v1')||'light');supabaseClient=initSupabase();if(!supabaseClient){console.warn('Supabase no configurado. La interfaz de auth mostrará instrucciones.');return}try{const {data:{session}}=await supabaseClient.auth.getSession();authSession=session;authUser=session?.user||null;if(authUser)showDashboard();supabaseClient.auth.onAuthStateChange((_event,session)=>{authSession=session;authUser=session?.user||null;/* No navegar por eventos de refresco de sesión: conservar la pestaña y proyecto abiertos. */})}catch(e){console.error('Supabase session error',e)}});
 </script>
-<script src="pfd-library.js?v=10"></script>
+<script src="pfd-library.js?v=12"></script>
 </body></html>

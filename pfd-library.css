@@ -140,3 +140,38 @@ body.pfd-focus-active{overflow:hidden!important}
 .pfd-library.pfd-fullscreen-focus .pfd-nomen-table{
   height:auto!important;max-height:none!important;min-height:0!important;flex:1 1 0!important;overflow:auto!important;
 }
+
+
+/* Etapa 12: anclar el modo enfocado a toda la ventana; elimina el hueco inferior */
+.pfd-library.pfd-fullscreen-focus{
+  position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;
+  margin:0!important;padding:0!important;display:block!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-lib-layout{
+  position:absolute!important;inset:0!important;left:0!important;right:0!important;top:0!important;bottom:0!important;
+  width:100%!important;height:100%!important;max-height:none!important;min-height:0!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr) 340px!important;grid-template-rows:minmax(0,1fr)!important;
+  overflow:hidden!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-area{
+  position:relative!important;grid-column:1!important;grid-row:1!important;
+  width:auto!important;height:auto!important;max-height:none!important;min-width:0!important;min-height:0!important;
+  display:flex!important;flex-direction:column!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-drawing-viewport{
+  position:relative!important;width:100%!important;height:0!important;max-height:none!important;min-height:0!important;
+  flex:1 1 0!important;overflow:auto!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-symbol-detail{
+  position:relative!important;grid-column:2!important;grid-row:1!important;
+  width:auto!important;height:100%!important;max-height:none!important;min-height:0!important;
+  display:flex!important;flex-direction:column!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-section{
+  display:flex!important;flex-direction:column!important;flex:1 1 0!important;height:100%!important;
+  max-height:none!important;min-height:0!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-table{
+  flex:1 1 0!important;height:0!important;max-height:none!important;min-height:0!important;overflow:auto!important;
+}
+@media(max-width:700px){.pfd-library.pfd-fullscreen-focus .pfd-lib-layout{grid-template-columns:minmax(0,1fr) 260px!important}}
