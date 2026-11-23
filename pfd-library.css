@@ -6,3 +6,9 @@
 body.dark .pfd-library,body.dark .pfd-lib-sidebar,body.dark .pfd-symbol-card,body.dark .pfd-symbol-detail,body.dark .pfd-lib-search,body.dark .pfd-canvas-toolbar{background:#142230;color:#e5edf4;border-color:#2a3e50}body.dark .pfd-symbol-card:hover{background:#1c2b3a}body.dark .pfd-symbol-card.selected{background:#302246;border-color:#9278ff}body.dark .pfd-symbol-preview{background:#101d29;border-color:#2a3e50}body.dark .pfd-lib-note{background:#1a2b3a;color:#a8bac8}body.dark .pfd-canvas-area{background-color:#101d29;background-image:radial-gradient(#304356 1px,transparent 1px)}body.dark .pfd-canvas-empty{color:#8296a9}
 @media(max-width:1050px){.pfd-lib-layout{grid-template-columns:210px minmax(0,1fr)}.pfd-symbol-detail{display:none}}
 @media(max-width:700px){.pfd-library{height:auto;min-height:calc(100vh - 100px)}.pfd-lib-layout{grid-template-columns:1fr;grid-template-rows:auto minmax(420px,1fr)}.pfd-lib-sidebar{max-height:300px;border-right:0;border-bottom:1px solid var(--border,#dfe7ee)}.pfd-symbol-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.pfd-lib-search{width:100%}.pfd-lib-head{align-items:flex-start;flex-direction:column}.pfd-lib-tools{width:100%}}
+/* Biblioteca ampliada: iconos coloridos y legibles */
+.pfd-symbol-card{min-height:92px;background:linear-gradient(180deg,#fff 0%,#f8fbff 100%)}
+.pfd-symbol-card svg{width:64px;height:46px}
+.pfd-symbol-card span{font-size:10px;line-height:1.25}
+.pfd-symbol-preview svg{width:165px;height:110px}
+body.dark .pfd-symbol-card{background:linear-gradient(180deg,#192b3b 0%,#142230 100%)}

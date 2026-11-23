@@ -1,13 +1,12 @@
-PFD Design - Etapa 1: separar biblioteca PFD
+PFD Design - Etapa 1: Biblioteca ampliada de símbolos
 
-Base: Beta 3.0 + biblioteca PFD funcional que el usuario verifico visualmente.
+Base: Pasteurizacion-Interactiva_beta3_PFD_Etapa1_Interfaz.zip (la base que el usuario confirmó como la última subida a GitHub).
 
-Cambios:
-- index.html: ahora enlaza pfd-library.css y pfd-library.js.
-- pfd-library.css: estilos exclusivos de la biblioteca de simbolos PFD.
-- pfd-library.js: datos SVG, filtros, busqueda, seleccion y panel de vista previa.
+Cambios en esta actualización:
+- Se amplió la biblioteca a un catálogo grande de símbolos PFD, con nombres en español.
+- Categorías dinámicas: Equipos, Válvulas, Instrumentación, Corrientes, Accesorios y otros.
+- Búsqueda por nombre, descripción o categoría.
+- Iconografía con colores por categoría y una vista de detalle/selección.
+- Se mantiene el lienzo vacío; no se implementó inserción ni conexión de símbolos.
 
-No se modifico supabase-config.js, README.txt ni SQL_CREAR_PROYECTOS.sql.
-Esta base beta3 no contiene archivos script.js ni styles.css separados; el codigo principal de la aplicacion permanece dentro de index.html. Para evitar reconstruir o reubicar el codigo preexistente, se crearon archivos exclusivos pfd-library.* para el modulo PFD.
-
-Para actualizar el repositorio, copiar unicamente index.html, pfd-library.css y pfd-library.js. No reemplazar otros archivos ni la carpeta .git.
+Archivos modificados: pfd-library.js y pfd-library.css. Se conserva el resto de la aplicación y configuración.
