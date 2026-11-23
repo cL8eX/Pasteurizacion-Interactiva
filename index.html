@@ -481,5 +481,5 @@ async function deleteProject(id){if(!confirm('¿Eliminar este proyecto?'))return
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 window.addEventListener('load',async()=>{applyTheme(localStorage.getItem('diagram_designer_theme_v1')||'light');supabaseClient=initSupabase();if(!supabaseClient){console.warn('Supabase no configurado. La interfaz de auth mostrará instrucciones.');return}try{const {data:{session}}=await supabaseClient.auth.getSession();authSession=session;authUser=session?.user||null;if(authUser)showDashboard();supabaseClient.auth.onAuthStateChange((_event,session)=>{authSession=session;authUser=session?.user||null;/* No navegar por eventos de refresco de sesión: conservar la pestaña y proyecto abiertos. */})}catch(e){console.error('Supabase session error',e)}});
 </script>
-<script src="pfd-library.js"></script>
+<script src="pfd-library.js?v=20261123-etapa2"></script>
 </body></html>
