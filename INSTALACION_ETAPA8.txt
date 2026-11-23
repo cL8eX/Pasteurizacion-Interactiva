@@ -1,0 +1,14 @@
+ETAPA 8 - BOTONES DEL PFD
+
+IMPORTANTE: Este ZIP contiene los archivos en la RAIZ del proyecto (no dentro de una carpeta etapa7).
+
+Para actualizar GitHub:
+1. Descomprime el ZIP.
+2. Copia TODOS los archivos de esta carpeta directamente a la raiz de tu repositorio.
+3. Acepta reemplazar index.html, pfd-library.js, pfd-library.css y los demás archivos que correspondan.
+4. Confirma que pfd-library.js y pfd-library.css queden en el mismo nivel que index.html.
+5. Commit/push y espera el despliegue de GitHub Pages.
+6. Abre la web y usa Ctrl+Shift+R.
+
+La cabecera del editor PFD incluye: Inicio, Pantalla completa, Descargar PDF y Guardar.
+Los botones están implementados en pfd-library.js; index.html carga pfd-library.js y pfd-library.css con versión v8.
