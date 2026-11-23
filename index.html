@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PFD Design</title>
-<link rel="stylesheet" href="pfd-library.css">
+<link rel="stylesheet" href="pfd-library.css?v=4">
 <style>
 :root{--aqua:#8b45e8;--aqua2:#eee5ff;--blue:#315de8;--ink:#15212d;--muted:#657583;--line:#e5ebf0;--bg:#fff;--accent-gradient:linear-gradient(110deg,#9148e8 0%,#654eea 48%,#315de8 100%)}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:#fff}
@@ -196,10 +196,6 @@ body.dark .project-info-card{background:#142230;border-color:#2a3e50;color:#e5ed
 @media(max-width:650px){.project-info-card{padding:17px}.project-info-grid{grid-template-columns:1fr}.pi-field.full{grid-column:auto}.ws-top-actions .project-info-button{font-size:11px;padding:7px 8px}.ws-user{display:none}}
 
 
-
-<style>
-.pfd-edit-area{min-width:0!important}.pfd-toolbar-actions{display:flex;gap:6px;align-items:center}.pfd-toolbar-actions button{border:1px solid #d3dbe5;background:white;border-radius:6px;padding:5px 9px;cursor:pointer}.pfd-drawing-viewport{height:calc(100vh - 250px);min-height:620px;overflow:auto;background:#fff;border:1px solid #dfe5ec}.pfd-drawing-viewport svg{width:1600px;max-width:none;height:auto;display:block}.pfd-node{cursor:move;user-select:none}.pfd-node-label{font:13px Arial,sans-serif;fill:#111;font-weight:500}.pfd-node.pfd-selected{filter:drop-shadow(0 0 3px #7b51ff)}.pfd-node.pfd-selected>g{stroke:#7b51ff!important}.pfd-editor-help{font-size:11px;color:#6d7b8b;padding:7px}.pfd-detail-empty{color:#748092;font-size:12px;line-height:1.5;padding:10px;background:#f7f9fc;border-radius:8px}.pfd-symbol-detail label{display:block;font-size:12px;font-weight:600;margin:14px 0 5px}.pfd-symbol-detail input{width:100%;box-sizing:border-box;padding:8px;border:1px solid #d5dce6;border-radius:7px}.pfd-detail-buttons{display:flex;gap:6px;margin-top:8px}.pfd-detail-buttons button{flex:1}.pfd-detail-help{font-size:11px;color:#758294;margin-top:10px}.pfd-lib-note{margin-top:6px}
-</style>
 </style>
 
 <style>
@@ -481,5 +477,5 @@ async function deleteProject(id){if(!confirm('¿Eliminar este proyecto?'))return
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 window.addEventListener('load',async()=>{applyTheme(localStorage.getItem('diagram_designer_theme_v1')||'light');supabaseClient=initSupabase();if(!supabaseClient){console.warn('Supabase no configurado. La interfaz de auth mostrará instrucciones.');return}try{const {data:{session}}=await supabaseClient.auth.getSession();authSession=session;authUser=session?.user||null;if(authUser)showDashboard();supabaseClient.auth.onAuthStateChange((_event,session)=>{authSession=session;authUser=session?.user||null;/* No navegar por eventos de refresco de sesión: conservar la pestaña y proyecto abiertos. */})}catch(e){console.error('Supabase session error',e)}});
 </script>
-<script src="pfd-library.js?v=20261123-etapa3-color-layout"></script>
+<script src="pfd-library.js?v=4"></script>
 </body></html>

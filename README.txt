@@ -18,3 +18,10 @@ V29 - Información editable del proyecto:
 
 ACTUALIZACION PARA DIAGRAMAS EDITABLES:
 En Supabase > SQL Editor, ejecutar el SQL actualizado incluido. Agrega la columna diagram JSONB a pfd_projects para guardar el diagrama de cada proyecto. La app carga un diagrama inicial HTST de pasteurización de leche, editable por nodos, textos, conectores y colores. Use el botón Guardar para persistir cambios.
+
+
+PFD Design - Etapa 4
+- Diagrama PFD de pasteurizacion reorganizado en cuatro bandas.
+- Equipos con simbologia a color por categoria.
+- Rutas de proceso y señales de instrumentacion.
+- PFD guardado en almacenamiento local version v5.

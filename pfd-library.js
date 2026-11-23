@@ -251,111 +251,29 @@ function pfdSvg(symbol,large=false){
 
 let pfdEditableDiagram=null,pfdSelectedNode=null,pfdScale=1,pfdDrag=null;
 function pfdDefaultDiagram(){
- const a=[];
- const add=(id,type,label,x,y,w=54,h=44,tag='')=>a.push({id,type,label,x,y,w,h,tag});
- // Layout on a wide, clean engineering sheet: four process bands
- add('raw','source','LECHE CRUDA',40,35,42,52);
- add('v101','valve','V-101',65,120,34,34);
- add('num1','diamond','1',66,166,30,28);
- add('p101','pump','P-101',118,214,58,48);
- add('tk101','tank','TK-101',208,204,100,68);
- add('lc101','instrument','LC 101',235,145,46,46,'LC');
- add('vc101','valve','VC-101',340,220,34,34);
- add('f101','filter','F-101',388,210,70,54);
- add('v102','valve','V-102',480,220,34,34);
- add('num2','diamond','2',524,222,30,28);
- add('p102','pump','P-102',570,214,58,48);
- add('v103','valve','V-103',650,220,34,34);
- add('he101','heat','H-E101',700,202,64,72);
- add('tc101','instrument','TC 101',709,145,46,46,'TC');
- add('vc102','valve','VC-102',790,220,34,34);
- add('num3','diamond','3',835,222,30,28);
- add('d101','separator','D-101',882,194,64,82);
- add('lir102','instrument','LIR 102',891,145,46,46,'LIR');
- add('v111','valve','V-111',970,220,34,34);
- add('num11','diamond','11',1015,222,30,28);
- add('tk103','tank','TK-103',1065,202,100,70);
- add('lc104','instrument','LC 104',1092,145,46,46,'LC');
- // Cream separation branch and buffer storage
- add('vc103','valve','VC-103',896,310,34,34);
- add('num4','diamond','4',898,356,30,28);
- add('p103','pump','P-103',886,405,58,48);
- add('vc104','valve','VC-104',897,468,34,34);
- add('tk102','tank','TK-102',760,462,100,70);
- add('lc102','instrument','LC 102',788,535,46,46,'LC');
- add('p104','pump','P-104',680,468,58,48);
- add('v104','valve','V-104',625,475,34,34);
- add('num5','diamond','5',575,477,30,28);
- add('p105','pump','P-105',520,468,58,48);
- add('vc105','valve','VC-105',465,475,34,34);
- add('num6','diamond','6',415,477,30,28);
- add('he103','heat','H-E103',340,455,70,58);
- add('tcr101','instrument','TCR 101',350,395,46,46,'TCR');
- add('he102','heat','H-E102',245,455,70,58);
- add('vc106','valve','VC-106',190,475,34,34);
- add('he104','pasteurizer','H-E104',118,445,64,78);
- add('tcr102','instrument','TCR 102',127,395,46,46,'TCR');
- add('v106','valve','V-106',66,430,34,34);
- add('p105b','pump','P-105',60,478,58,48);
- add('num7','diamond','7',68,535,30,28);
- // Third band: homogenization, deodorization, cooling, cream filling
- add('vc107','valve','VC-107',110,588,34,34);
- add('hr101','homogenizer','H-R101',160,575,68,72);
- add('tcr103','instrument','TCR 103',170,520,46,46,'TCR');
- add('v107','valve','V-107',255,600,34,34);
- add('num8','diamond','8',300,602,30,28);
- add('p107','pump','P-107',345,590,58,48);
- add('fa101','tank','FA-101',430,575,76,82);
- add('fcr101','instrument','FCR 101',445,520,46,46,'FCR');
- add('vc108','valve','VC-108',530,600,34,34);
- add('num9','diamond','9',575,602,30,28);
- add('v108','valve','V-108',620,600,34,34);
- add('p108','pump','P-108',670,590,58,48);
- add('he105','heat','H-E105',750,575,76,82);
- add('tcr104','instrument','TCR 104',765,520,46,46,'TCR');
- add('vc109','valve','VC-109',850,600,34,34);
- add('p109','pump','P-109',895,590,58,48);
- add('v110','valve','V-110',970,600,34,34);
- add('num10','diamond','10',1015,602,30,28);
- add('pack1','packager','T-B102',1065,575,150,82);
- add('cream','product','CREMA DE LECHE',1235,590,52,52);
- // Right-side vertical precooling line, arranged as a single column
- add('vc110','valve','VC-110',1370,305,34,34);
- add('num12a','diamond','12',1372,355,30,28);
- add('p110','pump','P-110',1360,405,58,48);
- add('vc111','valve','VC-111',1370,470,34,34);
- add('he106','heat','H-E106',1350,515,68,94);
- add('tcr105','instrument','TCR 105',1420,540,46,46,'TCR');
- add('v112','valve','V-112',1370,625,34,34);
- add('p111','pump','P-111',1360,675,58,48);
- add('num12b','diamond','12',1372,730,30,28);
- add('vc112','valve','VC-112',1370,780,34,34);
- // Fourth band: final HTST, homogenization, cooling and milk packaging
- add('v113','valve','V-113',1300,850,34,34);
- add('num13','diamond','13',1255,852,30,28);
- add('vc113','valve','VC-113',1205,850,34,34);
- add('he107','pasteurizer','H-E107',1130,825,64,78);
- add('tcr106','instrument','TCR 106',1140,770,46,46,'TCR');
- add('v114','valve','V-114',1060,850,34,34);
- add('p112','pump','P-112',1005,840,58,48);
- add('hr102','homogenizer','H-R102',925,825,68,72);
- add('tcr107','instrument','TCR 107',935,770,46,46,'TCR');
- add('v115','valve','V-115',845,850,34,34);
- add('p113','pump','P-113',790,840,58,48);
- add('he108','heat','H-E108',710,825,76,82);
- add('tcr108','instrument','TCR 108',725,770,46,46,'TCR');
- add('vc116','valve','VC-116',635,850,34,34);
- add('p114','pump','P-114',580,840,58,48);
- add('v116','valve','V-116',525,850,34,34);
- add('pack2','packager','T-B101',410,825,150,82);
- add('pasteurized','product','LECHE PASTEURIZADA',205,940,52,52);
- // Stage titles, with ample whitespace
- ['RECEPCIÓN','TAMIZADO','TRATAMIENTO TÉRMICO','DESCREMADO','ALMACENAMIENTO','PASTEURIZACIÓN HTST','PRECALENTAMIENTO','HOMOGENIZACIÓN','DESODORIZACIÓN','ENFRIAMIENTO','ENVASADO'].forEach((t,i)=>add('stage'+i,'text',t,[110,380,680,870,1070,100,1310,160,430,750,1065][i],[305,305,305,125,305,690,690,700,700,700,700][i],150,24));
+ const a=[];const add=(id,type,label,x,y,w=54,h=44,tag='')=>a.push({id,type,label,x,y,w,h,tag});
+ // ROW 1: raw milk reception -> screening -> thermal treatment -> separator -> storage
+ add('raw','source','LECHE CRUDA',45,155,42,52); add('v101','valve','V-101',145,180,34,34); add('num1','diamond','1',205,183,30,28); add('p101','pump','P-101',270,172,58,48); add('tk101','tank','TK-101',365,165,100,68); add('lc101','instrument','LC-101',392,105,46,46,'LC');
+ add('vc101','valve','VC-101',500,180,34,34); add('f101','filter','F-101',560,167,70,54); add('v102','valve','V-102',655,180,34,34); add('num2','diamond','2',710,183,30,28); add('p102','pump','P-102',775,172,58,48); add('v103','valve','V-103',855,180,34,34); add('he101','heat','H-E101',915,160,64,72); add('tc101','instrument','TC-101',924,103,46,46,'TC');
+ add('vc102','valve','VC-102',1010,180,34,34); add('num3','diamond','3',1065,183,30,28); add('d101','separator','D-101',1125,153,64,82); add('lir102','instrument','LIR-102',1134,100,46,46,'LIR'); add('v111','valve','V-111',1230,180,34,34); add('num11','diamond','11',1285,183,30,28); add('tk103','tank','TK-103',1350,160,100,70); add('lc104','instrument','LC-104',1377,103,46,46,'LC');
+ // ROW 2: separator outlet -> balance/storage tank -> HTST return leftward
+ add('vc103','valve','VC-103',1140,390,34,34); add('num4','diamond','4',1142,445,30,28); add('p103','pump','P-103',1125,495,58,48); add('vc104','valve','VC-104',1140,560,34,34); add('tk102','tank','TK-102',1080,590,100,70); add('lc102','instrument','LC-102',1107,665,46,46,'LC');
+ add('p104','pump','P-104',960,600,58,48); add('v104','valve','V-104',900,605,34,34); add('num5','diamond','5',845,608,30,28); add('p105','pump','P-105',785,600,58,48); add('vc105','valve','VC-105',725,605,34,34); add('num6','diamond','6',670,608,30,28); add('he103','heat','H-E103',590,590,70,58); add('tcr101','instrument','TCR-101',602,530,46,46,'TCR');
+ add('he102','heat','H-E102',480,590,70,58); add('vc106','valve','VC-106',410,605,34,34); add('he104','pasteurizer','H-E104',330,580,64,78); add('tcr102','instrument','TCR-102',339,525,46,46,'TCR'); add('v106','valve','V-106',250,605,34,34); add('p105b','pump','P-105',185,600,58,48); add('num7','diamond','7',120,608,30,28);
+ // ROW 3: homogenization -> deodorization -> cooling -> cream packaging
+ add('vc107','valve','VC-107',330,825,34,34); add('hr101','homogenizer','H-R101',395,805,68,72); add('tcr103','instrument','TCR-103',406,745,46,46,'TCR'); add('v107','valve','V-107',490,825,34,34); add('num8','diamond','8',545,828,30,28); add('p107','pump','P-107',605,820,58,48); add('fa101','tank','FA-101',690,805,76,82); add('fcr101','instrument','FCR-101',705,745,46,46,'FCR');
+ add('vc108','valve','VC-108',795,825,34,34); add('num9','diamond','9',850,828,30,28); add('v108','valve','V-108',905,825,34,34); add('p108','pump','P-108',965,820,58,48); add('he105','heat','H-E105',1050,805,76,82); add('tcr104','instrument','TCR-104',1065,745,46,46,'TCR'); add('vc109','valve','VC-109',1145,825,34,34); add('p109','pump','P-109',1205,820,58,48); add('v110','valve','V-110',1270,825,34,34); add('num10','diamond','10',1325,828,30,28); add('pack1','packager','T-B102',1390,805,150,82); add('cream','product','CREMA DE LECHE',1565,820,52,52);
+ // Right-side preheating vertical circuit
+ add('vc110','valve','VC-110',1690,390,34,34); add('num12a','diamond','12',1692,440,30,28); add('p110','pump','P-110',1675,490,58,48); add('vc111','valve','VC-111',1690,555,34,34); add('he106','heat','H-E106',1670,600,68,94); add('tcr105','instrument','TCR-105',1740,630,46,46,'TCR'); add('v112','valve','V-112',1690,720,34,34); add('p111','pump','P-111',1675,770,58,48); add('num12b','diamond','12',1692,825,30,28); add('vc112','valve','VC-112',1690,875,34,34);
+ // ROW 4: final HTST, homogenization, cooling, packaging — flow right-to-left
+ add('v113','valve','V-113',1580,1010,34,34); add('num13','diamond','13',1525,1013,30,28); add('vc113','valve','VC-113',1465,1010,34,34); add('he107','pasteurizer','H-E107',1380,990,64,78); add('tcr106','instrument','TCR-106',1389,935,46,46,'TCR'); add('v114','valve','V-114',1300,1010,34,34); add('p112','pump','P-112',1240,1005,58,48); add('hr102','homogenizer','H-R102',1150,990,68,72); add('tcr107','instrument','TCR-107',1161,935,46,46,'TCR'); add('v115','valve','V-115',1070,1010,34,34); add('p113','pump','P-113',1010,1005,58,48); add('he108','heat','H-E108',925,990,76,82); add('tcr108','instrument','TCR-108',940,935,46,46,'TCR'); add('vc116','valve','VC-116',840,1010,34,34); add('p114','pump','P-114',780,1005,58,48); add('v116','valve','V-116',715,1010,34,34); add('pack2','packager','T-B101',605,990,150,82); add('pasteurized','product','LECHE PASTEURIZADA',400,1015,52,52);
+ // Section headings are short and aligned to each band, never laid across the process line.
+ [['s1a','RECEPCIÓN',85,285,150],['s1b','TAMIZADO',525,285,160],['s1c','TRATAMIENTO TÉRMICO',820,285,240],['s1d','DESCREMADO',1110,285,170],['s1e','ALMACENAMIENTO',1330,285,220],['s2','TANQUE DE BALANCE · RETORNO HTST',600,390,500],['s3a','HOMOGENIZACIÓN',340,930,200],['s3b','DESODORIZACIÓN',650,930,200],['s3c','ENFRIAMIENTO',1010,930,200],['s3d','ENVASADO DE CREMA',1390,930,230],['s4a','PRECALENTAMIENTO',1600,360,210],['s4b','PASTEURIZACIÓN FINAL',1320,1150,260],['s4c','HOMOGENIZACIÓN',1080,1150,210],['s4d','ENFRIAMIENTO',850,1150,170],['s4e','ENVASADO',600,1150,160]].forEach(([id,t,x,y,w])=>add(id,'text',t,x,y,w,24));
  return a;
 }
 function pfdEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function pfdGet(){if(!pfdEditableDiagram){try{pfdEditableDiagram=JSON.parse(localStorage.getItem('pfd-editable-v3-'+(activeProject?.id||'default')))||pfdDefaultDiagram()}catch(e){pfdEditableDiagram=pfdDefaultDiagram()}}return pfdEditableDiagram}
-function pfdSave(){try{localStorage.setItem('pfd-editable-v3-'+(activeProject?.id||'default'),JSON.stringify(pfdGet()))}catch(e){}}
+function pfdGet(){if(!pfdEditableDiagram){try{pfdEditableDiagram=JSON.parse(localStorage.getItem('pfd-editable-v5-'+(activeProject?.id||'default')))||pfdDefaultDiagram()}catch(e){pfdEditableDiagram=pfdDefaultDiagram()}}return pfdEditableDiagram}
+function pfdSave(){try{localStorage.setItem('pfd-editable-v5-'+(activeProject?.id||'default'),JSON.stringify(pfdGet()))}catch(e){}}
 function pfdShape(n){
  const x=n.x,y=n.y,w=n.w,h=n.h,cx=x+w/2,cy=y+h/2,sw=2;
  const palettes={pump:{stroke:'#2563eb',fill:'#eff6ff',accent:'#3b82f6'},tank:{stroke:'#0f766e',fill:'#ecfdf5',accent:'#14b8a6'},filter:{stroke:'#0891b2',fill:'#ecfeff',accent:'#06b6d4'},heat:{stroke:'#c2410c',fill:'#fff7ed',accent:'#f97316'},pasteurizer:{stroke:'#b91c1c',fill:'#fff1f2',accent:'#ef4444'},homogenizer:{stroke:'#7c3aed',fill:'#f5f3ff',accent:'#8b5cf6'},separator:{stroke:'#a16207',fill:'#fefce8',accent:'#eab308'},valve:{stroke:'#d97706',fill:'#fff7ed',accent:'#f59e0b'},instrument:{stroke:'#6d28d9',fill:'#f5f3ff',accent:'#8b5cf6'},diamond:{stroke:'#475569',fill:'#f1f5f9',accent:'#64748b'},packager:{stroke:'#0f766e',fill:'#ecfdf5',accent:'#10b981'},source:{stroke:'#111827',fill:'#f8fafc',accent:'#111827'},product:{stroke:'#16a34a',fill:'#f0fdf4',accent:'#16a34a'},rect:{stroke:'#64748b',fill:'#f8fafc',accent:'#64748b'}};
@@ -379,22 +297,25 @@ function pfdShape(n){
 }
 function pfdRender(){
  const svg=document.getElementById('pfdDrawing');if(!svg)return;const nodes=pfdGet(),byId=id=>nodes.find(n=>n.id===id);
- const edge=(a,b,dir='h')=>{const A=byId(a),B=byId(b);if(!A||!B)return '';const acx=A.x+A.w/2,acy=A.y+A.h/2,bcx=B.x+B.w/2,bcy=B.y+B.h/2;let d;
- if(dir==='h'){const sx=acx+(bcx>=acx?A.w/2:-A.w/2),ex=bcx+(bcx>=acx?-B.w/2:B.w/2);d=`M${sx} ${acy}H${ex}`}
- else if(dir==='v'){const sy=acy+(bcy>=acy?A.h/2:-A.h/2),ey=bcy+(bcy>=acy?-B.h/2:B.h/2);d=`M${acx} ${sy}V${ey}`}
- else {const sx=acx+(bcx>=acx?A.w/2:-A.w/2),ex=bcx+(bcx>=acx?-B.w/2:B.w/2),mid=(sx+ex)/2;d=`M${sx} ${acy}H${mid}V${bcy}H${ex}`}
- return `<path d="${d}" class="pfd-pipe" marker-end="url(#pfdArrow)"/>`};
+ const edge=(a,b,dir='h')=>{const A=byId(a),B=byId(b);if(!A||!B)return '';const acx=A.x+A.w/2,acy=A.y+A.h/2,bcx=B.x+B.w/2,bcy=B.y+B.h/2;let d,x2,y2,orient;
+ if(dir==='v'){const sy=acy+(bcy>=acy?A.h/2:-A.h/2),ey=bcy+(bcy>=acy?-B.h/2:B.h/2);d=`M${acx} ${sy}V${ey}`;x2=acx;y2=ey;orient=bcy>=acy?'down':'up'}
+ else if(dir==='elbow'){const sx=acx+(bcx>=acx?A.w/2:-A.w/2),ex=bcx+(bcx>=acx?-B.w/2:B.w/2),mid=(sx+ex)/2;d=`M${sx} ${acy}H${mid}V${bcy}H${ex}`;x2=ex;y2=bcy;orient=bcx>=acx?'right':'left'}
+ else {const sx=acx+(bcx>=acx?A.w/2:-A.w/2),ex=bcx+(bcx>=acx?-B.w/2:B.w/2);d=`M${sx} ${acy}H${ex}`;x2=ex;y2=acy;orient=bcx>=acx?'right':'left'}
+ let arrow='';const z=7;if(orient==='right')arrow=`M${x2} ${y2}L${x2-z} ${y2-z/2}L${x2-z} ${y2+z/2}Z`;else if(orient==='left')arrow=`M${x2} ${y2}L${x2+z} ${y2-z/2}L${x2+z} ${y2+z/2}Z`;else if(orient==='down')arrow=`M${x2} ${y2}L${x2-z/2} ${y2-z}L${x2+z/2} ${y2-z}Z`;else arrow=`M${x2} ${y2}L${x2-z/2} ${y2+z}L${x2+z/2} ${y2+z}Z`;
+ return `<path d="${d}" class="pfd-pipe"/><path d="${arrow}" class="pfd-arrowhead"/>`};
  const seq=(ids,dir='h')=>ids.slice(0,-1).map((id,i)=>edge(id,ids[i+1],dir)).join('');
- const pipes=`<g>${seq(['raw','v101','num1','p101','tk101','vc101','f101','v102','num2','p102','v103','he101','vc102','num3','d101','v111','num11','tk103'])}
- ${seq(['d101','vc103','num4','p103','vc104','tk102'],'v')}
+ const bands=`<g class=\"pfd-bands\"><rect x=\"20\" y=\"45\" width=\"1580\" height=\"300\" rx=\"12\" fill=\"#f8fbff\" stroke=\"#e3edf7\"/><rect x=\"20\" y=\"365\" width=\"1580\" height=\"380\" rx=\"12\" fill=\"#fbfcfe\" stroke=\"#e8edf4\"/><rect x=\"20\" y=\"765\" width=\"1620\" height=\"250\" rx=\"12\" fill=\"#f9fbfd\" stroke=\"#e4edf2\"/><rect x=\"20\" y=\"965\" width=\"1780\" height=\"260\" rx=\"12\" fill=\"#fbfcff\" stroke=\"#e4e8f2\"/></g>`;
+ const pipes=`<g>${edge('raw','v101','elbow')}${seq(['v101','num1','p101','tk101','vc101','f101','v102','num2','p102','v103','he101','vc102','num3','d101','v111','num11','tk103'])}
+ ${edge('d101','vc103','elbow')}${seq(['vc103','num4','p103','vc104'],'v')}${edge('vc104','tk102','elbow')}
  ${seq(['tk102','p104','v104','num5','p105','vc105','num6','he103','he102','vc106','he104','v106','p105b','num7'],'h')}
  ${seq(['num7','vc107','hr101','v107','num8','p107','fa101','vc108','num9','v108','p108','he105','vc109','p109','v110','num10','pack1','cream'],'h')}
- ${seq(['tk103','vc110','num12a','p110','vc111','he106','v112','p111','num12b','vc112'],'v')}
+ ${edge('tk103','vc110','elbow')}${seq(['vc110','num12a','p110','vc111','he106','v112','p111','num12b','vc112'],'v')}
  ${seq(['vc112','v113','num13','vc113','he107','v114','p112','hr102','v115','p113','he108','vc116','p114','v116','pack2','pasteurized'],'h')}
  </g>`;
- const controls=`<g class="pfd-control-lines"><path d="M258 204V180H292V220 M731 202V180H740V202 M913 194V177H938V194 M914 276V294H946V310 M1116 195V176H1142V202 M372 454V430H400V455 M470 454V430H500V455 M800 575V555H820V575 M1442 525V500H1460V520" /></g>`;
+ const controlPairs=[['lc101','tk101'],['tc101','he101'],['lir102','d101'],['lc104','tk103'],['lc102','tk102'],['tcr101','he103'],['tcr102','he104'],['tcr103','hr101'],['fcr101','fa101'],['tcr104','he105'],['tcr105','he106'],['tcr106','he107'],['tcr107','hr102'],['tcr108','he108']];const controls='<g class="pfd-control-lines">'+controlPairs.map(([i,e])=>{const I=byId(i),E=byId(e);if(!I||!E)return '';const ix=I.x+I.w/2,iy=I.y+I.h,ex=E.x+E.w/2,ey=E.y,mid=iy+12;return `<path d="M${ix} ${iy}V${mid}H${ex}V${ey}"/>`}).join('')+'</g>';
  const stageNodes=nodes.filter(n=>n.type==='text').map(pfdShape).join('');
- svg.innerHTML=`<defs><marker id="pfdArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#64748b"/></marker></defs><rect width="1600" height="1050" fill="#fff"/>${pipes}${controls}${nodes.filter(n=>n.type!=='text').map(pfdShape).join('')}${stageNodes}`;
+ svg.setAttribute('viewBox','0 0 1840 1250');svg.style.width=(1840*pfdScale)+'px';
+ svg.innerHTML=`<style>.pfd-pipe{fill:none;stroke:#64748b;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.pfd-arrowhead{fill:#64748b;stroke:none}.pfd-control-lines path{fill:none;stroke:#94a3b8;stroke-width:1.4;stroke-dasharray:5 5}.pfd-node-label{font:12px Arial,sans-serif;font-weight:650;fill:#334155}.pfd-node text{paint-order:stroke;stroke:#fff;stroke-width:2px;stroke-linejoin:round}</style><defs></defs><rect width="1840" height="1250" fill="#fff"/>${bands}${pipes}${controls}${nodes.filter(n=>n.type!=='text').map(pfdShape).join('')}${stageNodes}`;
  svg.querySelectorAll('.pfd-node').forEach(g=>{g.addEventListener('pointerdown',pfdStartDrag);g.addEventListener('click',e=>{e.stopPropagation();pfdSelectedNode=g.dataset.node;pfdRender();pfdShowDetail()});g.addEventListener('dblclick',e=>{e.stopPropagation();pfdEditLabel(g.dataset.node)})});
  svg.addEventListener('click',()=>{pfdSelectedNode=null;pfdRender();pfdShowDetail()});
 }
@@ -406,13 +327,13 @@ function pfdApplyLabel(){const n=pfdGet().find(x=>x.id===pfdSelectedNode),v=docu
 function pfdEditLabel(id){pfdSelectedNode=id;pfdShowDetail();document.getElementById('pfdLabelEdit')?.focus()}
 function pfdDeleteNode(){pfdEditableDiagram=pfdGet().filter(n=>n.id!==pfdSelectedNode);pfdSelectedNode=null;pfdSave();pfdRender();pfdShowDetail()}
 function pfdInsertSymbol(id){const s=pfdSymbols.find(x=>x.id===id);if(!s)return;const typeMap={'pump':'pump','pump-positive':'pump','bomba-diafragma':'pump','bomba-engranajes':'pump','bomba-piston':'pump','bomba-tornillo':'pump','bomba-dosificadora':'pump','bomba-vacio':'pump','bomba-sumergible':'pump','bomba-vertical':'pump','bomba-peristaltica':'pump','tank':'tank','tank-horizontal':'tank','tanque-abierto':'tank','tanque-conico':'tank','tanque-esferico':'tank','tanque-presion':'tank','recipiente-vertical':'tank','recipiente-horizontal':'tank','heat-shell':'heat','heat-plate':'heat','heater':'heat','cooler':'heat','filter':'filter','separator':'separator','homogenizer':'homogenizer','pasteurizer':'pasteurizer','valve-manual':'valve','valve-control':'valve','valve-check':'valve','instrument-flow':'instrument','instrument-pressure':'instrument','instrument-temp':'instrument','instrument-level':'instrument','instrument-control':'instrument','stream-arrow':'diamond','stream-dashed':'diamond','stream-cross':'diamond','packager':'packager'};const n={id:'new'+Date.now(),type:typeMap[s.id]||'rect',label:s.name,x:750,y:450,w:58,h:54};pfdGet().push(n);pfdSelectedNode=n.id;pfdSave();pfdRender();pfdShowDetail()}
-function pfdZoom(v){pfdScale=Math.max(.5,Math.min(2,pfdScale+v));const svg=document.getElementById('pfdDrawing');if(svg)svg.style.width=(1600*pfdScale)+'px';document.getElementById('pfdZoomLabel').textContent=Math.round(pfdScale*100)+'%'}
-function pfdFit(){pfdScale=1;pfdZoom(0)}
+function pfdZoom(v){pfdScale=Math.max(.5,Math.min(2,pfdScale+v));const svg=document.getElementById('pfdDrawing');if(svg)svg.style.width=(1840*pfdScale)+'px';document.getElementById('pfdZoomLabel').textContent=Math.round(pfdScale*100)+'%'}
+function pfdFit(){const vp=document.getElementById('pfdViewport');pfdScale=Math.min(1,Math.max(.65,((vp?.clientWidth||1200)-24)/1840));const svg=document.getElementById('pfdDrawing');if(svg)svg.style.width=(1840*pfdScale)+'px';const label=document.getElementById('pfdZoomLabel');if(label)label.textContent=Math.round(pfdScale*100)+'%'}
 function pfdReset(){pfdEditableDiagram=pfdDefaultDiagram();pfdSelectedNode=null;pfdSave();pfdRender();pfdShowDetail();pfdFit()}
 function initPfdDiagram(){pfdGet();pfdRender();pfdShowDetail();pfdFit()}
 function renderPfdLibrary(){
  const c=document.getElementById('wsContent');
- c.innerHTML=`<section class="pfd-library pfd-editor"><header class="pfd-lib-head"><div><h2>Diagrama PFD</h2><p>Recreación editable del diagrama oficial de pasteurización · Selecciona y arrastra equipos, instrumentos y etiquetas.</p></div><div class="pfd-lib-tools"><input id="pfdSymbolSearch" class="pfd-lib-search" placeholder="Buscar equipo o símbolo…" oninput="drawPfdSymbolLibrary()"></div></header><div class="pfd-lib-layout"><aside class="pfd-lib-sidebar"><div class="pfd-lib-sidebar-title">Biblioteca de símbolos</div><nav class="pfd-lib-tabs" id="pfdLibTabs"></nav><div class="pfd-symbol-grid" id="pfdSymbolGrid"></div></aside><main class="pfd-canvas-area pfd-edit-area"><div class="pfd-canvas-toolbar"><span>Diagrama oficial · Vista editable</span><div class="pfd-toolbar-actions"><button onclick="pfdZoom(-.1)">−</button><span id="pfdZoomLabel">100%</span><button onclick="pfdZoom(.1)">＋</button><button onclick="pfdFit()">Ajustar</button><button onclick="pfdReset()">Restaurar</button></div></div><div class="pfd-drawing-viewport" id="pfdViewport"><svg id="pfdDrawing" viewBox="0 0 1600 1050" xmlns="http://www.w3.org/2000/svg"></svg></div><div class="pfd-editor-help">Arrastra cada elemento para reubicarlo · Haz clic para editar su nombre · Usa la biblioteca para insertar nuevos símbolos.</div></main><aside class="pfd-symbol-detail" id="pfdSymbolDetail"></aside></div><div class="pfd-lib-note">Etapa 2 · Diagrama recreado con elementos SVG independientes y selección/movimiento individual.</section>`;
+ c.innerHTML=`<section class="pfd-library pfd-editor"><header class="pfd-lib-head"><div><h2>Diagrama PFD</h2><p>Recreación editable del diagrama oficial de pasteurización · Selecciona y arrastra equipos, instrumentos y etiquetas.</p></div><div class="pfd-lib-tools"><input id="pfdSymbolSearch" class="pfd-lib-search" placeholder="Buscar equipo o símbolo…" oninput="drawPfdSymbolLibrary()"></div></header><div class="pfd-lib-layout"><aside class="pfd-lib-sidebar"><div class="pfd-lib-sidebar-title">Biblioteca de símbolos</div><nav class="pfd-lib-tabs" id="pfdLibTabs"></nav><div class="pfd-symbol-grid" id="pfdSymbolGrid"></div></aside><main class="pfd-canvas-area pfd-edit-area"><div class="pfd-canvas-toolbar"><span>Diagrama oficial · Vista editable</span><div class="pfd-toolbar-actions"><button onclick="pfdZoom(-.1)">−</button><span id="pfdZoomLabel">100%</span><button onclick="pfdZoom(.1)">＋</button><button onclick="pfdFit()">Ajustar</button><button onclick="pfdReset()">Restaurar</button></div></div><div class="pfd-drawing-viewport" id="pfdViewport"><svg id="pfdDrawing" viewBox="0 0 1840 1250" xmlns="http://www.w3.org/2000/svg"></svg></div><div class="pfd-editor-help">Arrastra cada elemento para reubicarlo · Haz clic para editar su nombre · Usa la biblioteca para insertar nuevos símbolos.</div></main><aside class="pfd-symbol-detail" id="pfdSymbolDetail"></aside></div><div class="pfd-lib-note">Etapa 4 · Distribución en bandas, simbología a color y elementos independientes.</section>`;
  drawPfdSymbolLibrary(); initPfdDiagram();
 }
 function drawPfdSymbolLibrary(){const tabs=document.getElementById('pfdLibTabs'),grid=document.getElementById('pfdSymbolGrid'),detail=document.getElementById('pfdSymbolDetail');if(!tabs||!grid||!detail)return;const cats=['Todos',...new Set(pfdSymbols.map(s=>s.cat))];tabs.innerHTML=cats.map(c=>`<button class="pfd-lib-tab ${pfdActiveCategory===c?'active':''}" onclick="pfdActiveCategory='${c}';drawPfdSymbolLibrary()">${c}${c==='Todos'?' ('+pfdSymbols.length+')':''}</button>`).join('');const q=(document.getElementById('pfdSymbolSearch')?.value||'').toLowerCase();const list=pfdSymbols.filter(s=>(pfdActiveCategory==='Todos'||s.cat===pfdActiveCategory)&&(s.name.toLowerCase().includes(q)||s.desc.toLowerCase().includes(q)||s.cat.toLowerCase().includes(q)));grid.innerHTML=list.map(s=>`<button class="pfd-symbol-card ${s.id===pfdSelectedSymbol?'selected':''}" onclick="pfdSelectedSymbol='${s.id}';drawPfdSymbolLibrary()">${pfdSvg(s)}<span>${s.name}</span></button>`).join('')||'<div class="pfd-lib-empty">No se encontraron símbolos.</div>';const selected=pfdSymbols.find(s=>s.id===pfdSelectedSymbol)||pfdSymbols[0];detail.innerHTML=`<div class="pfd-symbol-preview">${pfdSvg(selected,true)}</div><h3>${selected.name}</h3><p><strong>Categoria:</strong> ${selected.cat}</p><p>${selected.desc}</p><button class="btn" onclick="pfdInsertSymbol('${selected.id}')">＋ Insertar en diagrama</button><div class="pfd-detail-empty" style="margin-top:14px">${pfdSelectedNode?'Elemento del diagrama seleccionado.':'Selecciona un elemento del diagrama para editarlo.'}</div>`}

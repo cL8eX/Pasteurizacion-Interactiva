@@ -12,18 +12,8 @@ Cambios en esta actualización:
 Archivos modificados: pfd-library.js y pfd-library.css. Se conserva el resto de la aplicación y configuración.
 
 
-ETAPA 2 - DIAGRAMA PFD EDITABLE
-- Se recreó el PFD de pasteurización con elementos SVG individuales.
-- Selecciona un elemento para editar su etiqueta desde el panel derecho.
-- Arrastra elementos para reubicarlos.
-- Inserta símbolos desde la biblioteca lateral.
-- El estado se guarda localmente por proyecto en este navegador.
-- Usa Restaurar para volver a la disposición inicial.
-
-
-ETAPA 3 - COLOR Y ORDEN DEL PFD
-- Símbolos con colores por categoría: bombas azul, tanques verde/teal, intercambiadores naranja, pasteurizadores rojo, homogeneizadores morado, válvulas ámbar, instrumentos morado.
-- Diagrama reordenado en bandas de proceso para reducir cruces y superposición.
-- Tuberías con rutas ortogonales y flechas.
-- Se cambió la clave de guardado local a v3 para que el navegador cargue la nueva distribución inicial y no reutilice el layout anterior.
-- Se versionó pfd-library.js para evitar caché.
+ETAPA 4 - PFD COLOR Y ORDEN
+- Se conservó el HTML principal completo de la aplicación.
+- El PFD se organiza en cuatro bandas de proceso y una columna de precalentamiento.
+- Simbología a color por categoría; tuberías y señales diferenciadas.
+- El editor usa almacenamiento local pfd-editable-v5 para no recuperar diagramas anteriores.
