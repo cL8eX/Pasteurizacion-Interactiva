@@ -367,8 +367,9 @@ function restoreDiagramSnapshot(snap){diagramState=JSON.parse(snap);selectedNode
 function initializeDiagramHistory(){diagramHistory=[];diagramRedoStack=[];historyReady=true}
 function diagramUndo(){if(!diagramHistory.length){toast('No hay cambios para deshacer');return}diagramRedoStack.push(diagramSnapshot());const previous=diagramHistory.pop();restoreDiagramSnapshot(previous);toast('Cambio deshecho')}
 function diagramRedo(){if(!diagramRedoStack.length){toast('No hay cambios para rehacer');return}const current=diagramSnapshot();if(diagramHistory.at(-1)!==current)diagramHistory.push(current);const snap=diagramRedoStack.pop();restoreDiagramSnapshot(snap);toast('Cambio rehecho')}
-function toggleDiagramFullscreen(){const el=document.querySelector('.blocks-canvas-area');if(!el)return;if(document.fullscreenElement){document.exitFullscreen?.()}else if(el.requestFullscreen){el.requestFullscreen().catch(()=>el.classList.toggle('canvas-fullscreen'))}else el.classList.toggle('canvas-fullscreen')}
-document.addEventListener('fullscreenchange',()=>{const el=document.querySelector('.blocks-canvas-area');if(el)el.classList.toggle('canvas-fullscreen',document.fullscreenElement===el);setTimeout(()=>fitDiagram(),120)});
+function toggleDiagramFullscreen(){const el=document.querySelector('.blocks-editor');if(!el)return;const active=document.fullscreenElement===el||el.classList.contains('pfd-fullscreen');if(active){if(document.fullscreenElement===el)document.exitFullscreen?.();else el.classList.remove('pfd-fullscreen');return}if(el.requestFullscreen){el.requestFullscreen().catch(()=>{el.classList.add('pfd-fullscreen');setTimeout(()=>fitDiagram(),150)})}else{el.classList.add('pfd-fullscreen');setTimeout(()=>fitDiagram(),150)}}
+document.addEventListener('fullscreenchange',()=>{const el=document.querySelector('.blocks-editor');if(!el)return;el.classList.toggle('pfd-fullscreen',document.fullscreenElement===el);setTimeout(()=>fitDiagram(),180)});
+window.addEventListener('resize',()=>{if(document.querySelector('.blocks-editor.pfd-fullscreen'))setTimeout(()=>fitDiagram(),80)});
 function openTagGuide(){let m=document.getElementById('tagGuideModal');if(!m){m=document.createElement('div');m.id='tagGuideModal';m.className='tag-guide-modal';m.innerHTML=`<div class="tag-guide-card"><button class="tag-guide-close" onclick="closeTagGuide()">×</button><div class="tag-guide-kicker">GUÍA DE INGENIERÍA</div><h2>Nomenclatura de equipos</h2><p>Los códigos alfanuméricos de equipos —por ejemplo <b>P-104</b> o <b>E-105</b>— se utilizan principalmente en diagramas PFD y P&amp;ID. En un diagrama de bloques no son obligatorios; puedes usarlos como etiquetas opcionales si ayudan a documentar tu proceso.</p><div class="tag-guide-table"><div><b>Familia</b><b>Ejemplo / uso habitual</b></div><div><strong>P</strong><span>Bombas · P-104</span></div><div><strong>E / HX</strong><span>Intercambiadores de calor · E-105</span></div><div><strong>V</strong><span>Vasos o recipientes · V-101</span></div><div><strong>T</strong><span>Tanques · T-102</span></div><div><strong>C</strong><span>Compresores · C-101</span></div><div><strong>F</strong><span>Filtros · F-103</span></div><div><strong>M</strong><span>Motores o mezcladores · M-101</span></div></div><p class="tag-guide-note">Las letras y reglas de numeración varían según norma, empresa y proyecto. El número identifica el equipo dentro de la serie; por ejemplo, 104 o 105 no representa por sí solo el tipo de equipo. Esta guía es orientativa, no una norma universal.</p><button class="btn primary" onclick="closeTagGuide()">Entendido</button></div>`;document.body.appendChild(m)}m.classList.add('show')}function closeTagGuide(){document.getElementById('tagGuideModal')?.classList.remove('show')}
 function defaultPasteurDiagram(){
  const n=[
@@ -462,7 +463,70 @@ function exportDiagramPDF(){
  .project-card{border:1px solid #c5d2dc;border-radius:7px;background:#f8fbfd;padding:3mm;display:flex;flex-direction:column;min-height:0;overflow:hidden}.project-logo{width:28mm;height:28mm;object-fit:contain;align-self:center;margin:0 auto 2mm}.logo-placeholder{width:24mm;height:24mm;border-radius:50%;background:#293e50;color:#fff;font-weight:bold;display:flex;align-items:center;justify-content:center;font-size:16px;align-self:center;margin:0 auto 2mm}.card-kicker{font-size:6.5px;letter-spacing:1.3px;text-transform:uppercase;color:#0087a8;margin:1mm 0}.card-org{font-size:10px;font-weight:700;margin:0 0 1.5mm}.card-meta{font-size:7.5px;color:#526879;line-height:1.3;margin:0 0 2mm;overflow-wrap:anywhere}.card-section{border-top:1px solid #c8d8e4;padding-top:1.5mm;margin-top:1mm}.card-label{font-size:6.3px;letter-spacing:1.1px;text-transform:uppercase;color:#0087a8;margin-bottom:1mm}.card-value{font-size:7.5px;font-weight:600;line-height:1.25;overflow-wrap:anywhere}.member-list{display:flex;flex-direction:column;gap:1.2mm;margin-top:1mm;min-height:0;overflow:hidden}.member-card{border:1px solid #a9d5e3;background:#e5f5fa;border-radius:3mm;padding:1.3mm 1.7mm;font-size:6.6px;line-height:1.2;color:#24485b;display:flex;align-items:flex-start;gap:1mm;overflow-wrap:anywhere}.member-number{flex:0 0 auto;color:#5a70a5;font-weight:700}.member-name{min-width:0}.member-card.muted{color:#7c8b95;background:#f7f9fa;border-color:#d7e0e5}
  .diagram-wrap{position:relative;min-width:0;min-height:0;height:100%;border:1px solid #cbd7df;border-radius:4px;overflow:hidden;padding:2mm;background:#fff;display:flex;flex-direction:column}.diagram-title{flex:0 0 auto;text-align:center;border-bottom:1.5px solid #344e60;padding:1mm 1mm 2mm;margin:0 0 1.5mm}.diagram-title h1{font-size:15px;line-height:1.1;margin:0;font-weight:700}.diagram-title p{font-size:7.5px;color:#526879;margin:1mm 0 0}.diagram-wrap svg{width:100%;height:auto;flex:1 1 auto;min-height:0;display:block}.nom{position:absolute;right:4mm;bottom:4mm;width:58mm;max-height:39%;overflow:auto;border:1px solid #c5d2dc;border-radius:2mm;background:#fff;box-shadow:0 1mm 3mm rgba(35,56,73,.12)}.nom h2{font-size:8px;background:#eef3f7;margin:0;padding:2mm;border-bottom:1px solid #ccd7df}.nom table{width:100%;border-collapse:collapse;font-size:6.5px}.nom th,.nom td{padding:1.2mm;border-bottom:1px solid #e5ebf0;text-align:left;vertical-align:top}.nom th{background:#f6f8fa;color:#536777;font-size:6px}.nom td:first-child{white-space:nowrap;color:#6548d9;font-weight:bold}.empty{text-align:center;color:#71818d;padding:2mm}.footer{font-size:6px;color:#637482;margin-top:1mm}
  @media print{.pdf-page{height:195mm}.project-card,.nom{break-inside:avoid}.nom{box-shadow:none}}
- </style></head><body><div class="pdf-page"><main class="page-content"><aside class="project-card">${logo}<div class="card-kicker">Proyecto académico</div><div class="card-org">${escapeHtml(info.organization||'PFD Design')}</div><p class="card-meta">Diagrama de bloques · ${escapeHtml(date)}</p><section class="card-section"><div class="card-label">Responsable / Docente</div><div class="card-value">${escapeHtml(info.reviewer||'—')}</div></section><section class="card-section"><div class="card-label">Integrantes</div><div class="member-list">${memberCards}</div></section></aside><section class="diagram-wrap"><header class="diagram-title"><h1>${escapeHtml(activeProject.name||'Diagrama de bloques')}</h1><p>Diagrama de bloques · Documento exportado</p></header>${svg}<aside class="nom"><h2>Tabla de nomenclatura</h2><table><thead><tr><th>Código</th><th>Equipo / bloque</th><th>Familia</th></tr></thead><tbody>${table}</tbody></table></aside></section></main><div class="footer">Documento generado desde PFD Design · ${escapeHtml(activeProject.name||'')}</div></div><script>window.onload=()=>{setTimeout(()=>window.print(),400)};<\/script></body></html>`);win.document.close();
+ 
+/* FIX: fullscreen PFD layout — diagram + nomenclature only, no palette or properties */
+.blocks-editor.pfd-fullscreen,
+.blocks-editor:fullscreen{
+  position:fixed!important;inset:0!important;z-index:99999!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr) 300px!important;
+  width:100vw!important;height:100vh!important;min-height:0!important;
+  max-height:100vh!important;overflow:hidden!important;margin:0!important;
+  background:#fff!important;box-sizing:border-box!important;
+}
+.blocks-editor.pfd-fullscreen .blocks-palette,
+.blocks-editor:fullscreen .blocks-palette{display:none!important}
+.blocks-editor.pfd-fullscreen .blocks-canvas-area,
+.blocks-editor:fullscreen .blocks-canvas-area{
+  display:flex!important;position:relative!important;min-width:0!important;
+  width:auto!important;height:100%!important;min-height:0!important;
+  max-height:100vh!important;flex-direction:column!important;overflow:hidden!important;
+}
+.blocks-editor.pfd-fullscreen .canvas-stage,
+.blocks-editor:fullscreen .canvas-stage{
+  flex:1 1 0!important;height:0!important;min-height:0!important;
+  width:100%!important;max-height:none!important;overflow:auto!important;
+  padding:12px!important;box-sizing:border-box!important;
+  align-items:center!important;justify-content:center!important;
+}
+.blocks-editor.pfd-fullscreen .canvas-top-tools,
+.blocks-editor:fullscreen .canvas-top-tools{flex:0 0 42px!important;height:42px!important}
+.blocks-editor.pfd-fullscreen .canvas-bottom,
+.blocks-editor:fullscreen .canvas-bottom{flex:0 0 28px!important;height:28px!important}
+.blocks-editor.pfd-fullscreen .blocks-inspector,
+.blocks-editor:fullscreen .blocks-inspector{
+  display:flex!important;align-self:stretch!important;min-width:0!important;
+  width:300px!important;height:100vh!important;max-height:100vh!important;
+  min-height:0!important;overflow:hidden!important;padding:12px!important;
+  margin:0!important;border-left:1px solid #dce5ee!important;
+  flex-direction:column!important;gap:0!important;background:#fff!important;
+}
+.blocks-editor.pfd-fullscreen .inspector-title,
+.blocks-editor.pfd-fullscreen .inspector-subtitle,
+.blocks-editor.pfd-fullscreen #inspectorContent,
+.blocks-editor.pfd-fullscreen .nom-reference,
+.blocks-editor.pfd-fullscreen .inspector-nomenclature-note,
+.blocks-editor:fullscreen .inspector-title,
+.blocks-editor:fullscreen .inspector-subtitle,
+.blocks-editor:fullscreen #inspectorContent,
+.blocks-editor:fullscreen .nom-reference,
+.blocks-editor:fullscreen .inspector-nomenclature-note{display:none!important}
+.blocks-editor.pfd-fullscreen .inspector-nomenclature,
+.blocks-editor:fullscreen .inspector-nomenclature{
+  display:block!important;flex:1 1 auto!important;min-height:0!important;
+  max-height:none!important;height:100%!important;overflow:auto!important;
+  margin:0!important;border-radius:8px!important;
+}
+.blocks-editor.pfd-fullscreen .inspector-nomenclature-table,
+.blocks-editor:fullscreen .inspector-nomenclature-table{overflow:visible!important}
+.blocks-editor.pfd-fullscreen .diagram-board,
+.blocks-editor:fullscreen .diagram-board{transform-origin:center center!important}
+body:has(.blocks-editor.pfd-fullscreen){overflow:hidden!important}
+@media(max-width:700px){
+ .blocks-editor.pfd-fullscreen,:fullscreen .blocks-editor{grid-template-columns:minmax(0,1fr) 220px!important}
+ .blocks-editor.pfd-fullscreen .blocks-inspector,
+ .blocks-editor:fullscreen .blocks-inspector{width:220px!important;padding:7px!important}
+}
+</style></head><body><div class="pdf-page"><main class="page-content"><aside class="project-card">${logo}<div class="card-kicker">Proyecto académico</div><div class="card-org">${escapeHtml(info.organization||'PFD Design')}</div><p class="card-meta">Diagrama de bloques · ${escapeHtml(date)}</p><section class="card-section"><div class="card-label">Responsable / Docente</div><div class="card-value">${escapeHtml(info.reviewer||'—')}</div></section><section class="card-section"><div class="card-label">Integrantes</div><div class="member-list">${memberCards}</div></section></aside><section class="diagram-wrap"><header class="diagram-title"><h1>${escapeHtml(activeProject.name||'Diagrama de bloques')}</h1><p>Diagrama de bloques · Documento exportado</p></header>${svg}<aside class="nom"><h2>Tabla de nomenclatura</h2><table><thead><tr><th>Código</th><th>Equipo / bloque</th><th>Familia</th></tr></thead><tbody>${table}</tbody></table></aside></section></main><div class="footer">Documento generado desde PFD Design · ${escapeHtml(activeProject.name||'')}</div></div><script>window.onload=()=>{setTimeout(()=>window.print(),400)};<\/script></body></html>`);win.document.close();
 }
 async function saveDiagram(){if(!activeProject)return;const d=getDiagram();let btn=document.querySelector('.blocks-head-actions button[onclick="saveDiagram()"]');if(btn){btn.disabled=true;btn.textContent='Guardando…'}try{if(guestMode){let p=guestProjects.find(p=>p.id===activeProject.id);if(p)p.diagram=d;activeProject.diagram=d}else{const {error}=await supabaseClient.from('pfd_projects').update({diagram:d}).eq('id',activeProject.id).eq('user_id',authUser.id);if(error)throw error;activeProject.diagram=d}diagramDirty=false;document.getElementById('diagramStatus').textContent='Guardado en tu proyecto';toast('Diagrama guardado')}catch(err){console.error(err);toast('No se pudo guardar el diagrama. Ejecuta la migración SQL de la columna diagram.')}finally{if(btn){btn.disabled=false;btn.textContent='💾 Guardar'}}}
 document.addEventListener('keydown',e=>{const editor=document.querySelector('.blocks-concept');if(!editor)return;const active=document.activeElement,tag=active?.tagName?.toLowerCase();if(['input','textarea','select'].includes(tag)||active?.isContentEditable)return;const inEditor=editor.contains(active)||active===document.body;if(!inEditor)return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?diagramRedo():diagramUndo();return}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();diagramRedo();return}if(e.key==='Delete'||e.key==='Backspace'){if(selectedNodeId){e.preventDefault();deleteDiagramNode(selectedNodeId)}return}if(e.key==='F11'){e.preventDefault();toggleDiagramFullscreen();return}if(e.key==='Tab'&&document.getElementById('diagramViewport')?.contains(active)){e.preventDefault();const ns=getDiagram().nodes;if(!ns.length)return;let i=ns.findIndex(n=>n.id===selectedNodeId);i=(i+(e.shiftKey?-1:1)+ns.length)%ns.length;selectedNodeId=ns[i].id;renderDiagram();document.getElementById('diagramViewport')?.focus({preventScroll:true});}});
