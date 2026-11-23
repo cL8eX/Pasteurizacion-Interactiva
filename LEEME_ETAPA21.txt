@@ -1,0 +1,16 @@
+ETAPA 21 - CORRECCION REAL DEL PDF PFD
+
+Corrección:
+- El diagrama PFD queda únicamente en la primera hoja A3 horizontal.
+- La nomenclatura ya NO está posicionada encima ni dentro del contenedor del diagrama.
+- La tabla completa comienza en una hoja nueva.
+- Todos los registros se incluyen, sin límite ni truncamiento.
+- Si la tabla excede una hoja, continúa automáticamente en páginas siguientes.
+- El encabezado de la tabla se repite en páginas de continuación.
+- Las filas intentan mantenerse completas para evitar cortes a mitad de registro.
+
+Instalación:
+1. Descomprime el ZIP.
+2. Reemplaza pfd-library.js en tu proyecto por el archivo incluido.
+3. Sube/actualiza el archivo en GitHub Pages.
+4. Recarga la página con Ctrl+F5 y exporta nuevamente el PDF.
