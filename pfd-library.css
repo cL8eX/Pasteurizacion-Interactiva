@@ -241,6 +241,6 @@ body.dark .pfd-toolbar-actions #pfdZoomLabel{background:#101d29!important;color:
 
 /* Etapa 17: botón directo para salir de pantalla completa en PFD */
 .pfd-exit-fullscreen-btn{display:none!important}
-.pfd-library.pfd-fullscreen-focus .pfd-exit-fullscreen-btn{display:flex!important;position:fixed!important;top:10px!important;left:12px!important;z-index:100001!important;align-items:center!important;gap:6px!important;padding:8px 12px!important;border:1px solid #d6e0e9!important;border-radius:9px!important;background:#fff!important;color:#243648!important;font:600 12px/1.2 inherit!important;box-shadow:0 3px 12px #0002!important;cursor:pointer!important}
+.pfd-library.pfd-fullscreen-focus .pfd-exit-fullscreen-btn{display:flex!important;position:fixed!important;top:12px!important;left:12px!important;z-index:2147483647!important;align-items:center!important;gap:6px!important;padding:8px 12px!important;border:1px solid #d6e0e9!important;border-radius:9px!important;background:#fff!important;color:#243648!important;font:600 12px/1.2 inherit!important;box-shadow:0 3px 12px #0002!important;cursor:pointer!important}
 .pfd-library.pfd-fullscreen-focus .pfd-canvas-toolbar{padding-left:210px!important}
 .pfd-library.pfd-fullscreen-focus .pfd-exit-fullscreen-btn:hover{background:#f1f5f9!important}
