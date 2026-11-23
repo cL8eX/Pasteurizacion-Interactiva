@@ -112,3 +112,31 @@ body.pfd-focus-active{overflow:hidden!important}
 .pfd-library.pfd-fullscreen-focus .pfd-lib-layout{grid-template-columns:minmax(0,1fr) 340px!important}
 .pfd-library.pfd-fullscreen-focus .pfd-symbol-detail{display:flex!important}
 .pfd-library.pfd-fullscreen-focus .pfd-nomen-section{display:flex!important}
+
+/* Etapa 11: eliminar el espacio blanco inferior en modo pantalla completa */
+.pfd-library.pfd-fullscreen-focus{
+  height:100dvh!important;max-height:100dvh!important;min-height:100dvh!important;
+  inset:0 0 0 0!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-lib-layout{
+  height:100dvh!important;max-height:100dvh!important;min-height:0!important;
+  flex:1 1 0!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-canvas-area{
+  display:flex!important;flex-direction:column!important;height:100dvh!important;
+  max-height:100dvh!important;min-height:0!important;overflow:hidden!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-drawing-viewport{
+  height:auto!important;max-height:none!important;min-height:0!important;
+  flex:1 1 0!important;width:100%!important;overflow:auto!important;box-sizing:border-box!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-symbol-detail{
+  height:100dvh!important;max-height:100dvh!important;min-height:0!important;
+  box-sizing:border-box!important;overflow:hidden!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-section{
+  height:100%!important;max-height:none!important;min-height:0!important;flex:1 1 0!important;
+}
+.pfd-library.pfd-fullscreen-focus .pfd-nomen-table{
+  height:auto!important;max-height:none!important;min-height:0!important;flex:1 1 0!important;overflow:auto!important;
+}
