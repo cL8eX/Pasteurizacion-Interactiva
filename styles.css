@@ -301,3 +301,82 @@ body.pfd-mode .canvas-wrap::-webkit-scrollbar,body.pfd-mode .sidebar::-webkit-sc
 @media(max-width:1000px){body.pfd-mode .app{grid-template-columns:220px minmax(0,1fr)}body.pfd-mode .inspector{grid-column:1/-1;position:static;height:auto;max-height:none;border-left:0;border-top:1px solid #20384a}body.pfd-mode.inspector-collapsed .app{grid-template-columns:220px minmax(0,1fr)}body.pfd-mode.inspector-collapsed .inspector{display:none}}
 @media(max-width:760px){body.pfd-mode .app{display:flex;flex-direction:column}.pfd-mode .sidebar,.pfd-mode .workspace,.pfd-mode .inspector{position:static;height:auto;max-height:none;overflow:visible}.pfd-mode .sidebar{order:1}.pfd-mode .workspace{order:2;padding:12px}.pfd-mode .inspector{order:3}.pfd-mode .palette{grid-template-columns:repeat(3,minmax(0,1fr))}.pfd-mode .canvas-toolbar{flex-direction:column;align-items:flex-start}.pfd-mode .canvas-viewport{max-height:60vh;min-height:360px}.pfd-mode .topbar{height:auto;min-height:66px;flex-wrap:wrap;padding:12px}.pfd-mode .top-actions{justify-content:flex-start;flex-wrap:wrap}.pfd-mode .canvas-topline{height:auto;min-height:46px;padding:8px 10px}.pfd-mode .canvas-controls{flex-wrap:wrap}}
 @media print{body.pfd-mode .canvas-viewport{overflow:visible!important;max-height:none!important}body.pfd-mode #diagram{width:100%!important;height:auto!important;min-height:0!important}}
+
+/* ===== MILKLAB PROCESS STUDIO · PREMIUM REDESIGN ===== */
+body.pfd-mode{background:#0b1118;color:#e9f1f7}
+body.pfd-mode .topbar{height:62px;padding:0 20px;background:linear-gradient(100deg,#0b1219,#111d29);border-bottom:1px solid #263949;box-shadow:0 5px 24px #0002}
+body.pfd-mode .brand{gap:10px}.pfd-mode .logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#79ead0,#38bca5);box-shadow:none;font-size:17px}
+body.pfd-mode .brandTitle{font-weight:800;letter-spacing:.02em}.pfd-mode .top-actions{gap:6px}.pfd-mode .btn{height:36px;padding:0 12px;border-radius:9px;font-size:10px}.pfd-mode .btn.secondary{background:#172635;border-color:#2d4558}.pfd-mode .btn.primary{background:#69e2c4;color:#09201d;border-color:#69e2c4}
+body.pfd-mode .app{grid-template-columns:258px minmax(0,1fr) 274px;min-height:calc(100vh - 62px);gap:0}
+body.pfd-mode .sidebar{position:sticky;top:62px;height:calc(100vh - 62px);overflow:auto;padding:15px 13px;background:#101923;border-right:1px solid #263a4b}
+body.pfd-mode .workspace{padding:16px 18px 18px;min-width:0;background:#101923}
+body.pfd-mode .inspector{position:sticky;top:62px;height:calc(100vh - 62px);overflow:auto;padding:17px 13px;background:#101923;border-left:1px solid #263a4b}
+body.pfd-mode .side-heading{font-size:9px;letter-spacing:1.25px;color:#8da7bb;margin-bottom:10px}
+body.pfd-mode #diagramMode{height:39px;border-radius:9px;background:#172635;border-color:#2e4659;font-size:11px}
+body.pfd-mode .library-title{margin-top:18px;margin-bottom:6px;color:#73e2c5}
+body.pfd-mode .sidebar .muted.small{font-size:9px;line-height:1.5;margin:4px 0 8px;color:#8fa8ba}
+.palette-search-wrap{position:relative;margin:10px 0 9px}.palette-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:18px;color:#83a1b7;pointer-events:none}.palette-search{width:100%;height:36px;border:1px solid #2b4356;border-radius:9px;background:#142332;color:#e6f0f7;padding:0 10px 0 31px;font-size:10px;outline:none}.palette-search:focus{border-color:#65dfc1;box-shadow:0 0 0 3px #65dfc11a}.palette-search::placeholder{color:#7e98ad}
+body.pfd-mode .palette{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:8px}
+body.pfd-mode .palette-item{min-height:68px;padding:8px 5px;border-radius:10px;background:linear-gradient(145deg,#172a3a,#142332);border:1px solid #2b4357;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;box-shadow:none}
+body.pfd-mode .palette-item .sym{font-size:23px;line-height:1;margin:0;color:#69e1c4;text-shadow:none}
+body.pfd-mode .palette-item span:last-child{font-size:9px;color:#dce8f2;letter-spacing:.1px}
+body.pfd-mode .palette-item:hover{transform:translateY(-1px);background:#1b3445;border-color:#66dfc2;box-shadow:0 5px 14px #0002}
+body.pfd-mode .sidebar-bottom{margin-top:16px}
+/* Editable academic card stays in the sidebar as a first-class project panel */
+body.pfd-mode .university-card{margin-top:10px;padding:11px;background:linear-gradient(145deg,#172635,#111d29);border:1px solid #2a4356;border-radius:13px;gap:7px}
+body.pfd-mode .university-logo{width:62px;height:62px;margin:0 auto 2px}
+body.pfd-mode .university-card .eyebrow{font-size:8px;letter-spacing:1.3px}
+body.pfd-mode .university-card h3{font-size:12px;line-height:1.3}
+body.pfd-mode .university-card>p{font-size:9px;line-height:1.45;color:#91a9bc}
+body.pfd-mode .side-meta{padding:6px 0;border-top:1px solid #263d4f;gap:4px}
+body.pfd-mode .side-meta>span{font-size:7px;letter-spacing:1.15px;color:#6ee1c4}
+body.pfd-mode .side-meta>b{font-size:9px;color:#e5eef5;line-height:1.4}
+body.pfd-mode .side-students{gap:4px}
+body.pfd-mode .student-chip{padding:5px 6px;font-size:8px;border-radius:6px;background:#152c3a;border-color:#315166;color:#dceaf3}
+body.pfd-mode #editAcademicBtn{height:33px;margin-top:3px;font-size:9px;background:#172a3b;border-color:#35536a}
+body.pfd-mode #resetBtn{height:32px;font-size:9px;margin-top:8px}
+body.pfd-mode .canvas-toolbar{margin:0 0 12px;align-items:center;gap:12px}
+body.pfd-mode .canvas-toolbar .eyebrow{font-size:8px;letter-spacing:1.45px}
+body.pfd-mode h1{font-size:clamp(17px,1.5vw,22px);line-height:1.25;margin:3px 0 0;font-weight:750;max-width:700px}
+body.pfd-mode .workspace-subtitle{font-size:10px;color:#8da6b8;margin:4px 0 0}
+body.pfd-mode .toolbar-actions{gap:6px}.pfd-mode .toolbar-actions .btn{min-width:68px;height:34px}
+body.pfd-mode .canvas-wrap{border:1px solid #cbd7e1;border-radius:12px;overflow:hidden;background:#f7fafc;box-shadow:0 16px 36px #0002}
+body.pfd-mode .canvas-topline{height:40px;background:#eaf1f6;border-bottom:1px solid #d1dce5;padding:0 12px;color:#536b7f;font-size:9px}
+body.pfd-mode .canvas-topline>span:first-child{color:#284458;font-weight:700}
+body.pfd-mode .canvas-controls{gap:4px}
+body.pfd-mode .canvas-control{height:27px;min-width:27px;padding:0 7px;background:#fff;border-color:#c9d8e3;color:#29475e;font-size:10px;border-radius:7px}
+body.pfd-mode .canvas-control:hover{background:#e0f5ef;border-color:#6bcfb7;color:#126d61}
+body.pfd-mode .zoom-label{min-width:44px;font:9px var(--mono);color:#526b80}
+body.pfd-mode .canvas-viewport{height:calc(100vh - 205px);min-height:520px;max-height:none;overflow:auto;background-color:#f8fbfd;background-image:linear-gradient(#e4edf3 1px,transparent 1px),linear-gradient(90deg,#e4edf3 1px,transparent 1px),radial-gradient(#cbdbe6 1px,transparent 1px);background-size:36px 36px,36px 36px,18px 18px}
+body.pfd-mode #diagram{width:1100px;height:620px;min-height:620px;background:transparent!important;background-image:none!important;display:block;touch-action:none}
+/* Light CAD drawing surface: crisp labels, equipment outlines and stream arrows */
+body.pfd-mode #diagram .node .shape{fill:#fff!important;stroke:#567184!important;filter:drop-shadow(0 2px 2px #18364a12)}
+body.pfd-mode #diagram .node text{fill:#21394b!important}
+body.pfd-mode #diagram .node .node-sub{fill:#536b7d!important}
+body.pfd-mode #diagram .node .node-tag{fill:#087f69!important}
+body.pfd-mode #diagram .node .equip-symbol{stroke:#128a83!important}
+body.pfd-mode #diagram .edge{stroke:#187e83!important;filter:none}
+body.pfd-mode #diagram .edge.utility{stroke:#bd842a!important}
+body.pfd-mode #diagram .edge.signal{stroke:#725db4!important}
+body.pfd-mode #diagram .edge-label{fill:#36586b!important}
+body.pfd-mode .canvas-footer{height:34px;background:#edf3f7;border-top:1px solid #d1dce5;color:#526b80;font-size:8px}
+body.pfd-mode .footer-scale{color:#8399aa;font-weight:500}
+body.pfd-mode .inspector-head{margin-bottom:14px}
+body.pfd-mode .inspector-head h2{font-size:16px;margin-top:4px}
+body.pfd-mode .inspector-icon{width:32px;height:32px;border-radius:9px;background:#172a39;border:1px solid #2d475a;color:#68e1c2}
+body.pfd-mode .empty-inspector{padding:28px 5px;color:#91a8bb}
+body.pfd-mode .empty-icon{width:48px;height:48px;border-radius:13px;margin:0 auto 10px;display:grid;place-items:center;background:#172b3a;border:1px solid #2f4c61;color:#67e0c1;font-size:23px}
+body.pfd-mode .empty-inspector b{color:#e6f0f6;font-size:11px}
+body.pfd-mode .empty-inspector p{font-size:9px;line-height:1.55}
+body.pfd-mode .property-form{padding:11px;border:1px solid #2b4356;border-radius:11px;background:#142331}
+body.pfd-mode .property-form input,body.pfd-mode .property-form textarea,body.pfd-mode .property-form select{background:#0d1b27;border-color:#2a4356;border-radius:7px;font-size:10px;padding:8px}
+body.pfd-mode .property-form .field-label{font-size:8px;margin:10px 0 5px}
+body.pfd-mode .property-form .btn{height:32px;font-size:9px}
+body.pfd-mode .tag-legend{margin-top:12px;padding:10px;border:1px solid #2a4356;border-radius:11px;background:#142331}
+body.pfd-mode .tag-legend table{font-size:8px}
+body.pfd-mode .tag-legend th,body.pfd-mode .tag-legend td{padding:6px 3px;border-color:#263d4f}
+body.pfd-mode .bottom-note{display:none}
+body.pfd-mode.inspector-collapsed .app{grid-template-columns:258px minmax(0,1fr) 0}
+@media(max-width:1200px){body.pfd-mode .app{grid-template-columns:238px minmax(0,1fr) 250px}body.pfd-mode .workspace{padding:13px}body.pfd-mode .topbar{padding:0 12px}}
+@media(max-width:950px){body.pfd-mode .app{grid-template-columns:238px minmax(0,1fr)}body.pfd-mode .inspector{grid-column:1/-1;position:static;height:auto;max-height:none;border-left:0;border-top:1px solid #263a4b}body.pfd-mode.inspector-collapsed .app{grid-template-columns:238px minmax(0,1fr)}}
+@media(max-width:760px){body.pfd-mode .app{display:flex;flex-direction:column}.pfd-mode .sidebar,.pfd-mode .workspace,.pfd-mode .inspector{position:static;height:auto;max-height:none;overflow:visible}.pfd-mode .sidebar{order:1}.pfd-mode .workspace{order:2;padding:12px}.pfd-mode .inspector{order:3}.pfd-mode .palette{grid-template-columns:repeat(3,minmax(0,1fr))}.pfd-mode .canvas-toolbar{flex-direction:column;align-items:flex-start}.pfd-mode .canvas-viewport{height:60vh;min-height:360px}.pfd-mode .topbar{height:auto;min-height:62px;flex-wrap:wrap;padding:10px}.pfd-mode .top-actions{justify-content:flex-start;flex-wrap:wrap}.pfd-mode .canvas-topline{height:auto;min-height:42px;padding:7px 9px}.pfd-mode .canvas-controls{flex-wrap:wrap}.pfd-mode .university-card{max-width:420px}}
