@@ -1,0 +1,11 @@
+ETAPA 5 · AJUSTES DE NAVEGACIÓN Y ROTULACIÓN
+
+Cambios incluidos:
+- Corrección del desplazamiento lateral WASD: A mueve a la izquierda y D a la derecha desde la perspectiva del jugador.
+- Se agregan rótulos grandes flotantes a partir de los nodos tipo texto del PFD (encabezados de las etapas).
+- Se agrega el botón «Vista aérea» en la barra superior.
+- En vista aérea, la cámara se sitúa sobre la planta y WASD desplaza la vista; SHIFT acelera el desplazamiento. SPACE baja la cámara y CTRL la eleva.
+- El botón permite volver al modo de exploración a nivel del suelo.
+
+Validación realizada: node --check sobre pfd3d-stage1.js y comprobación de integridad del ZIP.
+No se realizó prueba visual en navegador ni en GitHub Pages.
