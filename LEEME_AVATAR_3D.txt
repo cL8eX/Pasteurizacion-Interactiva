@@ -1,0 +1,9 @@
+MILKLAB · AVATAR 3D AISLADO
+Base: Pasteurizacion-Interactiva-Etapa5-Vuelo-Creativo-CORREGIDO (1).zip
+
+Se conserva íntegro el motor de Three.js, la planta, los controles, el vuelo creativo y la vista aérea.
+El avatar detallado se construye dentro de un bloque try/catch independiente. El personaje original solo se oculta después de que el nuevo avatar se haya construido por completo. Si la construcción del avatar falla, se conserva el personaje original y la escena principal continúa.
+
+Archivos modificados:
+- pfd3d-stage1.js: sustitución visual aislada del personaje y animación de brazos.
+No se modificó index.html, pfd3d-stage1.html, pfd3d-stage1.css, ni el sistema de conexiones/equipos.

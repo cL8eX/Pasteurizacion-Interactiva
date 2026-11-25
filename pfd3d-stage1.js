@@ -179,35 +179,86 @@ document.getElementById('s4Start').onclick=()=>s4SetRunning(true);document.getEl
 function s4Update(now){let dt=Math.min((now-s4.last)/1000,.05);s4.last=now;if(s4.running){s4.elapsed+=dt;s4.flow=1.8;const cycle=(s4.elapsed%50)/50;s4.temp=cycle<.25?4+cycle*272:cycle<.5?72:cycle<.75?72-(cycle-.5)*272:4;s4.hold=cycle>=.25&&cycle<.5?(cycle-.25)*40:0;for(const p of s4.particles){p.mesh.position.copy(s4PointAt(p.path,(s4.elapsed*.12+p.offset)%1))}}
  document.getElementById('s4Temp').textContent=s4.temp.toFixed(1)+' °C';document.getElementById('s4Flow').textContent=s4.flow.toFixed(1)+' L/s';document.getElementById('s4Hold').textContent=s4.hold.toFixed(1)+' s';document.getElementById('s4TempFill').style.width=Math.max(0,Math.min(100,s4.temp/80*100))+'%';document.getElementById('s4TempFill').style.background=s4.temp>55?'linear-gradient(90deg,#fb923c,#ef4444)':'linear-gradient(90deg,#38bdf8,#60a5fa)';}
 
-// Avatar MILKLAB · personaje humanoide 3D estilizado (geometría procedural)
-const player=new THREE.Group();
-const skin=mat('#c98760',.82),skinLight=mat('#dfa17b',.78),skinShadow=mat('#9e6049',.9),hair=mat('#211b1a',.92),hairHi=mat('#392b27',.86),beardMat=mat('#302421',.95),shirtMat=mat('#173d68',.72),shirtLight=mat('#245b8e',.68),pantsMat=mat('#26384a',.88),shoeMat=mat('#202a32',.9),eyeWhite=mat('#f5eee5',.35),iris=mat('#65432e',.4),pupil=mat('#17191d',.25),brow=mat('#30231f',.9),logoMat=mat('#f0a0a0',.45);
-function avatarMesh(g,geo,material,pos,scale,rot){const m=new THREE.Mesh(geo,material);m.position.set(...pos);m.scale.set(...scale);if(rot)m.rotation.set(rot[0],rot[1],rot[2]);m.castShadow=true;m.receiveShadow=true;g.add(m);return m;}
-function avatarCapsule(g,r,len,material,pos){const m=new THREE.Mesh(new THREE.CapsuleGeometry(r,len,5,12),material);m.position.set(...pos);m.castShadow=true;m.receiveShadow=true;g.add(m);return m;}
-// piernas articuladas y calzado
-const legs=[];const arms=[];
-for(const side of [-1,1]){const legPivot=new THREE.Group();legPivot.position.set(side*.19,.83,0);player.add(legPivot);avatarCapsule(legPivot,.105,.48,pantsMat,[0,-.29,0]);avatarMesh(legPivot,new THREE.SphereGeometry(1,16,12),pantsMat,[0,-.06,0],[.14,.15,.14]);avatarMesh(legPivot,new THREE.BoxGeometry(.23,.13,.38),shoeMat,[0,-.64,.075],[1,1,1]);avatarMesh(legPivot,new THREE.BoxGeometry(.235,.035,.39),mat('#65727c',.8),[0,-.70,.075],[1,1,1]);legs.push(legPivot);
- const armPivot=new THREE.Group();armPivot.position.set(side*.39,1.43,0);player.add(armPivot);avatarMesh(armPivot,new THREE.SphereGeometry(1,16,12),shirtMat,[side*.015,-.16,0],[.145,.28,.16],[0,0,side*-.12]);avatarCapsule(armPivot,.105,.25,skinLight,[side*.025,-.48,.015]);avatarMesh(armPivot,new THREE.SphereGeometry(.115,14,10),skinLight,[side*.025,-.61,.025],[.92,1.05,.85]);arms.push(armPivot);}
-// tronco, camiseta con cuello y pequeños detalles
-avatarCapsule(player,.34,.54,shirtMat,[0,1.25,0]);avatarMesh(player,new THREE.SphereGeometry(1,20,16),shirtMat,[0,1.39,0],[.38,.39,.235]);avatarMesh(player,new THREE.CylinderGeometry(.115,.14,.12,20),skinLight,[0,1.72,0]);avatarMesh(player,new THREE.TorusGeometry(.125,.035,8,20),mat('#d7e0e8',.7),[0,1.69,.015],[1,1,1],[Math.PI/2,0,0]);
-// cabeza, orejas y rasgos faciales (frente hacia +Z)
-avatarMesh(player,new THREE.SphereGeometry(1,24,20),skinLight,[0,1.99,.015],[.285,.355,.255]);
-for(const side of [-1,1]){avatarMesh(player,new THREE.SphereGeometry(1,14,12),skin,[side*.286,2.0,0],[.065,.095,.065]);avatarMesh(player,new THREE.SphereGeometry(1,12,10),skinShadow,[side*.307,2.0,.025],[.025,.052,.025]);
- avatarMesh(player,new THREE.SphereGeometry(1,16,12),eyeWhite,[side*.105,2.045,.237],[.066,.085,.035]);avatarMesh(player,new THREE.SphereGeometry(1,14,12),iris,[side*.105,2.04,.268],[.037,.052,.018]);avatarMesh(player,new THREE.SphereGeometry(1,12,10),pupil,[side*.105,2.04,.282],[.019,.033,.012]);avatarMesh(player,new THREE.SphereGeometry(1,8,8),eyeWhite,[side*.115,2.06,.294],[.009,.012,.006]);
- avatarMesh(player,new THREE.SphereGeometry(1,14,8),brow,[side*.105,2.155,.239],[.082,.024,.035],[0,0,side*-.12]);}
-// nariz y sonrisa
-avatarMesh(player,new THREE.SphereGeometry(1,14,12),skin,[0,1.99,.275],[.052,.078,.06]);avatarMesh(player,new THREE.SphereGeometry(1,12,8),skinLight,[0,1.965,.31],[.045,.035,.035]);
-avatarMesh(player,new THREE.TorusGeometry(.052,.009,6,18,Math.PI),skinShadow,[0,1.885,.25],[1,1,1],[0,0,Math.PI]);
-// barba corta y bigote
-avatarMesh(player,new THREE.SphereGeometry(1,20,14),beardMat,[0,1.79,.105],[.235,.135,.19]);avatarMesh(player,new THREE.SphereGeometry(1,16,10),beardMat,[0,1.88,.215],[.18,.065,.07]);avatarMesh(player,new THREE.SphereGeometry(1,12,10),skinLight,[0,1.86,.266],[.09,.018,.012]);
-// cabello volumétrico con copete y mechones
-avatarMesh(player,new THREE.SphereGeometry(1,20,14),hair,[0,2.235,-.005],[.292,.19,.26]);avatarMesh(player,new THREE.SphereGeometry(1,16,10),hairHi,[-.13,2.30,.12],[.13,.075,.13]);avatarMesh(player,new THREE.SphereGeometry(1,16,10),hair,[.11,2.30,.13],[.14,.07,.12]);avatarMesh(player,new THREE.SphereGeometry(1,14,10),hairHi,[.02,2.36,.06],[.11,.055,.1]);
-// camiseta con bolsillo y distintivo MILKLAB
-avatarMesh(player,new THREE.BoxGeometry(.12,.14,.018),shirtLight,[.19,1.39,.224]);avatarMesh(player,new THREE.SphereGeometry(.035,10,8),logoMat,[.19,1.43,.24],[.45,.65,.25]);
-player.position.set(-32,0,22);scene.add(player);
+// Simple low-poly player
+const player=new THREE.Group();const body=new THREE.Mesh(new THREE.CapsuleGeometry(.35,.65,4,8),blue);body.position.y=1.05;body.castShadow=true;player.add(body);const head=new THREE.Mesh(new THREE.SphereGeometry(.27,10,8),mat('#d9a47c'));head.position.y=1.65;player.add(head);const helmet=new THREE.Mesh(new THREE.SphereGeometry(.3,10,6,0,Math.PI*2,0,Math.PI/2),yellow);helmet.position.y=1.82;player.add(helmet);const legs=[];const originalPlayerLegs=[];for(let s of [-1,1]){const leg=new THREE.Mesh(new THREE.BoxGeometry(.2,.55,.22),darkSteel);leg.position.set(s*.15,.38,0);player.add(leg);legs.push(leg);originalPlayerLegs.push(leg)}player.position.set(-32,0,22);scene.add(player);
+
+// Avatar MILKLAB: modelo humanoide 3D aislado con fallback seguro.
+// Si alguna geometría falla, el operador original permanece visible y el motor continúa.
+const avatarArms=[];
+try{
+  const avatar=new THREE.Group();
+  const aMat=(c,r=.78,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+  const skin=aMat('#bd805f'), skinLight=aMat('#d99a76'), skinShade=aMat('#925c49');
+  const hair=aMat('#211b1a'), hairLight=aMat('#3a2b27'), beard=aMat('#302321');
+  const shirt=aMat('#173d68'), shirtHi=aMat('#285b87'), pants=aMat('#263746'), shoes=aMat('#202a32');
+  const eye=aMat('#fff4e8',.3), iris=aMat('#68452f',.35), pupil=aMat('#17191d',.2), brow=aMat('#30231f');
+  const addMesh=(geo,material,pos,scale,rotation)=>{
+    const mesh=new THREE.Mesh(geo,material);
+    mesh.position.set(pos[0],pos[1],pos[2]);
+    if(scale)mesh.scale.set(scale[0],scale[1],scale[2]);
+    if(rotation)mesh.rotation.set(rotation[0],rotation[1],rotation[2]);
+    mesh.castShadow=true;mesh.receiveShadow=true;avatar.add(mesh);return mesh;
+  };
+  const addCapsule=(parent,radius,length,material,pos)=>{
+    const mesh=new THREE.Mesh(new THREE.CapsuleGeometry(radius,length,4,10),material);
+    mesh.position.set(pos[0],pos[1],pos[2]);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;
+  };
+  // Piernas articuladas
+  for(const side of [-1,1]){
+    const legPivot=new THREE.Group();legPivot.position.set(side*.18,.82,0);avatar.add(legPivot);
+    addCapsule(legPivot,.105,.43,pants,[0,-.28,0]);
+    const knee=new THREE.Mesh(new THREE.SphereGeometry(.108,14,10),pants);knee.position.set(0,-.08,0);legPivot.add(knee);
+    const shoe=new THREE.Mesh(new THREE.BoxGeometry(.23,.13,.36),shoes);shoe.position.set(0,-.59,.075);shoe.castShadow=true;legPivot.add(shoe);
+    legs.push(legPivot);
+    // Brazos articulados
+    const armPivot=new THREE.Group();armPivot.position.set(side*.37,1.42,0);avatar.add(armPivot);
+    const sleeve=new THREE.Mesh(new THREE.SphereGeometry(1,16,12),shirt);sleeve.position.set(side*.015,-.16,0);sleeve.scale.set(.145,.25,.155);armPivot.add(sleeve);
+    addCapsule(armPivot,.09,.25,skinLight,[side*.02,-.46,.015]);
+    const hand=new THREE.Mesh(new THREE.SphereGeometry(.095,14,10),skinLight);hand.position.set(side*.02,-.59,.02);armPivot.add(hand);
+    avatarArms.push(armPivot);
+  }
+  // Torso y cuello
+  addCapsule(avatar,.32,.52,shirt,[0,1.24,0]);
+  addMesh(new THREE.SphereGeometry(1,20,16),shirt,[0,1.37,0],[.36,.36,.235]);
+  addMesh(new THREE.CylinderGeometry(.105,.12,.13,16),skinLight,[0,1.68,0]);
+  // Cabeza, orejas y cara
+  addMesh(new THREE.SphereGeometry(1,24,20),skinLight,[0,1.98,.015],[.285,.35,.255]);
+  for(const side of [-1,1]){
+    addMesh(new THREE.SphereGeometry(1,14,12),skin,[side*.28,1.99,0],[.065,.09,.065]);
+    addMesh(new THREE.SphereGeometry(1,16,12),eye,[side*.105,2.035,.235],[.061,.078,.034]);
+    addMesh(new THREE.SphereGeometry(1,14,10),iris,[side*.105,2.03,.266],[.034,.047,.017]);
+    addMesh(new THREE.SphereGeometry(1,12,10),pupil,[side*.105,2.03,.279],[.017,.029,.01]);
+    addMesh(new THREE.SphereGeometry(1,8,8),eye,[side*.115,2.05,.289],[.008,.011,.005]);
+    addMesh(new THREE.SphereGeometry(1,12,8),brow,[side*.105,2.14,.235],[.078,.021,.03],[0,0,side*-.1]);
+  }
+  addMesh(new THREE.SphereGeometry(1,14,12),skin,[0,1.98,.27],[.05,.075,.055]);
+  addMesh(new THREE.SphereGeometry(1,12,10),skinLight,[0,1.95,.30],[.04,.03,.025]);
+  // Barba y bigote
+  addMesh(new THREE.SphereGeometry(1,20,14),beard,[0,1.79,.10],[.23,.13,.18]);
+  addMesh(new THREE.SphereGeometry(1,16,10),beard,[0,1.875,.205],[.17,.055,.065]);
+  // Sonrisa sutil
+  addMesh(new THREE.TorusGeometry(.047,.008,6,16),skinShade,[0,1.89,.252],[1,1,1],[0,0,Math.PI]);
+  // Cabello con volumen y copete
+  addMesh(new THREE.SphereGeometry(1,20,14),hair,[0,2.22,-.005],[.29,.18,.255]);
+  addMesh(new THREE.SphereGeometry(1,16,10),hairLight,[-.12,2.29,.11],[.13,.07,.13]);
+  addMesh(new THREE.SphereGeometry(1,16,10),hair,[.10,2.30,.12],[.14,.07,.12]);
+  addMesh(new THREE.SphereGeometry(1,14,10),hairLight,[.015,2.35,.055],[.10,.05,.09]);
+  // Distintivo discreto en el pecho
+  addMesh(new THREE.BoxGeometry(.095,.12,.018),shirtHi,[.18,1.38,.225]);
+  addMesh(new THREE.SphereGeometry(.025,10,8),aMat('#f2a0a0',.45),[.18,1.41,.24],[.8,1.2,.4]);
+  // Solo sustituir el modelo básico cuando toda la geometría nueva se construyó correctamente.
+  player.add(avatar);
+  body.visible=false;head.visible=false;helmet.visible=false;
+  for(let i=0;i<2;i++){/* las piernas básicas son los dos primeros hijos después de body/head/helmet */ }
+  // Ocultar las piernas originales guardadas antes de añadir las nuevas.
+  for(const oldLeg of originalPlayerLegs)oldLeg.visible=false;
+}catch(avatarError){
+  console.warn('MILKLAB avatar detallado no disponible; se conserva el operador original.',avatarError);
+}
+
 // Camera follow and keyboard controls
 let yaw=Math.PI,pitch=-.18,locked=false,flightMode=false,creativeMode=false;const keys={};let velY=0,onGround=true;const flightBtn=document.getElementById('flightToggle');const start=document.querySelector('#startBtn'),enter=document.querySelector('#enterBtn'),loading=document.querySelector('#loading'),game=document.querySelector('#game'),toast=document.querySelector('#toast');game.style.display='block';enter.addEventListener('click',()=>{loading.style.display='none';renderer.domElement.requestPointerLock?.();toast.style.display='block';setTimeout(()=>toast.style.display='none',4500)});start.addEventListener('click',()=>{renderer.domElement.requestPointerLock?.()});
 flightBtn?.addEventListener('click',()=>{flightMode=!flightMode;if(flightMode){creativeMode=false;player.visible=false;document.exitPointerLock?.();camera.position.set(0,48,.01);camera.lookAt(0,0,0);toast.textContent='Vista aérea · WASD desplaza la cámara · SHIFT acelera';}else{player.visible=true;toast.textContent=creativeMode?'Vuelo creativo activado · F para salir':'Exploración a nivel del suelo';}flightBtn.textContent=flightMode?'✕ Salir de vista aérea':'✈ Vista aérea';flightBtn.classList.toggle('active',flightMode);toast.style.display='block';setTimeout(()=>toast.style.display='none',2600)});renderer.domElement.addEventListener('click',()=>{if(game.style.display!=='none')renderer.domElement.requestPointerLock?.()});document.addEventListener('pointerlockchange',()=>locked=document.pointerLockElement===renderer.domElement);document.addEventListener('mousemove',e=>{if(!locked)return;yaw-=e.movementX*.0023;pitch-=e.movementY*.002;pitch=Math.max(-.65,Math.min(.35,pitch))});function toggleCreativeFlight(){if(panelOpen)return;creativeMode=!creativeMode;flightMode=false;player.visible=true;velY=0;onGround=false;flightBtn.textContent='✈ Vista aérea';flightBtn.classList.remove('active');if(creativeMode){toast.textContent='MODO CREATIVO ACTIVADO · WASD volar · SPACE subir · CTRL bajar · SHIFT acelerar · F salir';}else{player.position.y=Math.max(0,player.position.y);onGround=player.position.y===0;toast.textContent='Modo creativo desactivado';}toast.style.display='block';clearTimeout(window.__flightToastTimer);window.__flightToastTimer=setTimeout(()=>toast.style.display='none',3500);}
 document.addEventListener('keydown',e=>{const key=(e.key||'').toLowerCase();if(e.code==='Escape'&&panelOpen){closeEquipment();return}if((e.code==='KeyF'||key==='f')&&!e.repeat&&!panelOpen){e.preventDefault();toggleCreativeFlight();return}if((e.code==='KeyE'||key==='e')&&!panelOpen&&!creativeMode&&!flightMode){nearbyEquipment=findNearby();if(nearbyEquipment){e.preventDefault();openEquipment(nearbyEquipment);return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ControlLeft','ControlRight'].includes(e.code))e.preventDefault()});document.addEventListener('keyup',e=>{keys[e.code]=false});window.addEventListener('blur',()=>{for(const k in keys)keys[k]=false});
 const mobileBtns=document.querySelectorAll('#mobileControls button');mobileBtns.forEach(b=>{const k=b.dataset.key;const down=e=>{e.preventDefault();keys[k==='jump'?'Space':'Key'+k.toUpperCase()]=true};const up=e=>{e.preventDefault();keys[k==='jump'?'Space':'Key'+k.toUpperCase()]=false};b.addEventListener('pointerdown',down);b.addEventListener('pointerup',up);b.addEventListener('pointerleave',up)});
-function animate(){requestAnimationFrame(animate);if(game.style.display!=='none'){if(!panelOpen){if(flightMode){const pan=(keys.KeyW?1:0)-(keys.KeyS?1:0),strafe=(keys.KeyD?1:0)-(keys.KeyA?1:0),flySpeed=(keys.ShiftLeft||keys.ShiftRight?34:20)*.016;camera.position.x+=strafe*flySpeed;camera.position.z-=pan*flySpeed;if(keys.Space)camera.position.y=Math.max(18,camera.position.y-18*.016);if(keys.ControlLeft||keys.ControlRight)camera.position.y=Math.min(75,camera.position.y+18*.016);camera.position.x=Math.max(-45,Math.min(45,camera.position.x));camera.position.z=Math.max(-38,Math.min(38,camera.position.z));camera.lookAt(camera.position.x,0,camera.position.z)}else if(creativeMode){const forward=(keys.KeyW?1:0)-(keys.KeyS?1:0),side=(keys.KeyA?1:0)-(keys.KeyD?1:0),vertical=(keys.Space?1:0)-((keys.ControlLeft||keys.ControlRight)?1:0),speed=(keys.ShiftLeft||keys.ShiftRight?24:11)*.016;const dir=new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch),0,Math.cos(yaw)*Math.cos(pitch)).normalize();const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw)).normalize();player.position.addScaledVector(dir,forward*speed);player.position.addScaledVector(right,side*speed);player.position.y+=vertical*speed;player.position.x=Math.max(-43,Math.min(43,player.position.x));player.position.y=Math.max(0,Math.min(65,player.position.y));player.position.z=Math.max(-36,Math.min(36,player.position.z));player.rotation.y=yaw+Math.PI;const target=new THREE.Vector3(player.position.x,player.position.y+1.25,player.position.z);const camDir=new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch));camera.position.copy(target).add(camDir.multiplyScalar(-5.8));camera.position.y+=1.25;camera.lookAt(target)}else{const forward=(keys.KeyW?1:0)-(keys.KeyS?1:0),side=(keys.KeyA?1:0)-(keys.KeyD?1:0);const speed=keys.ShiftLeft||keys.ShiftRight?7.5:4.2;const dir=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw));const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));player.position.addScaledVector(dir,forward*speed*.016);player.position.addScaledVector(right,side*speed*.016);player.position.x=Math.max(-33,Math.min(33,player.position.x));player.position.z=Math.max(-24,Math.min(24,player.position.z));player.rotation.y=yaw+Math.PI;if(keys.Space&&onGround){velY=6;onGround=false}velY-=16*.016;player.position.y+=velY*.016;if(player.position.y<=0){player.position.y=0;velY=0;onGround=true}const moving=forward||side;legs.forEach((l,i)=>{l.rotation.x=moving?Math.sin(Date.now()*.012+i*Math.PI)*.48:0});arms.forEach((a,i)=>{a.rotation.x=moving?Math.sin(Date.now()*.012+(i+1)*Math.PI)*.38:0});const target=new THREE.Vector3(player.position.x,player.position.y+1.25,player.position.z);const camDir=new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch));camera.position.copy(target).add(camDir.multiplyScalar(-5.8));camera.position.y+=1.25;camera.lookAt(target)}}if(!flightMode)nearbyEquipment=findNearby();if(!flightMode&&!panelOpen&&nearbyEquipment){promptEl.style.display='block';promptTag.textContent=nearbyEquipment.tag+' · '+nearbyEquipment.type+' · '+getNearbyDistance(nearbyEquipment).toFixed(1)+' m'}else promptEl.style.display='none'}s4Update(performance.now());renderer.render(scene,camera)}animate();window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+function animate(){requestAnimationFrame(animate);if(game.style.display!=='none'){if(!panelOpen){if(flightMode){const pan=(keys.KeyW?1:0)-(keys.KeyS?1:0),strafe=(keys.KeyD?1:0)-(keys.KeyA?1:0),flySpeed=(keys.ShiftLeft||keys.ShiftRight?34:20)*.016;camera.position.x+=strafe*flySpeed;camera.position.z-=pan*flySpeed;if(keys.Space)camera.position.y=Math.max(18,camera.position.y-18*.016);if(keys.ControlLeft||keys.ControlRight)camera.position.y=Math.min(75,camera.position.y+18*.016);camera.position.x=Math.max(-45,Math.min(45,camera.position.x));camera.position.z=Math.max(-38,Math.min(38,camera.position.z));camera.lookAt(camera.position.x,0,camera.position.z)}else if(creativeMode){const forward=(keys.KeyW?1:0)-(keys.KeyS?1:0),side=(keys.KeyA?1:0)-(keys.KeyD?1:0),vertical=(keys.Space?1:0)-((keys.ControlLeft||keys.ControlRight)?1:0),speed=(keys.ShiftLeft||keys.ShiftRight?24:11)*.016;const dir=new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch),0,Math.cos(yaw)*Math.cos(pitch)).normalize();const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw)).normalize();player.position.addScaledVector(dir,forward*speed);player.position.addScaledVector(right,side*speed);player.position.y+=vertical*speed;player.position.x=Math.max(-43,Math.min(43,player.position.x));player.position.y=Math.max(0,Math.min(65,player.position.y));player.position.z=Math.max(-36,Math.min(36,player.position.z));player.rotation.y=yaw+Math.PI;const target=new THREE.Vector3(player.position.x,player.position.y+1.25,player.position.z);const camDir=new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch));camera.position.copy(target).add(camDir.multiplyScalar(-5.8));camera.position.y+=1.25;camera.lookAt(target)}else{const forward=(keys.KeyW?1:0)-(keys.KeyS?1:0),side=(keys.KeyA?1:0)-(keys.KeyD?1:0);const speed=keys.ShiftLeft||keys.ShiftRight?7.5:4.2;const dir=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw));const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));player.position.addScaledVector(dir,forward*speed*.016);player.position.addScaledVector(right,side*speed*.016);player.position.x=Math.max(-33,Math.min(33,player.position.x));player.position.z=Math.max(-24,Math.min(24,player.position.z));player.rotation.y=yaw+Math.PI;if(keys.Space&&onGround){velY=6;onGround=false}velY-=16*.016;player.position.y+=velY*.016;if(player.position.y<=0){player.position.y=0;velY=0;onGround=true}const moving=forward||side;legs.forEach((l,i)=>{l.rotation.x=moving?Math.sin(Date.now()*.012+i*Math.PI)*.55:0});avatarArms.forEach((a,i)=>{a.rotation.x=moving?Math.sin(Date.now()*.012+(i+1)*Math.PI)*.32:0});const target=new THREE.Vector3(player.position.x,player.position.y+1.25,player.position.z);const camDir=new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch));camera.position.copy(target).add(camDir.multiplyScalar(-5.8));camera.position.y+=1.25;camera.lookAt(target)}}if(!flightMode)nearbyEquipment=findNearby();if(!flightMode&&!panelOpen&&nearbyEquipment){promptEl.style.display='block';promptTag.textContent=nearbyEquipment.tag+' · '+nearbyEquipment.type+' · '+getNearbyDistance(nearbyEquipment).toFixed(1)+' m'}else promptEl.style.display='none'}s4Update(performance.now());renderer.render(scene,camera)}animate();window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
