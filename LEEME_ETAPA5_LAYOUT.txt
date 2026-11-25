@@ -1,0 +1,10 @@
+ETAPA 5 · DISTRIBUCIÓN 3D Y LEGIBILIDAD
+
+Esta iteración conserva la integración inicial PFD → 3D y mejora la lectura espacial:
+- amplía la nave para acomodar la extensión del diagrama PFD;
+- conserva la distribución relativa de los equipos del PFD y la escala a una huella mayor;
+- reduce el tamaño de las etiquetas flotantes para evitar que oculten los equipos;
+- dibuja los tramos de tubería con codos ortogonales;
+- ubica el punto de inicio del jugador en una esquina libre de la nave.
+
+IMPORTANTE: las relaciones del grafo aún se derivan de la secuencia de proceso definida en el exportador PFD de esta etapa. No se debe interpretar como lectura automática de conectores gráficos arbitrarios ni como simulación validada. La simulación de proceso de Etapa 4 continúa siendo conceptual.
