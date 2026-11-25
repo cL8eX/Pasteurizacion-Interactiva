@@ -1,4 +1,45 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MILKLAB · Exploración 3D</title><link rel="stylesheet" href="pfd3d-stage1.css"></head><body><div id="loading"><div class="loader"></div><b>Planta lista para explorar</b><p>Exploración industrial 3D · Prototipo</p><button id="enterBtn">ENTRAR A LA PLANTA</button></div><div id="game"><div class="topbar"><a class="back" href="index.html">← Volver a PFD Design</a><div class="brand"><span class="brand-mark">M</span><div><strong>MILKLAB</strong><small>EXPLORACIÓN 3D · ETAPA 4</small></div></div><div class="top-actions"><button id="flightToggle" class="flight-toggle" type="button">✈ Vista aérea</button><div class="controls-hint">WASD <span>mover</span> · MOUSE <span>mirar</span> · SHIFT <span>correr</span> · SPACE <span>saltar/subir</span> · F <span>activar vuelo creativo</span></div></div></div><div class="center-reticle">+</div><div id="interactPrompt" class="interact-prompt" style="display:none"><button id="interactButton" type="button"><kbd>E</kbd><span>Interactuar con</span> <strong id="promptTag">equipo</strong></button></div><div id="equipmentPanel" class="equipment-panel" style="display:none"><button id="closeEquipment" class="panel-close">✕</button><div class="panel-eyebrow">FICHA DE EQUIPO · MILKLAB</div><h2 id="equipTag">TK-101</h2><div id="equipType" class="equip-type">Equipo</div><p id="equipDescription"></p><div class="equip-grid" id="equipGrid"></div><div class="equip-connections" id="equipConnections"></div><div class="panel-foot">Presiona <kbd>ESC</kbd> o <kbd>✕</kbd> para cerrar</div></div><div class="bottom-hud"><div class="hint-card"><kbd>W A S D</kbd><span>Movimiento</span><kbd>SHIFT</kbd><span>Correr</span><kbd>SPACE</kbd><span>Saltar / subir</span><kbd>F</kbd><span>Vuelo creativo ON/OFF</span></div><div class="location"><i></i> PLANTA PILOTO · ZONA DE EXPLORACIÓN</div><button id="startBtn">ENTRAR A LA PLANTA</button></div><div id="toast">Haz clic en el escenario para capturar el mouse · ESC libera el cursor</div><div id="mobileControls"><button data-key="w">▲</button><div><button data-key="a">◀</button><button data-key="s">▼</button><button data-key="d">▶</button></div><button data-key="jump">⤒</button></div></div><script>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MILKLAB · Exploración 3D</title><link rel="stylesheet" href="pfd3d-stage1.css"></head><body><div id="loading" aria-label="Bienvenido a MILKLAB">
+  <div class="entry-scene" aria-hidden="true">
+    <div class="scene-glow scene-glow-one"></div><div class="scene-glow scene-glow-two"></div>
+    <div class="scene-grid"></div>
+    <svg class="factory-art" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice" role="presentation">
+      <defs>
+        <linearGradient id="steel" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#e9f7ff"/><stop offset=".42" stop-color="#7396ad"/><stop offset=".7" stop-color="#d9edf5"/><stop offset="1" stop-color="#42657d"/></linearGradient>
+        <linearGradient id="tank" x1="0" x2="1"><stop stop-color="#486b80"/><stop offset=".22" stop-color="#d8eaf1"/><stop offset=".48" stop-color="#7799ac"/><stop offset=".76" stop-color="#e7f5fa"/><stop offset="1" stop-color="#385a70"/></linearGradient>
+        <linearGradient id="glass" x1="0" x2="1"><stop stop-color="#5ed9e8" stop-opacity=".2"/><stop offset=".5" stop-color="#b4f5ff" stop-opacity=".8"/><stop offset="1" stop-color="#1e819e" stop-opacity=".25"/></linearGradient>
+        <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+      </defs>
+      <ellipse cx="730" cy="635" rx="630" ry="42" fill="#071d31" opacity=".28" filter="url(#soft)"/>
+      <g opacity=".55" stroke="#7ac9d8" stroke-width="5" fill="none"><path d="M0 470H1440M80 430V210H430V430M980 430V150H1360V430"/><path d="M80 250H430M980 190H1360M160 210V125H350V210M1080 150V90H1260V150"/></g>
+      <g stroke="#294b61" stroke-width="8" fill="url(#tank)">
+        <g transform="translate(160 270)"><rect x="0" y="35" width="190" height="290" rx="76"/><ellipse cx="95" cy="35" rx="95" ry="27"/><path d="M22 320V365M168 320V365" fill="none"/><path d="M95 8V-35M75 -35H115" fill="none"/><rect x="80" y="110" width="30" height="130" rx="12" fill="url(#glass)" stroke="#8be6ef" stroke-width="4"/><path d="M-10 110H0M190 175H235" fill="none"/></g>
+        <g transform="translate(480 205)"><rect x="0" y="45" width="230" height="360" rx="95"/><ellipse cx="115" cy="45" rx="115" ry="31"/><path d="M28 400V438M202 400V438" fill="none"/><path d="M115 15V-35M90 -35H140" fill="none"/><rect x="101" y="135" width="28" height="170" rx="12" fill="url(#glass)" stroke="#8be6ef" stroke-width="4"/><path d="M-15 160H0M230 245H285" fill="none"/></g>
+        <g transform="translate(855 295)"><rect x="0" y="30" width="170" height="260" rx="68"/><ellipse cx="85" cy="30" rx="85" ry="24"/><path d="M25 285V325M145 285V325" fill="none"/><path d="M85 5V-25" fill="none"/><rect x="74" y="100" width="22" height="120" rx="10" fill="url(#glass)" stroke="#8be6ef" stroke-width="4"/></g>
+      </g>
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M0 520H270V455H420V520H620V455H790V520H1080V445H1260V520H1440" stroke="#36c6d8" stroke-width="13" opacity=".9"/>
+        <path d="M0 540H270V475H420V540H620V475H790V540H1080V465H1260V540H1440" stroke="#d8f5fa" stroke-width="4" opacity=".8"/>
+        <path d="M350 360H440V300H480M710 390H790V350H855M1025 400H1140V330H1320" stroke="#f3a85b" stroke-width="8"/>
+      </g>
+      <g fill="#102d43" stroke="#7c9bad" stroke-width="5"><rect x="1090" y="390" width="230" height="120" rx="12"/><rect x="1120" y="410" width="80" height="52" rx="5" fill="#6ee3e8"/><circle cx="1250" cy="435" r="15" fill="#5ce0b0"/><path d="M1130 510V550M1280 510V550"/></g>
+      <g stroke="#b8d9e5" stroke-width="7" opacity=".8"><path d="M130 580V640M290 580V640M450 580V640M610 580V640M770 580V640M930 580V640M1090 580V640M1250 580V640"/></g>
+      <path d="M0 640H1440" stroke="#8bd7e2" stroke-width="3" opacity=".45"/>
+    </svg>
+    <div class="scene-vignette"></div>
+  </div>
+  <div class="entry-content">
+    <div class="entry-brand"><span class="entry-mark">M</span><span>MILKLAB</span><i>SIMULATOR</i></div>
+    <div class="entry-copy">
+      <div class="entry-kicker"><span></span> ENTORNO INDUSTRIAL INTERACTIVO</div>
+      <h1>De tu proceso<br><em>a la planta.</em></h1>
+      <p>Explora, recorre e interactúa con una planta de procesamiento lácteo en 3D.</p>
+      <div class="entry-features"><span> <b>01</b> Planta 3D</span><span><b>02</b> Equipos interactivos</span><span><b>03</b> Exploración libre</span></div>
+      <button id="enterBtn" class="entry-cta"><span>INGRESAR A LA PLANTA</span><b>↗</b></button>
+      <div class="entry-foot"><span class="ready-dot"></span> ENTORNO DISPONIBLE <i></i> MILKLAB · ETAPA 5</div>
+    </div>
+    <div class="entry-side-note">PROCESAMIENTO LÁCTEO <span>·</span> VISUALIZACIÓN 3D</div>
+  </div>
+</div><div id="game"><div class="topbar"><a class="back" href="index.html">← Volver a PFD Design</a><div class="brand"><span class="brand-mark">M</span><div><strong>MILKLAB</strong><small>EXPLORACIÓN 3D · ETAPA 4</small></div></div><div class="top-actions"><button id="flightToggle" class="flight-toggle" type="button">✈ Vista aérea</button><div class="controls-hint">WASD <span>mover</span> · MOUSE <span>mirar</span> · SHIFT <span>correr</span> · SPACE <span>saltar/subir</span> · F <span>activar vuelo creativo</span></div></div></div><div class="center-reticle">+</div><div id="interactPrompt" class="interact-prompt" style="display:none"><button id="interactButton" type="button"><kbd>E</kbd><span>Interactuar con</span> <strong id="promptTag">equipo</strong></button></div><div id="equipmentPanel" class="equipment-panel" style="display:none"><button id="closeEquipment" class="panel-close">✕</button><div class="panel-eyebrow">FICHA DE EQUIPO · MILKLAB</div><h2 id="equipTag">TK-101</h2><div id="equipType" class="equip-type">Equipo</div><p id="equipDescription"></p><div class="equip-grid" id="equipGrid"></div><div class="equip-connections" id="equipConnections"></div><div class="panel-foot">Presiona <kbd>ESC</kbd> o <kbd>✕</kbd> para cerrar</div></div><div class="bottom-hud"><div class="hint-card"><kbd>W A S D</kbd><span>Movimiento</span><kbd>SHIFT</kbd><span>Correr</span><kbd>SPACE</kbd><span>Saltar / subir</span><kbd>F</kbd><span>Vuelo creativo ON/OFF</span></div><div class="location"><i></i> PLANTA PILOTO · ZONA DE EXPLORACIÓN</div><button id="startBtn">ENTRAR A LA PLANTA</button></div><div id="toast">Haz clic en el escenario para capturar el mouse · ESC libera el cursor</div><div id="mobileControls"><button data-key="w">▲</button><div><button data-key="a">◀</button><button data-key="s">▼</button><button data-key="d">▶</button></div><button data-key="jump">⤒</button></div></div><script>
 // Fallback de entrada: funciona incluso si el módulo 3D falla al cargar.
 (function(){
  const enter=document.getElementById('enterBtn');
