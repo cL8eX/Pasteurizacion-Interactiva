@@ -1,0 +1,14 @@
+ETAPA 5 · AJUSTES DE LEGIBILIDAD, FICHAS Y RECORRIDO DE PRODUCTO
+
+Cambios de esta iteración:
+- Etiquetas flotantes más pequeñas para reducir obstrucción visual.
+- Las fichas 3D consultan la descripción, familia y parámetros disponibles en el nodo exportado desde el PFD; se agregan conexiones adyacentes del grafo cuando existen.
+- El recorrido conceptual de partículas utiliza los mismos segmentos derivados del grafo PFD y queda contenido sobre las líneas de tubería representadas. Las partículas son más pequeñas y menos numerosas.
+- Las tuberías entre equipos se representan con un codo ortogonal intermedio en vez de una diagonal directa.
+- Se invierte el desplazamiento lateral del control para que A vaya a la izquierda y D a la derecha.
+
+Límites conocidos:
+- Los datos de una ficha solo pueden mostrar información que realmente exista en el nodo PFD o en la ficha heredada. Si un parámetro no fue definido en el PFD, no se inventa.
+- El grafo de conexiones es el exportado por pfdBuild3DModel; no equivale todavía a leer geometría arbitraria de conectores dibujados a mano.
+- El proceso en vivo sigue siendo una simulación conceptual, no una simulación validada de pasteurización.
+- Validación realizada: comprobación sintáctica con node --check. No se ha ejecutado prueba en navegador/GitHub Pages en esta sesión.

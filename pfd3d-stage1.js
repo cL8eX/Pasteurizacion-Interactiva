@@ -14,8 +14,8 @@ const equipment=[];
 function addLabel(text,x,y,z){
  const canvas=document.createElement('canvas');canvas.width=384;canvas.height=96;const ctx=canvas.getContext('2d');
  ctx.fillStyle='rgba(9,25,42,.88)';ctx.beginPath();ctx.roundRect(8,8,368,80,16);ctx.fill();
- ctx.strokeStyle='rgba(255,255,255,.32)';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#fff';ctx.font='bold 36px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,192,48,344);
- const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,transparent:true,depthTest:false}));sprite.scale.set(2.05,.52,1);sprite.position.set(x,y,z);scene.add(sprite);return sprite;
+ ctx.strokeStyle='rgba(255,255,255,.32)';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#fff';ctx.font='bold 29px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,192,48,344);
+ const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,transparent:true,depthTest:false}));sprite.scale.set(1.42,.36,1);sprite.position.set(x,y,z);scene.add(sprite);return sprite;
 }
 function meshIn(group,geometry,material,x,y,z,rotX=0,rotY=0,rotZ=0){const m=new THREE.Mesh(geometry,material);m.position.set(x,y,z);m.rotation.set(rotX,rotY,rotZ);m.castShadow=true;m.receiveShadow=true;group.add(m);return m;}
 function makeTank(tag,x,z,scale=1,style='standard'){
@@ -85,7 +85,7 @@ if(pfd3dEquipmentNodes.length){
  const edgePairs=new Set();
  const adjacency=new Map();for(const e of (pfd3dModel.edges||[])){if(!adjacency.has(e.from))adjacency.set(e.from,[]);adjacency.get(e.from).push(e.to)}
  // Recorre nodos intermedios (válvulas, identificadores y corrientes) hasta hallar el siguiente equipo.
- for(const start of pfd3dEquipmentNodes){const queue=[...(adjacency.get(start.id)||[])],seen=new Set();while(queue.length){const id=queue.shift();if(seen.has(id))continue;seen.add(id);if(pfd3dPositions.has(id)){const key=[start.id,id].sort().join('|');if(!edgePairs.has(key)){edgePairs.add(key);const A=pfd3dPositions.get(start.id),B=pfd3dPositions.get(id);pfd3dPipeSegments.push([[A.x,1.15,A.z],[B.x,1.15,B.z]])}continue}queue.push(...(adjacency.get(id)||[]))}}
+ for(const start of pfd3dEquipmentNodes){const queue=[...(adjacency.get(start.id)||[])],seen=new Set();while(queue.length){const id=queue.shift();if(seen.has(id))continue;seen.add(id);if(pfd3dPositions.has(id)){const key=[start.id,id].sort().join('|');if(!edgePairs.has(key)){edgePairs.add(key);const A=pfd3dPositions.get(start.id),B=pfd3dPositions.get(id);pfd3dPipeSegments.push([[A.x,1.15,A.z],[B.x,1.15,A.z],[B.x,1.15,B.z]])}continue}queue.push(...(adjacency.get(id)||[]))}}
  
  const sourceNodes=pfd3dEquipmentNodes.length;
  console.info(`[PFD 3D] Modelo ${pfd3dModel.projectName}: ${sourceNodes} equipos y ${edgePairs.size} conexiones directas representadas.`);
@@ -107,10 +107,32 @@ const equipmentInfo={
  'V-102':{description:'Válvula manual ubicada en el tramo de proceso térmico.',fields:[['Servicio','Aislamiento'],['Tipo','Manual'],['Posición','Por definir'],['Diámetro','Por definir'],['Material','Acero inoxidable'],['Estado','Disponible']],connections:'Línea próxima al skid PA-101'},
  'V-103':{description:'Válvula manual representada en la zona de transferencia de salida.',fields:[['Servicio','Aislamiento'],['Tipo','Manual'],['Posición','Por definir'],['Diámetro','Por definir'],['Material','Acero inoxidable'],['Estado','Disponible']],connections:'Línea hacia zona de almacenamiento'}
 };
+// Enlaza cada ficha 3D con los metadatos originales del nodo PFD.
+const pfdNodeByTag=new Map((pfd3dModel?.nodes||[]).map(n=>[String(n.tag||n.label||n.id).trim(),n]));
+const pfdConnectionsByTag=new Map();
+if(pfd3dModel?.edges?.length){
+ const nodeMap=new Map((pfd3dModel.nodes||[]).map(n=>[n.id,n]));
+ for(const edge of pfd3dModel.edges){const a=nodeMap.get(edge.from),b=nodeMap.get(edge.to);if(!a||!b)continue;
+  const ta=String(a.tag||a.label||a.id).trim(),tb=String(b.tag||b.label||b.id).trim();
+  if(!pfdConnectionsByTag.has(ta))pfdConnectionsByTag.set(ta,new Set());if(!pfdConnectionsByTag.has(tb))pfdConnectionsByTag.set(tb,new Set());
+  pfdConnectionsByTag.get(ta).add(tb);pfdConnectionsByTag.get(tb).add(ta);
+ }
+}
+for(const item of equipment){item.pfdNode=pfdNodeByTag.get(String(item.tag).trim())||null;item.pfdConnections=[...(pfdConnectionsByTag.get(String(item.tag).trim())||[])];}
 const promptEl=document.getElementById('interactPrompt'),promptTag=document.getElementById('promptTag'),panel=document.getElementById('equipmentPanel');let nearbyEquipment=null,panelOpen=false;
 function findNearby(){let nearest=null,dist=Infinity;for(const item of equipment){const pos=item.group.position;const d=Math.hypot(player.position.x-pos.x,player.position.z-pos.z);if(d<dist){dist=d;nearest=item}}return dist<7.5?nearest:null}
 function getNearbyDistance(item){return item?Math.hypot(player.position.x-item.group.position.x,player.position.z-item.group.position.z):Infinity}
-function openEquipment(item){if(!item)return;panelOpen=true;promptEl.style.display='none';document.exitPointerLock?.();const info=equipmentInfo[item.tag]||{description:'Equipo de la planta piloto. Sus parámetros podrán configurarse en futuras etapas.',fields:[['Tipo',item.type],['Código',item.tag],['Material','Por definir'],['Estado','Disponible']],connections:'Conexiones detalladas pendientes de vinculación con el PFD.'};document.getElementById('equipTag').textContent=item.tag;document.getElementById('equipType').textContent=item.type;document.getElementById('equipDescription').textContent=info.description;document.getElementById('equipGrid').innerHTML=info.fields.map(([k,v])=>`<div class="equip-field"><small>${k}</small><b>${v}</b></div>`).join('');document.getElementById('equipConnections').innerHTML='<strong>Conexiones</strong>'+info.connections;panel.style.display='block'}
+function openEquipment(item){if(!item)return;panelOpen=true;promptEl.style.display='none';document.exitPointerLock?.();
+ const n=item.pfdNode||{};const params=n.parameters&&typeof n.parameters==='object'?n.parameters:{};
+ const base=equipmentInfo[item.tag]||{};const fields=base.fields?base.fields.slice():[['Tipo',item.type],['Código',item.tag],['Familia',n.family||'Por definir'],['Material','Por definir'],['Estado','Disponible']];
+ // Los parámetros editados en el PFD prevalecen sobre los valores genéricos de la ficha.
+ const extra=Object.entries(params).filter(([k,v])=>v!==null&&v!==undefined&&String(v).trim()!=='').map(([k,v])=>[k,String(v)]);
+ for(const [k,v] of extra){const ix=fields.findIndex(f=>String(f[0]).toLowerCase()===String(k).toLowerCase());if(ix>=0)fields[ix]=[fields[ix][0],v];else fields.push([k,v]);}
+ if(n.family&&!fields.some(f=>f[0]==='Familia'))fields.push(['Familia',n.family]);
+ const connected=item.pfdConnections.length?item.pfdConnections.join(' · '):(base.connections||'Sin conexiones identificadas en el grafo PFD.');
+ const description=n.description||base.description||'Equipo de la planta piloto. La ficha muestra los datos disponibles en el PFD.';
+ document.getElementById('equipTag').textContent=item.tag;document.getElementById('equipType').textContent=item.type;document.getElementById('equipDescription').textContent=description;
+ document.getElementById('equipGrid').innerHTML=fields.map(([k,v])=>`<div class="equip-field"><small>${k}</small><b>${v}</b></div>`).join('');document.getElementById('equipConnections').innerHTML='<strong>Conexiones PFD</strong><div>'+connected+'</div>';panel.style.display='block'}
 function closeEquipment(){panelOpen=false;panel.style.display='none';keys.KeyE=false;renderer.domElement.requestPointerLock?.()}
 document.getElementById('closeEquipment').addEventListener('click',closeEquipment);document.getElementById('interactButton').addEventListener('click',()=>{nearbyEquipment=findNearby();if(nearbyEquipment)openEquipment(nearbyEquipment)});
 
@@ -132,15 +154,15 @@ if(!pfd3dEquipmentNodes.length){
 // ===== ETAPA 4 · SIMULACIÓN VISUAL DEL PROCESO =====
 const stage4UI=document.createElement('section');stage4UI.id='stage4Panel';stage4UI.innerHTML=`<div class="s4-head"><span class="s4-dot" id="s4Dot"></span><div><b>PROCESO EN VIVO</b><small>SIMULACIÓN CONCEPTUAL</small></div></div><div class="s4-stats"><div><small>Temperatura producto</small><strong id="s4Temp">4.0 °C</strong></div><div><small>Caudal simulado</small><strong id="s4Flow">0.0 L/s</strong></div><div><small>Retención</small><strong id="s4Hold">0 s</strong></div><div><small>Estado</small><strong id="s4State">DETENIDO</strong></div></div><div class="s4-tempbar"><span id="s4TempFill"></span></div><div class="s4-actions"><button id="s4Start">▶ Iniciar proceso</button><button id="s4Stop" disabled>■ Detener</button><button id="s4Reset">↺ Reiniciar</button></div><div class="s4-legend"><i class="cold"></i> Frío <i class="hot"></i> Caliente <i class="neutral"></i> Transferencia</div><p class="s4-note">Valores ilustrativos; no representan instrumentación real ni validación sanitaria.</p>`;document.body.appendChild(stage4UI);
 const s4={running:false,elapsed:0,temp:4,flow:0,hold:0,particles:[],last:performance.now()};
-const s4Paths=[
+const s4Paths=(pfd3dPipeSegments.length?pfd3dPipeSegments.map(seg=>seg.map(point=>point.slice())):[
  [[-13,1.05,-7],[-10,.85,-2],[-5,1.1,-2],[-2,1.4,-5]],
  [[-2,2.65,-5],[-2,3.3,-5],[1,3.3,-5],[1,2.5,-5],[3,2.5,1]],
  [[3,1.45,1],[3,2.2,1],[6,2.2,1],[9,1.25,2]],
  [[9,1.05,2],[9,4,2],[12,4,2],[12,3.8,7]]
-];
+]);
 function s4PointAt(path,t){let lens=[],total=0;for(let i=0;i<path.length-1;i++){let a=new THREE.Vector3(...path[i]),b=new THREE.Vector3(...path[i+1]),l=a.distanceTo(b);lens.push(l);total+=l}let d=((t%1)+1)%1*total;for(let i=0;i<lens.length;i++){if(d<=lens[i])return new THREE.Vector3(...path[i]).lerp(new THREE.Vector3(...path[i+1]),d/lens[i]);d-=lens[i]}return new THREE.Vector3(...path.at(-1))}
 const s4Mats=[mat('#45a6e8',.25,.25),mat('#ff7547',.25,.25),mat('#f0a13b',.25,.25),mat('#42c98b',.25,.25)];
-s4Paths.forEach((path,idx)=>{for(let i=0;i<9;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(.12,8,6),s4Mats[idx]);m.position.copy(s4PointAt(path,i/9));m.visible=false;scene.add(m);s4.particles.push({mesh:m,path,offset:i/9,idx})}});
+s4Paths.forEach((path,idx)=>{for(let i=0;i<5;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(.065,8,6),s4Mats[idx]);m.position.copy(s4PointAt(path,i/9));m.visible=false;scene.add(m);s4.particles.push({mesh:m,path,offset:i/9,idx})}});
 function s4SetRunning(on){s4.running=on;s4.last=performance.now();document.getElementById('s4Start').disabled=on;document.getElementById('s4Stop').disabled=!on;document.getElementById('s4Dot').classList.toggle('active',on);document.getElementById('s4State').textContent=on?'OPERANDO':'DETENIDO';s4.particles.forEach(p=>p.mesh.visible=on)}
 document.getElementById('s4Start').onclick=()=>s4SetRunning(true);document.getElementById('s4Stop').onclick=()=>s4SetRunning(false);document.getElementById('s4Reset').onclick=()=>{s4SetRunning(false);s4.elapsed=0;s4.temp=4;s4.flow=0;s4.hold=0;};
 function s4Update(now){let dt=Math.min((now-s4.last)/1000,.05);s4.last=now;if(s4.running){s4.elapsed+=dt;s4.flow=1.8;const cycle=(s4.elapsed%50)/50;s4.temp=cycle<.25?4+cycle*272:cycle<.5?72:cycle<.75?72-(cycle-.5)*272:4;s4.hold=cycle>=.25&&cycle<.5?(cycle-.25)*40:0;for(const p of s4.particles){p.mesh.position.copy(s4PointAt(p.path,(s4.elapsed*.12+p.offset)%1))}}
