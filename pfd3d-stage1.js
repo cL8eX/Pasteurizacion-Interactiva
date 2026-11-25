@@ -182,7 +182,7 @@ function s4Update(now){let dt=Math.min((now-s4.last)/1000,.05);s4.last=now;if(s4
 // Avatar MILKLAB · personaje humanoide 3D estilizado (geometría procedural)
 const player=new THREE.Group();
 const skin=mat('#c98760',.82),skinLight=mat('#dfa17b',.78),skinShadow=mat('#9e6049',.9),hair=mat('#211b1a',.92),hairHi=mat('#392b27',.86),beardMat=mat('#302421',.95),shirtMat=mat('#173d68',.72),shirtLight=mat('#245b8e',.68),pantsMat=mat('#26384a',.88),shoeMat=mat('#202a32',.9),eyeWhite=mat('#f5eee5',.35),iris=mat('#65432e',.4),pupil=mat('#17191d',.25),brow=mat('#30231f',.9),logoMat=mat('#f0a0a0',.45);
-function avatarMesh(g,geo,material,pos,scale,rot){const m=new THREE.Mesh(geo,material);m.position.set(...pos);m.scale.set(...scale);if(rot)m.rotation.set(...rot[0],rot[1],rot[2]);m.castShadow=true;m.receiveShadow=true;g.add(m);return m;}
+function avatarMesh(g,geo,material,pos,scale,rot){const m=new THREE.Mesh(geo,material);m.position.set(...pos);m.scale.set(...scale);if(rot)m.rotation.set(rot[0],rot[1],rot[2]);m.castShadow=true;m.receiveShadow=true;g.add(m);return m;}
 function avatarCapsule(g,r,len,material,pos){const m=new THREE.Mesh(new THREE.CapsuleGeometry(r,len,5,12),material);m.position.set(...pos);m.castShadow=true;m.receiveShadow=true;g.add(m);return m;}
 // piernas articuladas y calzado
 const legs=[];const arms=[];
