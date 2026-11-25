@@ -1,0 +1,17 @@
+MILKLAB · MAQUINARIA INDUSTRIAL ESTILIZADA
+Base: Pasteurizacion-Interactiva-Etapa5-Maquinas-Realistas.zip
+
+Objetivo visual: maquinaria 3D estilizada, atractiva y reconocible a primera vista, coherente con el estilo low-poly de la planta. No busca fotorrealismo.
+
+Cambios:
+- Tanques: silueta sanitaria vertical, fondos redondeados, patas, visor de nivel, venteo, boquillas y escalera.
+- Bombas: motor eléctrico cilíndrico con aletas, acoplamiento, carcasa de voluta y bocas bridadas.
+- Intercambiadores: paquete visible de placas, bastidor, tirantes y cuatro conexiones codificadas.
+- Pasteurizador: skid modular, banco de placas, tubos de retención, bomba auxiliar, sensores y HMI.
+- Filtro: vaso vertical sanitario con tapa bridada, abrazadera, manómetro y puertos.
+- Homogeneizador: motor, bloque de alta presión, cilindros de compresión y manómetro.
+- Separador: bowl cónico/campana vertical y salidas tangenciales.
+- Envasadora: pórtico, cinta, rodillos, envases visibles, cabezales y panel.
+- Válvula: cuerpo, bridas, vástago y volante.
+
+Se conservan el avatar, vuelo creativo, vista aérea, controles, datos PFD, fichas e interacción. Solo se modifica pfd3d-stage1.js.

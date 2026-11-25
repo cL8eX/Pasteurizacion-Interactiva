@@ -27,200 +27,206 @@ function addSectionLabel(text,x,z){
 }
 function meshIn(group,geometry,material,x,y,z,rotX=0,rotY=0,rotZ=0){const m=new THREE.Mesh(geometry,material);m.position.set(x,y,z);m.rotation.set(rotX,rotY,rotZ);m.castShadow=true;m.receiveShadow=true;group.add(m);return m;}
 
+
+// ===== MAQUINARIA MILKLAB · ESTILO INDUSTRIAL ESTILIZADO =====
+const inoxBright=mat('#dce7ec',.28,.58),inoxMid=mat('#9fb3bf',.34,.52),frameDark=mat('#34495a',.48,.45);
+const accentCyan=mat('#31a6c8',.32,.35),accentTeal=mat('#168b83',.32,.3),accentOrange=mat('#ef9b42',.42,.2);
+const rubber=mat('#263541',.82,.05),screenMat=new THREE.MeshStandardMaterial({color:'#5ed8d0',emissive:'#146e69',emissiveIntensity:.55,roughness:.25});
 function registerEquipment(tag,type,g,labelY=3.2){const label=addLabel(tag,g.position.x,labelY,g.position.z);equipment.push({tag,type,group:g,label});return g;}
-function flange(g,x,y,z,axis='x',radius=.22,material=darkSteel){
- const rot=axis==='x'?[0,0,Math.PI/2]:axis==='z'?[Math.PI/2,0,0]:[0,0,0];
- return meshIn(g,new THREE.CylinderGeometry(radius,radius,.12,20),material,x,y,z,...rot);
+function boltRing(g,x,y,z,r,count=8,axis='z',color=accentOrange){
+ for(let i=0;i<count;i++){const a=i*Math.PI*2/count;const p=[x+Math.cos(a)*r,y+Math.sin(a)*r,z];meshIn(g,new THREE.SphereGeometry(.045,8,6),color,p[0],p[1],p[2]);}
 }
-function makeTank(tag,x,z,scale=1,style='standard'){
- const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
- const R=1.18*scale,H=3.45*scale,bodyY=H/2+.42;
- // Cuerpo sanitario vertical con fondos bombeados
- meshIn(g,new THREE.CylinderGeometry(R,R,H,32),steel,0,bodyY,0);
- meshIn(g,new THREE.SphereGeometry(R,32,16,0,Math.PI*2,0,Math.PI/2),steel,0,H+.42,0);
- meshIn(g,new THREE.SphereGeometry(R,32,16,0,Math.PI*2,Math.PI/2,Math.PI/2),steel,0,.42,0);
- // Aros de refuerzo y patas
- for(const yy of [.72,H*.48,H+.12])meshIn(g,new THREE.TorusGeometry(R,.045,8,32),darkSteel,0,yy+.42,0,Math.PI/2);
+function flange(g,x,y,z,axis='x',radius=.20,material=frameDark){
+ const rot=axis==='x'?[0,0,Math.PI/2]:axis==='z'?[Math.PI/2,0,0]:[0,0,0];
+ meshIn(g,new THREE.CylinderGeometry(radius,radius,.13,20),material,x,y,z,...rot);
+}
+function makeTank(tag,x,z,scale=1){
+ const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);const R=1.12*scale,H=3.1*scale;
+ // Silueta vertical sanitaria con hombros y fondo redondeado
+ meshIn(g,new THREE.CylinderGeometry(R,R,H,28),inoxBright,0,H/2+.48,0);
+ meshIn(g,new THREE.SphereGeometry(R,28,16,0,Math.PI*2,0,Math.PI/2),inoxBright,0,H+.48,0);
+ meshIn(g,new THREE.SphereGeometry(R,28,16,0,Math.PI*2,Math.PI/2,Math.PI/2),inoxBright,0,.48,0);
+ for(const yy of [.9,H*.55+.45,H+.42])meshIn(g,new THREE.TorusGeometry(R+.015,.045,8,28),inoxMid,0,yy,0,Math.PI/2);
+ // patas y travesaños
  for(let i=0;i<4;i++){const a=Math.PI/4+i*Math.PI/2,px=Math.cos(a)*R*.72,pz=Math.sin(a)*R*.72;
-  meshIn(g,new THREE.BoxGeometry(.13,.9,.13),darkSteel,px,.34,pz);
-  meshIn(g,new THREE.BoxGeometry(.32,.08,.32),darkSteel,px,.06,pz);
-  meshIn(g,new THREE.BoxGeometry(.25,.08,.25),steel,px,.77,pz);
+  meshIn(g,new THREE.CylinderGeometry(.075,.095,.95,10),frameDark,px,.43,pz);
+  meshIn(g,new THREE.BoxGeometry(.34,.08,.34),rubber,px,.07,pz);
  }
- // Boca de hombre, respiradero, spray ball y boquillas
- meshIn(g,new THREE.CylinderGeometry(.34,.34,.13,24),darkSteel,0,H+.57,0);
- meshIn(g,new THREE.TorusGeometry(.30,.035,8,24),steel,0,H+.66,0,Math.PI/2);
- meshIn(g,new THREE.CylinderGeometry(.12,.12,.42,16),steel,0,H+.82,0);
- meshIn(g,new THREE.CylinderGeometry(.08,.08,.22,12),darkSteel,.48,H+.48,0);
- meshIn(g,new THREE.CylinderGeometry(.13,.13,.38,16),steel,R*.92,1.25,0,0,0,Math.PI/2);
- flange(g,R*1.08,1.25,0,'x',.2);
- meshIn(g,new THREE.CylinderGeometry(.07,.07,H*.52,12),blue,R+.055,H*.48+.42,0,0,0,Math.PI/2);
- for(const yy of [.95,H*.5+ .42,H+.0])meshIn(g,new THREE.TorusGeometry(R+.025,.025,6,28),white,0,yy,0,Math.PI/2);
- // Escalera vertical y plataforma superior
- for(const sx of [-.20,.20])meshIn(g,new THREE.CylinderGeometry(.035,.035,H*.78,8),darkSteel,R+sx,H*.42+.4,-.18,0,0,0);
- for(let yy=.72;yy<H*.78;yy+=.38)meshIn(g,new THREE.CylinderGeometry(.025,.025,.42,8),yellow,R+.0,yy,-.18,Math.PI/2,0,0);
- registerEquipment(tag,'Tanque sanitario de almacenamiento',g,H+1.55);return g;
+ // Boca superior, tapa con pernos y venteo
+ meshIn(g,new THREE.CylinderGeometry(.34,.34,.14,24),frameDark,0,H+.62,0);
+ meshIn(g,new THREE.CylinderGeometry(.27,.27,.12,24),inoxBright,0,H+.73,0);
+ boltRing(g,0,H+.82,0,.29,10,'z',accentOrange);
+ meshIn(g,new THREE.CylinderGeometry(.09,.09,.42,14),inoxMid,0,H+.96,0);
+ meshIn(g,new THREE.TorusGeometry(.16,.045,8,20),accentTeal,0,H+1.18,0,Math.PI/2);
+ // Visor frontal vertical, indicador de nivel y boquillas
+ meshIn(g,new THREE.BoxGeometry(.18,H*.55,.10),frameDark,R+.06,H*.48+.48,0);
+ meshIn(g,new THREE.BoxGeometry(.105,H*.48,.12),accentCyan,R+.12,H*.48+.48,0);
+ for(let yy of [.9,H*.5+.48,H+.15])meshIn(g,new THREE.TorusGeometry(R+.035,.025,6,28),inoxMid,0,yy,0,Math.PI/2);
+ meshIn(g,new THREE.CylinderGeometry(.15,.15,.42,16),inoxMid,R+.15,1.25,0,0,0,Math.PI/2);flange(g,R+.38,1.25,0,'x',.21);
+ // Escalera lateral
+ for(let sx of [R+.30,R+.62])meshIn(g,new THREE.CylinderGeometry(.035,.035,H*.72,8),accentOrange,sx,H*.38+.48,-.25);
+ for(let yy=.65;yy<H*.72;yy+=.34)meshIn(g,new THREE.CylinderGeometry(.025,.025,.34,8),inoxMid,R+.46,yy,-.25,Math.PI/2);
+ registerEquipment(tag,'Tanque sanitario de almacenamiento',g,H+1.75);return g;
 }
 function makePump(tag,x,z,rot=0){
  const g=new THREE.Group();g.position.set(x,0,z);g.rotation.y=rot;scene.add(g);
- // Bancada y motor eléctrico aleteado
- meshIn(g,new THREE.BoxGeometry(2.15,.16,1.05),darkSteel,0,.18,0);
- meshIn(g,new THREE.BoxGeometry(1.15,.62,.72),blue,-.48,.67,0);
- meshIn(g,new THREE.CylinderGeometry(.34,.34,.92,24),blue,-.48,.67,0,0,0,Math.PI/2);
- for(let i=0;i<9;i++)meshIn(g,new THREE.CylinderGeometry(.37,.37,.035,20),darkSteel,-.88+i*.10,.67,0,0,0,Math.PI/2);
- meshIn(g,new THREE.CylinderGeometry(.12,.12,.25,16),darkSteel,-.48,1.03,0);
- // Acoplamiento protegido y carcasa tipo voluta
- meshIn(g,new THREE.CylinderGeometry(.19,.19,.28,20),yellow,.24,.67,0,0,0,Math.PI/2);
- meshIn(g,new THREE.BoxGeometry(.42,.34,.5),darkSteel,.24,.67,0);
- meshIn(g,new THREE.SphereGeometry(.48,24,18),steel,.78,.68,0);
- meshIn(g,new THREE.CylinderGeometry(.38,.38,.34,24),steel,1.03,.68,0,0,0,Math.PI/2);
- meshIn(g,new THREE.CylinderGeometry(.20,.20,.42,20),darkSteel,1.28,.68,0,0,0,Math.PI/2);
- flange(g,1.52,.68,0,'x',.28); // descarga
- meshIn(g,new THREE.CylinderGeometry(.19,.19,.48,20),steel,.78,1.12,0);
- flange(g,.78,1.38,0,'y',.25); // succión superior
- // Tapas de inspección y tornillería
- meshIn(g,new THREE.TorusGeometry(.32,.035,8,24),darkSteel,1.20,.68,0,0,0,Math.PI/2);
- for(let i=0;i<8;i++){const a=i*Math.PI/4;meshIn(g,new THREE.SphereGeometry(.035,8,6),yellow,1.31,.68+Math.cos(a)*.24,Math.sin(a)*.24)}
- registerEquipment(tag,'Bomba centrífuga con motor eléctrico',g,2.0);return g;
+ // Motor cilíndrico horizontal + aletas y caja de bornes
+ meshIn(g,new THREE.BoxGeometry(2.35,.18,1.05),frameDark,0,.18,0);
+ meshIn(g,new THREE.CylinderGeometry(.43,.43,1.05,24),accentCyan,-.48,.72,0,0,0,Math.PI/2);
+ for(let i=0;i<9;i++)meshIn(g,new THREE.CylinderGeometry(.48,.48,.045,20),inoxMid,-.94+i*.115,.72,0,0,0,Math.PI/2);
+ meshIn(g,new THREE.BoxGeometry(.48,.22,.42),accentTeal,-.48,1.17,0);
+ meshIn(g,new THREE.CylinderGeometry(.12,.12,.24,12),frameDark,-.48,1.31,0);
+ // Acoplamiento y voluta de bomba claramente redonda
+ meshIn(g,new THREE.CylinderGeometry(.18,.18,.28,16),accentOrange,.25,.72,0,0,0,Math.PI/2);
+ meshIn(g,new THREE.SphereGeometry(.56,24,18),inoxBright,.86,.72,0);
+ meshIn(g,new THREE.CylinderGeometry(.42,.42,.36,24),inoxMid,1.12,.72,0,0,0,Math.PI/2);
+ meshIn(g,new THREE.TorusGeometry(.43,.055,8,24),frameDark,1.32,.72,0,0,0,Math.PI/2);
+ // boca de succión y descarga con bridas
+ meshIn(g,new THREE.CylinderGeometry(.20,.20,.58,18),inoxBright,.86,1.20,0);
+ flange(g,.86,1.52,0,'y',.25,accentTeal);
+ meshIn(g,new THREE.CylinderGeometry(.19,.19,.45,18),inoxBright,1.42,.72,0,0,0,Math.PI/2);
+ flange(g,1.68,.72,0,'x',.25,accentTeal);
+ registerEquipment(tag,'Bomba centrífuga sanitaria',g,2.05);return g;
 }
 function makePlateHX(tag,x,z){
  const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
- // Bastidor, placa fija y móvil
- meshIn(g,new THREE.BoxGeometry(2.25,.16,1.45),darkSteel,0,.20,0);
- for(const sx of [-.96,.96])meshIn(g,new THREE.BoxGeometry(.16,2.65,1.35),darkSteel,sx,1.55,0);
- meshIn(g,new THREE.BoxGeometry(.22,2.72,1.48),steel,-1.12,1.55,0);
- meshIn(g,new THREE.BoxGeometry(.22,2.72,1.48),steel,1.12,1.55,0);
- // Paquete de placas corrugadas, alternando acabado
- for(let i=0;i<17;i++){
-  const xx=-.78+i*.098;
-  meshIn(g,new THREE.BoxGeometry(.055,2.35,1.15),i%2?steel:darkSteel,xx,1.55,0);
-  meshIn(g,new THREE.BoxGeometry(.025,2.22,1.08),white,xx+.03,1.55,0);
+ meshIn(g,new THREE.BoxGeometry(2.5,.18,1.55),frameDark,0,.18,0);
+ // placas apiladas visibles en acordeón con color alternado
+ for(let i=0;i<15;i++){
+  const xx=-.70+i*.10;
+  meshIn(g,new THREE.BoxGeometry(.075,2.15,1.15),i%2?inoxBright:inoxMid,xx,1.52,0);
+  meshIn(g,new THREE.BoxGeometry(.018,1.95,1.08),i%2?accentCyan:inoxBright,xx+.04,1.52,.01);
  }
- // Tirantes superiores/inferiores y pernos
- for(const yy of [.42,2.72])meshIn(g,new THREE.CylinderGeometry(.045,.045,2.45,10),steel,0,yy,.60,0,0,Math.PI/2);
- for(const sx of [-1,1])for(const yy of [.45,2.65])meshIn(g,new THREE.CylinderGeometry(.10,.10,.18,16),yellow,sx*1.12,yy,.77,Math.PI/2,0,0);
- // Cuatro bocas de producto/servicio con bridas codificadas
- for(const sx of [-1,1])for(const yy of [.72,2.36]){
-  const col=(sx<0?blue:red);meshIn(g,new THREE.CylinderGeometry(.14,.14,.48,18),col,sx*1.18,yy,.78,Math.PI/2,0,0);
-  flange(g,sx*1.18,yy,1.03,'z',.22,darkSteel);
+ // Placa fija y móvil, columnas y tirantes
+ for(const xx of [-1.02,1.02])meshIn(g,new THREE.BoxGeometry(.22,2.55,1.42),frameDark,xx,1.52,0);
+ meshIn(g,new THREE.BoxGeometry(.28,2.68,1.48),accentTeal,-1.18,1.52,0);
+ meshIn(g,new THREE.BoxGeometry(.28,2.68,1.48),inoxBright,1.18,1.52,0);
+ for(const yy of [.30,2.75])meshIn(g,new THREE.CylinderGeometry(.055,.055,2.5,10),inoxMid,0,yy,.68,0,0,Math.PI/2);
+ // cuatro bocas coloreadas
+ for(const sx of [-1,1])for(const yy of [.75,2.30]){
+  const col=yy>1?accentOrange:accentCyan;
+  meshIn(g,new THREE.CylinderGeometry(.15,.15,.42,18),col,sx*1.22,yy,.78,Math.PI/2);
+  flange(g,sx*1.22,yy,1.02,'z',.22,frameDark);
  }
- registerEquipment(tag,'Intercambiador de calor de placas',g,3.25);return g;
+ registerEquipment(tag,'Intercambiador de calor de placas',g,3.35);return g;
 }
 function makePasteurizer(tag,x,z){
  const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
- // Skid sanitario completo
- meshIn(g,new THREE.BoxGeometry(5.0,.20,2.55),darkSteel,0,.20,0);
- for(const X of [-2.25,2.25])for(const Z of [-1.08,1.08])meshIn(g,new THREE.BoxGeometry(.16,.7,.16),steel,X,.48,Z);
- // Banco de placas de calentamiento
- meshIn(g,new THREE.BoxGeometry(1.35,2.15,1.2),steel,-1.25,1.65,0);
- for(let i=0;i<13;i++)meshIn(g,new THREE.BoxGeometry(1.20,.045,1.06),darkSteel,-1.25,.67+i*.16,0);
- for(const sx of [-1,1])meshIn(g,new THREE.BoxGeometry(.12,2.30,1.3),darkSteel,-1.25+sx*.72,1.65,0);
- // Tubo de retención en serpentín sanitario
- for(let i=0;i<4;i++){
-  const yy=.9+i*.36;
-  meshIn(g,new THREE.CylinderGeometry(.13,.13,2.15,16),steel,.65,yy,0,0,0,Math.PI/2);
-  for(const sx of [-1,1])meshIn(g,new THREE.TorusGeometry(.18,.105,10,20,Math.PI),steel,.65+sx*1.07,yy+.18,0,0,Math.PI/2,Math.PI/2);
+ // skid con módulos diferenciados y tuberías de proceso
+ meshIn(g,new THREE.BoxGeometry(5.2,.20,2.7),frameDark,0,.18,0);
+ for(const X of [-2.35,2.35])for(const Z of [-1.15,1.15])meshIn(g,new THREE.BoxGeometry(.16,.62,.16),inoxMid,X,.48,Z);
+ // módulo de placas térmicas
+ meshIn(g,new THREE.BoxGeometry(1.30,2.05,1.22),inoxBright,-1.25,1.55,0);
+ for(let i=0;i<12;i++)meshIn(g,new THREE.BoxGeometry(1.18,.055,1.12),accentTeal,-1.25,.65+i*.16,0);
+ // tubo de retención: serpentín en paralelo y codos
+ for(let i=0;i<3;i++){
+  const yy=.82+i*.48;
+  meshIn(g,new THREE.CylinderGeometry(.13,.13,2.05,16),inoxBright,.55,yy,0,0,0,Math.PI/2);
+  for(const sx of [-1,1])meshIn(g,new THREE.TorusGeometry(.17,.105,10,20,Math.PI),inoxBright,.55+sx*1.02,yy+.16,0,0,Math.PI/2,Math.PI/2);
  }
- // Bomba de recirculación pequeña
- meshIn(g,new THREE.BoxGeometry(.72,.42,.62),blue,1.45,.55,.72);
- meshIn(g,new THREE.SphereGeometry(.28,16,12),steel,1.80,.55,.72);
- // Armario de control con HMI
- meshIn(g,new THREE.BoxGeometry(.72,1.45,.28),darkSteel,1.78,1.25,-.78);
- meshIn(g,new THREE.BoxGeometry(.48,.42,.04),blue,1.78,1.55,-.61);
- meshIn(g,new THREE.BoxGeometry(.34,.08,.025),green,1.78,1.18,-.61);
- for(let i=0;i<3;i++)meshIn(g,new THREE.SphereGeometry(.065,10,8),i===0?green:i===1?yellow:red,1.78,1.0-i*.17,-.60);
- // Instrumentos visibles
- for(const X of [-.65,.25,1.1]){meshIn(g,new THREE.CylinderGeometry(.035,.035,.38,8),steel,X,2.45,.45);meshIn(g,new THREE.CylinderGeometry(.16,.16,.08,20),white,X,2.68,.45);meshIn(g,new THREE.TorusGeometry(.14,.018,6,20),red,X,2.68,.50)}
- registerEquipment(tag,'Skid de pasteurización continua',g,3.25);return g;
+ // bomba de recirculación compacta
+ meshIn(g,new THREE.CylinderGeometry(.25,.25,.62,18),accentCyan,1.55,.58,.68,0,0,Math.PI/2);
+ meshIn(g,new THREE.SphereGeometry(.28,16,12),inoxBright,1.88,.58,.68);
+ // panel HMI y botones
+ meshIn(g,new THREE.BoxGeometry(.72,1.42,.24),frameDark,1.82,1.25,-.88);
+ meshIn(g,new THREE.BoxGeometry(.48,.40,.04),screenMat,1.82,1.56,-.745);
+ for(let i=0;i<3;i++)meshIn(g,new THREE.SphereGeometry(.065,10,8),[accentTeal,accentOrange,red][i],1.82,1.02-i*.18,-.73);
+ // manómetros y sensores
+ for(const X of [-.65,.15,.95]){meshIn(g,new THREE.CylinderGeometry(.035,.035,.34,8),inoxMid,X,2.38,.45);meshIn(g,new THREE.CylinderGeometry(.15,.15,.08,20),white,X,2.59,.45);meshIn(g,new THREE.TorusGeometry(.13,.018,6,20),accentOrange,X,2.59,.50)}
+ registerEquipment(tag,'Sistema skid de pasteurización continua',g,3.2);return g;
 }
 function makeFilter(tag,x,z){
  const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
- meshIn(g,new THREE.BoxGeometry(1.7,.16,1.45),darkSteel,0,.18,0);
- for(const sx of [-.58,.58])meshIn(g,new THREE.BoxGeometry(.12,1.0,.12),darkSteel,sx,.62,0);
- // Carcasa vertical y tapa bridada
- meshIn(g,new THREE.CylinderGeometry(.58,.58,1.55,32),steel,0,1.55,0);
- meshIn(g,new THREE.SphereGeometry(.58,24,12,0,Math.PI*2,0,Math.PI/2),steel,0,2.32,0);
- meshIn(g,new THREE.CylinderGeometry(.62,.62,.12,32),darkSteel,0,2.30,0);
- meshIn(g,new THREE.CylinderGeometry(.48,.48,.12,32),steel,0,.75,0);
- for(let i=0;i<12;i++){const a=i*Math.PI/6;meshIn(g,new THREE.CylinderGeometry(.035,.035,.22,8),yellow,Math.cos(a)*.60,2.30,Math.sin(a)*.60)}
- // Entrada/salida laterales, manómetro y purga
- meshIn(g,new THREE.CylinderGeometry(.16,.16,.62,20),steel,.58,1.55,0,0,0,Math.PI/2);flange(g,.91,1.55,0,'x',.24);
- meshIn(g,new THREE.CylinderGeometry(.16,.16,.62,20),blue,-.58,1.20,0,0,0,Math.PI/2);flange(g,-.91,1.20,0,'x',.24);
- meshIn(g,new THREE.CylinderGeometry(.045,.045,.34,10),steel,0,2.52,0);
- meshIn(g,new THREE.CylinderGeometry(.18,.18,.08,20),white,.20,2.78,0);
- meshIn(g,new THREE.TorusGeometry(.16,.018,6,20),red,.20,2.78,.045);
+ meshIn(g,new THREE.BoxGeometry(1.65,.16,1.45),frameDark,0,.18,0);
+ for(const sx of [-.55,.55])meshIn(g,new THREE.CylinderGeometry(.07,.07,1.0,10),inoxMid,sx,.62,0);
+ // vaso vertical ancho con tapa abombada y abrazadera
+ meshIn(g,new THREE.CylinderGeometry(.58,.58,1.48,28),inoxBright,0,1.55,0);
+ meshIn(g,new THREE.SphereGeometry(.58,24,12,0,Math.PI*2,0,Math.PI/2),inoxBright,0,2.29,0);
+ meshIn(g,new THREE.CylinderGeometry(.64,.64,.12,28),accentTeal,0,2.28,0);
+ meshIn(g,new THREE.CylinderGeometry(.48,.48,.12,28),frameDark,0,.78,0);
+ for(let i=0;i<10;i++){const a=i*Math.PI/5;meshIn(g,new THREE.SphereGeometry(.045,8,6),accentOrange,Math.cos(a)*.60,2.32,Math.sin(a)*.60)}
+ // boquillas de entrada y salida
+ meshIn(g,new THREE.CylinderGeometry(.16,.16,.58,18),accentCyan,.58,1.52,0,0,0,Math.PI/2);flange(g,.90,1.52,0,'x',.23);
+ meshIn(g,new THREE.CylinderGeometry(.16,.16,.58,18),accentTeal,-.58,1.15,0,0,0,Math.PI/2);flange(g,-.90,1.15,0,'x',.23);
+ // manómetro en la tapa
+ meshIn(g,new THREE.CylinderGeometry(.045,.045,.30,10),inoxMid,0,2.55,0);
+ meshIn(g,new THREE.CylinderGeometry(.18,.18,.08,20),white,.16,2.76,0);
+ meshIn(g,new THREE.TorusGeometry(.16,.02,6,20),accentOrange,.16,2.76,.045);
  registerEquipment(tag,'Filtro sanitario de línea',g,3.35);return g;
 }
 function makeHomogenizer(tag,x,z){
  const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
- meshIn(g,new THREE.BoxGeometry(2.8,.18,1.65),darkSteel,0,.18,0);
- // Cuerpo de transmisión y motor horizontal
- meshIn(g,new THREE.BoxGeometry(1.15,1.0,1.0),steel,-.55,.85,0);
- meshIn(g,new THREE.CylinderGeometry(.42,.42,.95,24),blue,-.55,.85,0,0,0,Math.PI/2);
- for(let i=0;i<8;i++)meshIn(g,new THREE.CylinderGeometry(.44,.44,.045,20),darkSteel,-.95+i*.115,.85,0,0,0,Math.PI/2);
- // Bloque de alta presión y cabezal de válvulas
- meshIn(g,new THREE.BoxGeometry(.82,1.05,.95),darkSteel,.68,.88,0);
- meshIn(g,new THREE.BoxGeometry(.58,.72,.72),steel,.72,1.0,.12);
- for(const sx of [-.18,.18])for(const sz of [-.18,.18])meshIn(g,new THREE.CylinderGeometry(.07,.07,.28,12),yellow,.72,1.52,sz);
- // Manómetro de presión
- meshIn(g,new THREE.CylinderGeometry(.045,.045,.38,10),steel,.70,1.65,-.42);
- meshIn(g,new THREE.CylinderGeometry(.18,.18,.08,20),white,.70,1.87,-.42);
- meshIn(g,new THREE.TorusGeometry(.16,.018,6,20),red,.70,1.87,-.37);
- // Tubos de aspiración/descarga
- for(const sx of [-1,1]){meshIn(g,new THREE.CylinderGeometry(.13,.13,.55,16),steel,sx*1.22,.72,.48,Math.PI/2,0,0);flange(g,sx*1.48,.72,.48,'x',.22)}
- registerEquipment(tag,'Homogeneizador de alta presión',g,2.55);return g;
+ meshIn(g,new THREE.BoxGeometry(2.9,.18,1.7),frameDark,0,.18,0);
+ // motor azul y cabezal compacto de alta presión
+ meshIn(g,new THREE.CylinderGeometry(.46,.46,1.05,24),accentCyan,-.60,.82,0,0,0,Math.PI/2);
+ for(let i=0;i<8;i++)meshIn(g,new THREE.CylinderGeometry(.50,.50,.045,20),inoxMid,-1+i*.115,.82,0,0,0,Math.PI/2);
+ meshIn(g,new THREE.BoxGeometry(.50,.28,.46),accentTeal,-.60,1.28,0);
+ // cabezal con tres cilindros de compresión
+ meshIn(g,new THREE.BoxGeometry(1.05,1.05,1.0),inoxBright,.68,.90,0);
+ for(const xx of [.35,.68,1.01]){
+  meshIn(g,new THREE.CylinderGeometry(.18,.18,.52,18),accentOrange,xx,1.62,0);
+  meshIn(g,new THREE.CylinderGeometry(.10,.10,.28,14),inoxMid,xx,1.98,0);
+ }
+ // manómetro grande legible
+ meshIn(g,new THREE.CylinderGeometry(.045,.045,.30,10),inoxMid,.72,2.10,-.40);
+ meshIn(g,new THREE.CylinderGeometry(.20,.20,.09,20),white,.72,2.30,-.40);
+ meshIn(g,new THREE.TorusGeometry(.18,.022,6,20),red,.72,2.30,-.35);
+ // conexiones de proceso
+ for(const sx of [-1,1]){meshIn(g,new THREE.CylinderGeometry(.14,.14,.52,16),accentCyan,sx*1.20,.72,.52,Math.PI/2);flange(g,sx*1.48,.72,.52,'x',.22);}
+ registerEquipment(tag,'Homogeneizador de alta presión',g,2.75);return g;
 }
 function makeSeparator(tag,x,z){
  const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
- meshIn(g,new THREE.BoxGeometry(2.1,.18,1.8),darkSteel,0,.18,0);
- // Columna motriz y bowl cónico de alta velocidad
- meshIn(g,new THREE.CylinderGeometry(.62,.72,1.0,32),steel,0,.78,0);
- meshIn(g,new THREE.CylinderGeometry(.48,.62,.78,32),steel,0,1.58,0);
- meshIn(g,new THREE.ConeGeometry(.62,.72,32),darkSteel,0,2.30,0);
- meshIn(g,new THREE.CylinderGeometry(.50,.50,.20,32),steel,0,2.78,0);
- meshIn(g,new THREE.SphereGeometry(.50,24,12,0,Math.PI*2,0,Math.PI/2),steel,0,2.88,0);
- meshIn(g,new THREE.CylinderGeometry(.22,.22,.48,20),darkSteel,0,3.35,0);
- // Capota y salidas
- meshIn(g,new THREE.TorusGeometry(.58,.045,8,32),darkSteel,0,2.68,0,Math.PI/2);
- for(let i=0;i<3;i++){const a=i*Math.PI*2/3;meshIn(g,new THREE.CylinderGeometry(.10,.10,.55,14),blue,Math.cos(a)*.62,2.25,Math.sin(a)*.62,Math.PI/2,0,0)}
- for(const sx of [-.55,.55])meshIn(g,new THREE.BoxGeometry(.12,.75,.12),darkSteel,sx,.55,0);
- registerEquipment(tag,'Separador centrífugo de leche',g,4.0);return g;
+ meshIn(g,new THREE.BoxGeometry(2.0,.18,1.8),frameDark,0,.18,0);
+ // bowl de separación cónico y campana superior: silueta muy distinta
+ meshIn(g,new THREE.CylinderGeometry(.38,.66,.72,28),inoxBright,0,.72,0);
+ meshIn(g,new THREE.CylinderGeometry(.58,.38,.65,28),inoxBright,0,1.38,0);
+ meshIn(g,new THREE.ConeGeometry(.58,.72,28),accentTeal,0,2.05,0);
+ meshIn(g,new THREE.CylinderGeometry(.52,.52,.18,28),inoxMid,0,2.48,0);
+ meshIn(g,new THREE.SphereGeometry(.52,24,12,0,Math.PI*2,0,Math.PI/2),inoxBright,0,2.57,0);
+ meshIn(g,new THREE.CylinderGeometry(.18,.18,.42,18),frameDark,0,3.02,0);
+ meshIn(g,new THREE.TorusGeometry(.60,.055,8,28),accentOrange,0,2.42,0,Math.PI/2);
+ // patas y salidas tangenciales
+ for(const sx of [-.52,.52])meshIn(g,new THREE.BoxGeometry(.13,.62,.13),frameDark,sx,.48,0);
+ for(let i=0;i<3;i++){const a=i*Math.PI*2/3;meshIn(g,new THREE.CylinderGeometry(.10,.10,.55,14),accentCyan,Math.cos(a)*.62,1.92,Math.sin(a)*.62,Math.PI/2);}
+ registerEquipment(tag,'Separador centrífugo de leche',g,3.85);return g;
 }
 function makePackager(tag,x,z){
  const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
- // Bastidor de envasadora con transportador
- meshIn(g,new THREE.BoxGeometry(4.3,.18,1.5),darkSteel,0,.75,0);
- for(const sx of [-1.85,1.85])for(const sz of [-.52,.52])meshIn(g,new THREE.BoxGeometry(.13,1.25,.13),steel,sx,.62,sz);
- meshIn(g,new THREE.BoxGeometry(4.0,.12,1.12),steel,0,.88,0);
- // Banda transportadora y rodillos
- meshIn(g,new THREE.BoxGeometry(3.8,.08,.86),blue,0,.99,0);
- for(let i=0;i<13;i++)meshIn(g,new THREE.CylinderGeometry(.055,.055,.92,12),darkSteel,-1.75+i*.29,.92,0,Math.PI/2,0,0);
- // Puente superior y cabezales de llenado
- meshIn(g,new THREE.BoxGeometry(2.25,.14,.18),darkSteel,0,2.25,0);
- for(const xh of [-.72,0,.72]){
-  meshIn(g,new THREE.CylinderGeometry(.09,.09,.78,16),steel,xh,1.78,0);
-  meshIn(g,new THREE.ConeGeometry(.13,.22,16),darkSteel,xh,1.28,0,Math.PI);
-  meshIn(g,new THREE.CylinderGeometry(.12,.12,.12,16),yellow,xh,2.20,0);
+ // estructura de pórtico y cinta transportadora
+ meshIn(g,new THREE.BoxGeometry(4.2,.18,1.55),frameDark,0,.65,0);
+ for(const sx of [-1.85,1.85])for(const sz of [-.58,.58])meshIn(g,new THREE.BoxGeometry(.14,1.55,.14),inoxMid,sx,.78,sz);
+ meshIn(g,new THREE.BoxGeometry(4.0,.12,1.18),inoxBright,0,.86,0);
+ meshIn(g,new THREE.BoxGeometry(3.8,.08,.86),accentTeal,0,.98,0);
+ for(let i=0;i<13;i++)meshIn(g,new THREE.CylinderGeometry(.06,.06,.90,12),rubber,-1.75+i*.29,.92,0,Math.PI/2);
+ // cajas/cartones de leche avanzando por la cinta
+ for(let i=0;i<4;i++){
+  const x0=-1.35+i*.85;
+  meshIn(g,new THREE.BoxGeometry(.38,.62,.34),white,x0,1.34,0);
+  meshIn(g,new THREE.BoxGeometry(.40,.08,.36),accentCyan,x0,1.68,0);
+  meshIn(g,new THREE.CylinderGeometry(.045,.045,.10,8),accentOrange,x0,1.77,0);
  }
- // Protecciones transparentes laterales
- const guard=new THREE.Mesh(new THREE.BoxGeometry(3.75,1.0,.05),glass);guard.position.set(0,1.52,.62);guard.castShadow=false;g.add(guard);
- // Panel de operación
- meshIn(g,new THREE.BoxGeometry(.62,1.0,.25),darkSteel,1.82,1.55,-.70);
- meshIn(g,new THREE.BoxGeometry(.40,.28,.04),blue,1.82,1.78,-.55);
- registerEquipment(tag,'Máquina envasadora con transportador',g,2.85);return g;
+ // cabezales de llenado en puente superior
+ meshIn(g,new THREE.BoxGeometry(2.5,.16,.20),accentOrange,0,2.35,0);
+ for(const xx of [-.72,0,.72]){
+  meshIn(g,new THREE.CylinderGeometry(.10,.10,.70,16),inoxBright,xx,1.98,0);
+  meshIn(g,new THREE.ConeGeometry(.14,.22,16),accentTeal,xx,1.52,0,Math.PI);
+ }
+ // resguardo lateral y pantalla de control
+ const guard=new THREE.Mesh(new THREE.BoxGeometry(3.75,1.05,.045),glass);guard.position.set(0,1.55,.62);guard.castShadow=false;g.add(guard);
+ meshIn(g,new THREE.BoxGeometry(.58,.92,.24),frameDark,1.78,1.52,-.68);
+ meshIn(g,new THREE.BoxGeometry(.40,.30,.04),screenMat,1.78,1.75,-.545);
+ registerEquipment(tag,'Máquina envasadora automática',g,2.85);return g;
 }
 function makeValve(tag,x,y,z,axis='y'){
- const g=new THREE.Group();g.position.set(x,y,z);scene.add(g);
- // Cuerpo de válvula, uniones bridadas, vástago y volante
- const alongX=axis==='x';
- meshIn(g,new THREE.SphereGeometry(.24,20,14),red,0,0,0);
- meshIn(g,new THREE.CylinderGeometry(.19,.19,.36,20),steel,0,0,0,0,0,alongX?Math.PI/2:0);
- if(alongX){flange(g,-.27,0,0,'x',.25);flange(g,.27,0,0,'x',.25)}
- else{meshIn(g,new THREE.CylinderGeometry(.14,.14,.48,16),steel,0,-.28,0);meshIn(g,new THREE.CylinderGeometry(.14,.14,.48,16),steel,0,.28,0)}
- meshIn(g,new THREE.CylinderGeometry(.045,.045,.48,12),darkSteel,0,.38,0);
- meshIn(g,new THREE.CylinderGeometry(.065,.065,.10,12),yellow,0,.62,0);
- meshIn(g,new THREE.TorusGeometry(.28,.045,8,28),yellow,0,.90,0,Math.PI/2);
- for(let i=0;i<4;i++){const a=i*Math.PI/2;meshIn(g,new THREE.BoxGeometry(.07,.40,.07),yellow,Math.cos(a)*.25,.90,Math.sin(a)*.25)}
- registerEquipment(tag,'Válvula manual de volante',g,1.55);return g;
+ const g=new THREE.Group();g.position.set(x,y,z);scene.add(g);const alongX=axis==='x';
+ meshIn(g,new THREE.SphereGeometry(.23,20,14),accentTeal,0,0,0);
+ meshIn(g,new THREE.CylinderGeometry(.18,.18,.44,18),inoxMid,0,0,0,0,0,alongX?Math.PI/2:0);
+ meshIn(g,new THREE.CylinderGeometry(.045,.045,.46,12),frameDark,0,.38,0);
+ meshIn(g,new THREE.TorusGeometry(.28,.045,8,28),accentOrange,0,.78,0,Math.PI/2);
+ for(let i=0;i<4;i++){const a=i*Math.PI/2;meshIn(g,new THREE.BoxGeometry(.07,.40,.07),accentOrange,Math.cos(a)*.25,.78,Math.sin(a)*.25);}
+ if(alongX){flange(g,-.28,0,0,'x',.22);flange(g,.28,0,0,'x',.22);}
+ registerEquipment(tag,'Válvula manual sanitaria',g,1.45);return g;
 }
 // ETAPA 5 · Planta generada desde el PFD guardado por el editor.
 const pfd3dProjectId=localStorage.getItem('pfd3d-active-project')||'default';
