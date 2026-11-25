@@ -1,0 +1,24 @@
+MILKLAB · MODELOS INDUSTRIALES MEJORADOS
+Base de trabajo: Pasteurizacion-Interactiva-Etapa5-Avatar-Seguro.zip
+
+Se mejoraron los modelos 3D de los equipos sin modificar el motor principal, el avatar, los controles, la vista aérea, el vuelo creativo ni el guardado del PFD.
+
+Modelos diferenciados:
+- Tanque sanitario: fondos bombeados, patas, aros, boca de hombre, respiradero, boquillas, visor y escalera.
+- Bomba centrífuga: motor aleteado, acoplamiento protegido, carcasa de voluta, bridas y conexiones.
+- Intercambiador de placas: bastidor, paquete de placas, tirantes, pernos y cuatro bocas.
+- Skid de pasteurización: banco de placas, tubo de retención, bomba auxiliar, instrumentación y armario HMI.
+- Filtro: carcasa vertical, tapa bridada, pernos, entrada/salida y manómetro.
+- Homogeneizador: motor, bloque de alta presión, cabezal de válvulas y manómetro.
+- Separador: cuerpo vertical, bowl cónico, capota y salidas.
+- Envasadora: transportador, rodillos, cabezales de llenado, protecciones y panel.
+- Válvula: cuerpo, bridas, vástago y volante.
+
+Las categorías filter, homogenizer, separator y packager ahora tienen modelos propios y ya no reutilizan geometrías genéricas de otras máquinas.
+
+Archivos modificados:
+- pfd3d-stage1.js
+
+No se modificaron index.html, CSS, configuración Supabase, biblioteca PFD ni SQL.
+Validación realizada: sintaxis JavaScript con Node y CRC del ZIP.
+No se afirma prueba visual en navegador.
