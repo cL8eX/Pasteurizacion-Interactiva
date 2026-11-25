@@ -307,6 +307,21 @@ function pfdDefaultDiagram(){
 }
 function pfdEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function pfdGet(){if(!pfdEditableDiagram){if(Array.isArray(activeProject?.pfdDiagram)&&activeProject.pfdDiagram.length)pfdEditableDiagram=structuredClone(activeProject.pfdDiagram);else{try{pfdEditableDiagram=JSON.parse(localStorage.getItem('pfd-editable-v7-'+(activeProject?.id||'default')))||pfdDefaultDiagram()}catch(e){pfdEditableDiagram=pfdDefaultDiagram()}}}pfdEditableDiagram.forEach(pfdMetaDefaults);return pfdEditableDiagram}
+// ETAPA 5 · Exportación del modelo PFD para la planta 3D.
+// El grafo representa las líneas de proceso que el editor dibuja en pfdRender().
+function pfdBuild3DModel(){
+ const nodes=pfdGet().map(n=>({id:n.id,type:n.type,label:n.label,tag:n.code||((n.label||'').match(/[A-Z]{1,4}-?\d{1,3}/)||[])[0]||'',x:n.x,y:n.y,w:n.w,h:n.h,family:n.family,description:n.description,parameters:n.parameters}));
+ const chains=[
+ ['raw','v101','num1','p101','tk101','vc101','f101','v102','num2','p102','v103','he101','vc102','num3','d101','v111','num11','tk103'],
+ ['d101','vc103','num4','p103','vc104','tk102'],['tk102','p104','v104','num5','p105','vc105','num6','he103','he102','vc106','he104','v106','p105b','num7'],
+ ['num7','vc107','hr101','v107','num8','p107','fa101','vc108','num9','v108','p108','he105','vc109','p109','v110','num10','pack1','cream'],
+ ['tk103','vc110','num12a','p110','vc111','he106','v112','p111','num12b','vc112'],
+ ['vc112','v113','num13','vc113','he107','v114','p112','hr102','v115','p113','he108','vc116','p114','v116','pack2','pasteurized']
+ ];
+ const edges=[];chains.forEach((chain,ci)=>chain.slice(0,-1).forEach((id,i)=>edges.push({id:`pfd-${ci}-${i}`,from:id,to:chain[i+1]})));
+ return {version:1,projectId:activeProject?.id||'default',projectName:activeProject?.name||'Proyecto',updatedAt:new Date().toISOString(),nodes,edges};
+}
+function pfdPublish3DModel(){const model=pfdBuild3DModel();try{localStorage.setItem('pfd3d-model-v1-'+(activeProject?.id||'default'),JSON.stringify(model));localStorage.setItem('pfd3d-active-project',activeProject?.id||'default');return model}catch(e){console.error('No se pudo preparar el modelo PFD 3D',e);return null}}
 function pfdSetSaveState(text){const el=document.getElementById('pfdSaveState');if(el)el.textContent=text}
 function pfdSave(){const data=structuredClone(pfdGet());try{localStorage.setItem('pfd-editable-v7-'+(activeProject?.id||'default'),JSON.stringify(data))}catch(e){console.warn('PFD local backup unavailable',e)}if(activeProject){activeProject.pfdDiagram=data;if(guestMode){const gp=guestProjects.find(p=>p.id===activeProject.id);if(gp)gp.pfdDiagram=data;pfdSetSaveState('Guardado temporal local')}else if(authUser&&supabaseClient){pfdSetSaveState('Cambios pendientes…');clearTimeout(pfdCloudSaveTimer);pfdCloudSavePending=true;pfdCloudSaveTimer=setTimeout(()=>pfdSaveCloud(false),1400)}else pfdSetSaveState('Guardado local · sin sesión')}}
 async function pfdSaveCloud(manual=false){if(pfdCloudSaveBusy)return;if(!activeProject||guestMode||!authUser||!supabaseClient){if(manual)toast('Inicia sesión para guardar el PFD en la nube. En modo invitado solo queda temporal.');return}const data=structuredClone(pfdGet());pfdCloudSaveBusy=true;const btn=document.querySelector('.pfd-head-actions button[onclick="pfdSaveProject()"]');if(manual&&btn){btn.disabled=true;btn.textContent='Guardando…'}pfdSetSaveState('Guardando en la nube…');try{const {error}=await supabaseClient.from('pfd_projects').update({pfd_diagram:data}).eq('id',activeProject.id).eq('user_id',authUser.id);if(error)throw error;activeProject.pfdDiagram=data;pfdCloudSavePending=false;pfdSetSaveState('Guardado en la nube ✓');if(manual)toast('PFD guardado en tu proyecto')}catch(err){console.error('PFD cloud save failed',err);pfdCloudSavePending=true;pfdSetSaveState('Copia local · sincronización pendiente');if(manual)toast('La copia local está segura, pero no se pudo sincronizar: '+(err.message||'Verifica la migración Etapa 23'))}finally{pfdCloudSaveBusy=false;if(btn&&manual){btn.disabled=false;btn.textContent='💾 Guardar'}}}

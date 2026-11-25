@@ -60,8 +60,39 @@ function makePasteurizer(tag,x,z){const g=new THREE.Group();g.position.set(x,0,z
  meshIn(g,new THREE.BoxGeometry(.65,1.15,.25),darkSteel,1.75,1.45,-.8);meshIn(g,new THREE.BoxGeometry(.45,.35,.05),blue,1.75,1.72,-.65);for(let i=0;i<3;i++)meshIn(g,new THREE.SphereGeometry(.07,8,8),i===0?green:i===1?yellow:red,1.75,1.25-i*.18,-.63);
  addLabel(tag,x,3.05,z);equipment.push({tag,type:'Pasteurizador / skid de proceso',group:g});return g;}
 function makeValve(tag,x,y,z,axis='y'){const g=new THREE.Group();g.position.set(x,y,z);scene.add(g);meshIn(g,new THREE.CylinderGeometry(.22,.22,.38,12),red,0,0,0,axis==='x'?0:0,0,axis==='x'?Math.PI/2:0);meshIn(g,new THREE.SphereGeometry(.24,10,8),darkSteel,0,.28,0);meshIn(g,new THREE.CylinderGeometry(.055,.055,.48,8),steel,0,.55,0);meshIn(g,new THREE.TorusGeometry(.28,.055,8,16),yellow,0,.82,0,Math.PI/2);equipment.push({tag,type:'Válvula manual',group:g});}
-// Equipment layout: almacenamiento → bombeo → tratamiento → salida
-makeTank('TK-101',-13,-7,1.0);makeTank('TK-102',-7.5,-7,.86);makePump('P-101',-10,-2,.15);makePlateHX('HX-101',-2,-5);makePasteurizer('PA-101',3,1);makePump('P-102',9,2,-.15);makeTank('TK-103',12,7,1.05);makeTank('TK-104',7,7,.82);
+// ETAPA 5 · Planta generada desde el PFD guardado por el editor.
+const pfd3dProjectId=localStorage.getItem('pfd3d-active-project')||'default';
+let pfd3dModel=null;try{pfd3dModel=JSON.parse(localStorage.getItem('pfd3d-model-v1-'+pfd3dProjectId)||'null')}catch(e){console.warn('Modelo PFD 3D ilegible',e)}
+const pfd3dEquipmentNodes=(pfd3dModel?.nodes||[]).filter(n=>['pump','tank','filter','heat','pasteurizer','homogenizer','separator','valve','packager'].includes(n.type));
+const pfd3dPositions=new Map();const pfd3dPipeSegments=[];
+if(pfd3dEquipmentNodes.length){
+ const xs=pfd3dEquipmentNodes.map(n=>n.x),ys=pfd3dEquipmentNodes.map(n=>n.y),minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
+ const mapX=x=>-17+(maxX===minX?17:(x-minX)/(maxX-minX)*34),mapZ=y=>-11+(maxY===minY?11:(y-minY)/(maxY-minY)*22);
+ for(const n of pfd3dEquipmentNodes){const x=mapX(n.x+n.w/2),z=mapZ(n.y+n.h/2);pfd3dPositions.set(n.id,{x,z});const tag=n.tag||n.label||n.id;switch(n.type){
+  case 'tank': makeTank(tag,x,z,.72);break;
+  case 'pump': makePump(tag,x,z,0);break;
+  case 'heat': makePlateHX(tag,x,z);break;
+  case 'pasteurizer': makePasteurizer(tag,x,z);break;
+  case 'valve': makeValve(tag,x,1.1,z,'y');break;
+  case 'filter': makePlateHX(tag,x,z);break;
+  case 'homogenizer': makePasteurizer(tag,x,z);break;
+  case 'separator': makeTank(tag,x,z,.8);break;
+  case 'packager': makePasteurizer(tag,x,z);break;
+ }}
+ // Las líneas se trazan únicamente entre equipos consecutivos identificados en el grafo PFD.
+ const nodeById=new Map((pfd3dModel.nodes||[]).map(n=>[n.id,n]));
+ const equipmentTypes=new Set(['pump','tank','filter','heat','pasteurizer','homogenizer','separator','valve','packager']);
+ const edgePairs=new Set();
+ const adjacency=new Map();for(const e of (pfd3dModel.edges||[])){if(!adjacency.has(e.from))adjacency.set(e.from,[]);adjacency.get(e.from).push(e.to)}
+ // Recorre nodos intermedios (válvulas, identificadores y corrientes) hasta hallar el siguiente equipo.
+ for(const start of pfd3dEquipmentNodes){const queue=[...(adjacency.get(start.id)||[])],seen=new Set();while(queue.length){const id=queue.shift();if(seen.has(id))continue;seen.add(id);if(pfd3dPositions.has(id)){const key=[start.id,id].sort().join('|');if(!edgePairs.has(key)){edgePairs.add(key);const A=pfd3dPositions.get(start.id),B=pfd3dPositions.get(id);pfd3dPipeSegments.push([[A.x,1.15,A.z],[B.x,1.15,B.z]])}continue}queue.push(...(adjacency.get(id)||[]))}}
+ 
+ const sourceNodes=pfd3dEquipmentNodes.length;
+ console.info(`[PFD 3D] Modelo ${pfd3dModel.projectName}: ${sourceNodes} equipos y ${edgePairs.size} conexiones directas representadas.`);
+}else{
+ console.warn('[PFD 3D] No se encontró un PFD con equipos. Se muestra la planta base de demostración.');
+ makeTank('TK-101',-13,-7,1.0);makeTank('TK-102',-7.5,-7,.86);makePump('P-101',-10,-2,.15);makePlateHX('HX-101',-2,-5);makePasteurizer('PA-101',3,1);makePump('P-102',9,2,-.15);makeTank('TK-103',12,7,1.05);makeTank('TK-104',7,7,.82);
+}
 // ===== ETAPA 3 · FICHAS E INTERACCIÓN =====
 const equipmentInfo={
  'TK-101':{description:'Tanque de almacenamiento inicial. Recibe la leche cruda antes de su transferencia al proceso.',fields:[['Servicio','Recepción / almacenamiento'],['Capacidad','Por definir'],['Temperatura','Variable de proceso pendiente'],['Presión','Atmosférica (referencial)'],['Material','Acero inoxidable'],['Estado','Disponible']],connections:'Entrada de leche · Conexión hacia P-101'},
@@ -86,16 +117,17 @@ document.getElementById('closeEquipment').addEventListener('click',closeEquipmen
 // Main pipe network, color-coded by conceptual service (not process data yet)
 const coldPipe=mat('#5aa6dc',.35,.5),warmPipe=mat('#e16c49',.35,.45),neutralPipe=mat('#a6b7c2',.35,.55);
 function route(points,r=.13,m=neutralPipe){for(let i=0;i<points.length-1;i++)pipe(points[i],points[i+1],r,m);}
-route([[-13,3.8,-7],[-13,5,-7],[-7.5,5,-7],[-7.5,3.5,-7]],.14,coldPipe);
-route([[-13,1,-7],[-13,.8,-7],[-10,.8,-2],[-10,1.1,-2],[-5,1.1,-2],[-2,1.4,-5]],.16,coldPipe);
-route([[-2,2.6,-5],[-2,3.3,-5],[1,3.3,-5],[1,2.5,-5],[3,2.5,1]],.16,warmPipe);
-route([[3,1.4,1],[3,2.2,1],[6,2.2,1],[9,1.2,2]],.16,warmPipe);
-route([[9,1,2],[9,4,2],[12,4,2],[12,3.8,7]],.14,warmPipe);
-route([[12,1,7],[12,.8,7],[7,.8,7],[7,3.5,7]],.14,neutralPipe);
-// small visible valves in key pipe segments
-makeValve('V-101',-8,1.15,-2,'y');makeValve('V-102',2,2.3,1,'y');makeValve('V-103',10,1.1,2,'y');
-// pipe bridges/supports
-for(let x=-12;x<=12;x+=4){box(.16,1.65,.16,darkSteel,x,.85,3);box(.55,.12,.55,darkSteel,x,1.7,3)}
+if(typeof pfd3dPipeSegments!=='undefined')pfd3dPipeSegments.forEach(points=>route(points,.12,neutralPipe));
+if(!pfd3dEquipmentNodes.length){
+ route([[-13,3.8,-7],[-13,5,-7],[-7.5,5,-7],[-7.5,3.5,-7]],.14,coldPipe);
+ route([[-13,1,-7],[-13,.8,-7],[-10,.8,-2],[-10,1.1,-2],[-5,1.1,-2],[-2,1.4,-5]],.16,coldPipe);
+ route([[-2,2.6,-5],[-2,3.3,-5],[1,3.3,-5],[1,2.5,-5],[3,2.5,1]],.16,warmPipe);
+ route([[3,1.4,1],[3,2.2,1],[6,2.2,1],[9,1.2,2]],.16,warmPipe);
+ route([[9,1,2],[9,4,2],[12,4,2],[12,3.8,7]],.14,warmPipe);
+ route([[12,1,7],[12,.8,7],[7,.8,7],[7,3.5,7]],.14,neutralPipe);
+ makeValve('V-101',-8,1.15,-2,'y');makeValve('V-102',2,2.3,1,'y');makeValve('V-103',10,1.1,2,'y');
+ for(let x=-12;x<=12;x+=4){box(.16,1.65,.16,darkSteel,x,.85,3);box(.55,.12,.55,darkSteel,x,1.7,3)}
+}
 
 // ===== ETAPA 4 · SIMULACIÓN VISUAL DEL PROCESO =====
 const stage4UI=document.createElement('section');stage4UI.id='stage4Panel';stage4UI.innerHTML=`<div class="s4-head"><span class="s4-dot" id="s4Dot"></span><div><b>PROCESO EN VIVO</b><small>SIMULACIÓN CONCEPTUAL</small></div></div><div class="s4-stats"><div><small>Temperatura producto</small><strong id="s4Temp">4.0 °C</strong></div><div><small>Caudal simulado</small><strong id="s4Flow">0.0 L/s</strong></div><div><small>Retención</small><strong id="s4Hold">0 s</strong></div><div><small>Estado</small><strong id="s4State">DETENIDO</strong></div></div><div class="s4-tempbar"><span id="s4TempFill"></span></div><div class="s4-actions"><button id="s4Start">▶ Iniciar proceso</button><button id="s4Stop" disabled>■ Detener</button><button id="s4Reset">↺ Reiniciar</button></div><div class="s4-legend"><i class="cold"></i> Frío <i class="hot"></i> Caliente <i class="neutral"></i> Transferencia</div><p class="s4-note">Valores ilustrativos; no representan instrumentación real ni validación sanitaria.</p>`;document.body.appendChild(stage4UI);
